@@ -2,14 +2,16 @@ package com.woowahan.moduchan.domain.project;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.woowahan.moduchan.domain.category.Category;
+import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.user.NormalUser;
+import com.woowahan.moduchan.support.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Project {
+public class Project extends BaseTimeEntity {
     public enum STATUS {
         DRAFT,
         EVALUATING,
@@ -30,10 +32,7 @@ public class Project {
     private String thumbnailUrl;
 
     /* 모금 */
-    private Long currentFundRaising;
     private Long goalFundRaising;
-    private Long price;
-    private Long quantity;
 
     /* 시간 */
     private Date startAt;
@@ -44,12 +43,12 @@ public class Project {
     @JoinColumn
     private NormalUser owner;
 
-    @ManyToMany
-    @JsonIgnore
-    private List<NormalUser> supporters;
-
     private STATUS status;
+
     @ManyToOne
     @JoinColumn
     private Category category;
+
+    @OneToMany(mappedBy = "project")
+    private List<Product> products;
 }

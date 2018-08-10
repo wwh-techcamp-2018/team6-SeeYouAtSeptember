@@ -2,11 +2,13 @@ package com.woowahan.moduchan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-public class Application {
+@EnableJpaAuditing
+public class ModuChanApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ModuChanApplication.class, args);
 	}
 }
