@@ -10,6 +10,4 @@ import java.util.List;
 public class NormalUser extends User {
     private String phoneNo;
     private String address;
-    @ManyToMany
-    private List<Project> supportingProjects;
 }
