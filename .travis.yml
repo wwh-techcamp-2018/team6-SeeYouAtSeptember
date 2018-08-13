@@ -1,0 +1,35 @@
+language: java
+
+jdk:
+  - openjdk8
+
+branches:
+  only:
+  - develop
+  - master
+  - baseline
+
+deploy:
+- provider: s3
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  local_dir: dpl_cd_upload
+  skip_cleanup: true
+  on: &2
+    repo: wwh-techcamp-2018/team6-SeeYouAtSeptember
+  bucket: moduchan
+  region: seoul
+- provider: codedeploy
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  bucket: moduchan
+  key: latest.zip
+  bundle_type: zip
+  application: moduchan
+  deployment_group: moduchan
+  region: seoul
+  on: *2
+script:
+  - zip -r latest *
+  - mkdir -p dpl_cd_upload
+  - mv latest.zip dpl_cd_upload/latest.zip
