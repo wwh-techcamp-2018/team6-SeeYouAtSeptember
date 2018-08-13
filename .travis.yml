@@ -1,13 +1,19 @@
 language: java
 
 jdk:
-  - openjdk8
+- openjdk8
 
 branches:
   only:
   - develop
   - master
   - baseline
+
+script:
+- zip -r latest *
+- mkdir -p dpl_cd_upload
+- mv latest.zip dpl_cd_upload/latest.zip
+
 
 deploy:
 - provider: s3
@@ -29,7 +35,3 @@ deploy:
   deployment_group: moduchan
   region: ap-northeast-2
   on: *2
-script:
-  - zip -r latest *
-  - mkdir -p dpl_cd_upload
-  - mv latest.zip dpl_cd_upload/latest.zip
