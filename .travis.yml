@@ -18,7 +18,7 @@ deploy:
   on: &2
     repo: wwh-techcamp-2018/team6-SeeYouAtSeptember
   bucket: moduchan
-  region: seoul
+  region: ap-northeast-2
 - provider: codedeploy
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
@@ -27,7 +27,7 @@ deploy:
   bundle_type: zip
   application: moduchan
   deployment_group: moduchan
-  region: seoul
+  region: ap-northeast-2
   on: *2
 script:
   - zip -r latest *
