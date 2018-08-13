@@ -23,6 +23,7 @@ deploy:
   skip_cleanup: true
   on: &2
     repo: wwh-techcamp-2018/team6-SeeYouAtSeptember
+    all_branches: true
   bucket: moduchan
   region: ap-northeast-2
 - provider: codedeploy
