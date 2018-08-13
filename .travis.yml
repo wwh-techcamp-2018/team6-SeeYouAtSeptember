@@ -36,3 +36,8 @@ deploy:
   deployment_group: moduchan
   region: ap-northeast-2
   on: *2
+  script:
+  - pid=`jps | grep Maven | awk '{print $1}'`
+  - kill $pid
+  - nohup java -jar /home/ubuntu/codedeploy/build/libs/0.0.1-SNAPSHOT.jar &
+
