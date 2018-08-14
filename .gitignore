@@ -25,6 +25,9 @@
 /nbdist/
 /.nb-gradle/
 
+###logs###
+/logs/
+
 # Created by https://www.gitignore.io/api/java
 
 ### Java ###
