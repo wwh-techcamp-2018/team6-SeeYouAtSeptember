@@ -16,12 +16,14 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.woowahan.moduchan'
-version = '0.0.1-SNAPSHOT'
+version = '0.1'
+archivesBaseName = 'moduchan-application'
 sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
+
 
 
 dependencies {
