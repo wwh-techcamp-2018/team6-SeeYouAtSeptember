@@ -9,11 +9,6 @@ branches:
   - master
   - baseline
 
-cache:
-  directories:
-  - '$HOME/.m2/repository'
-  - '$HOME/.gradle'
-
 script:
 - zip -r latest *
 - mkdir -p dpl_cd_upload
