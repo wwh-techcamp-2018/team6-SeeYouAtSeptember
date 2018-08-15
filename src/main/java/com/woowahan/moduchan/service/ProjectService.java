@@ -1,10 +1,8 @@
 package com.woowahan.moduchan.service;
 
-import com.woowahan.moduchan.domain.category.Category;
-import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.project.Project;
-import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
+import com.woowahan.moduchan.dto.project.ProjectDetailDTO;
 import com.woowahan.moduchan.repository.CategoryRepository;
 import com.woowahan.moduchan.repository.NormalUserRepository;
 import com.woowahan.moduchan.repository.ProjectRepository;
@@ -12,11 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -44,12 +40,26 @@ public class ProjectService {
     }
 
     @Transactional
-    public void insertProject(ProjectDTO projectDTO) {
+    public void createProject(ProjectDTO projectDTO) {
         // TODO: 2018. 8. 15. 유저 찾아서 넣기
         // TODO: 2018. 8. 15. 커스텀 에러 생성
        projectRepository.save(Project.from(projectDTO)
                .addCategory(categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new))
                .addUser((null)))
                .addProducts(projectDTO.getProductList());
+    }
+
+    public void deleteProject(Long pid) {
+        // TODO: 2018. 8. 15. 커스텀 에러 생성
+        // TODO: 2018. 8. 16. 해당 유저인지 확인 
+        projectRepository.deleteById(projectRepository.findById(pid).orElseThrow(RuntimeException::new).getId());
+    }
+
+    @Transactional
+    public Project updateProject(ProjectDetailDTO projectDetailDTO) {
+        // TODO: 2018. 8. 15. 커스텀 에러 생성
+        // TODO: 2018. 8. 16. 해당 유저인지 확인
+        return projectRepository.findById(projectDetailDTO.getPid()).orElseThrow(RuntimeException::new)
+                .updateProject(projectDetailDTO, categoryRepository.findById(projectDetailDTO.getCid()).orElseThrow(RuntimeException::new));
     }
 }

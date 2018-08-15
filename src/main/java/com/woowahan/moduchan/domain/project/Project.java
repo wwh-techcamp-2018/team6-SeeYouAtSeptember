@@ -5,6 +5,7 @@ import com.woowahan.moduchan.domain.category.Category;
 import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
+import com.woowahan.moduchan.dto.project.ProjectDetailDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,7 +49,7 @@ public class Project extends BaseTimeEntity {
     private Date endAt;
 
     /*상태*/
-    @Column(columnDefinition = "INT default 1")
+    @Column(columnDefinition = "integer default 1")
     private STATUS status;
 
     /* 사람 */
@@ -61,7 +62,7 @@ public class Project extends BaseTimeEntity {
     @JsonIgnore
     private Category category;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "project")
     private List<Product> products = new ArrayList<>();
 
     @Builder
@@ -85,7 +86,7 @@ public class Project extends BaseTimeEntity {
     }
 
     public void addProducts(List<Product> productList) {
-        productList.forEach(product -> this.products.add(product));
+        productList.forEach(product -> this.products.add(product.addProject(this)));
     }
 
     public static Project from(ProjectDTO projectDTO) {
@@ -96,4 +97,16 @@ public class Project extends BaseTimeEntity {
                 .thumbnailUrl(projectDTO.getThumbnailUrl())
                 .build();
     }
+
+
+    public Project updateProject(ProjectDetailDTO projectDetailDTO, Category category) {
+        this.description = projectDetailDTO.getDescription();
+        this.endAt = projectDetailDTO.getEndAt();
+        this.goalFundRaising = projectDetailDTO.getGoalFundRaising();
+        this.thumbnailUrl = projectDetailDTO.getThumbnailUrl();
+        this.title = projectDetailDTO.getTitle();
+        this.category = category;
+        return this;
+    }
+
 }

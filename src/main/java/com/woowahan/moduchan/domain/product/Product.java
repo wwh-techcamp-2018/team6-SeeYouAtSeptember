@@ -25,4 +25,9 @@ public class Product {
 
     @Lob
     private String description;
+
+    public Product addProject(Project project) {
+        this.project = project;
+        return this;
+    }
 }

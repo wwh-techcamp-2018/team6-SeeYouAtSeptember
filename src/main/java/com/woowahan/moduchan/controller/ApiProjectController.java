@@ -5,6 +5,7 @@ import java.util.List;
 import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
+import com.woowahan.moduchan.dto.project.ProjectDetailDTO;
 import com.woowahan.moduchan.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,7 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/api/projects")
 public class ApiProjectController {
-//    전체 프로젝트 조회: GET /api/projects
-//    전체 프로젝트 조회: GET /api/projects/page/{pageNo}
-//    프로젝트 갱신: PUT /api/projects
-//    프로젝트 삭제: DELETE /api/projects/{pid}
-//    프로젝트 생성: POST /api/projects —> 상세 페이지 url
+    // TODO: 2018. 8. 16. 스웨거 정리
     @Autowired
     private ProjectService projectService;
 
@@ -30,14 +27,28 @@ public class ApiProjectController {
     }
 
     @GetMapping("/page/{pageNo}")
-    public ResponseEntity<List<Project>> getProjectsPage(@PathVariable int pageNo){
+    public ResponseEntity<List<Project>> getProjectPage(@PathVariable int pageNo){
         return new ResponseEntity<>(projectService.getProjectPage(pageNo),HttpStatus.OK);
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> insertProject(HttpSession session, @RequestBody ProjectDTO projectDTO){
+    public ResponseEntity<Void> createProject(HttpSession session, @RequestBody ProjectDTO projectDTO){
         //TODO 로그인 유저 판별.
-        projectService.insertProject(projectDTO);
+        projectService.createProject(projectDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{pid}")
+    public ResponseEntity<Void> deleteProject(HttpSession session, @PathVariable("pid") Long pid){
+        //TODO 로그인 유저 판별.
+        projectService.deleteProject(pid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("")
+    public ResponseEntity<Project> updateProject(HttpSession session, @RequestBody ProjectDetailDTO projectDetailDTO){
+        //TODO 로그인 유저 판별.
+        return new ResponseEntity<>(projectService.updateProject(projectDetailDTO),HttpStatus.OK);
+    }
+
 }
