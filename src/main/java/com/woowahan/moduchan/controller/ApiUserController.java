@@ -18,6 +18,7 @@ public class ApiUserController {
     // TODO: 2018. 8. 14. getAllUsers: normalUser + adminUser가 필요하지 않을까?
     // TODO: 2018. 8. 14. create에 들어오는 request body와 update로 들어오는
     // request body에서 내용물이 다른데, @valid가 두 경우 모두 커버할 수 있을지?
+    // TODO: 2018. 8. 15. UserApi가 언제 호출되는지, 호출의 권한에 대하여 논의해볼 필요가 있습니다.
 
     @GetMapping("")
     public ResponseEntity<List<UserDTO>> getNormalUsers() {
@@ -30,19 +31,22 @@ public class ApiUserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createUser(@RequestBody UserDTO userDTO) {
-
-        return null;
+    public ResponseEntity<Void> createNormalUser(@RequestBody UserDTO userDTO) {
+        // TODO: 2018. 8. 15. Need validation & duplication check
+        userService.createNormalUser(userDTO);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{uid}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long uid) {
+    public ResponseEntity<Void> deleteNormalUser(@PathVariable Long uid) {
         userService.deleteNormalUserById(uid);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @PutMapping("")
-    public ResponseEntity<Void> updateUser(@RequestBody UserDTO userDTO) {
-        return null;
+    public ResponseEntity<Void> updateNormalUser(@RequestBody UserDTO userDTO) {
+        // FIXME: 2018. 8. 15. 세션에 기록된 id를 이용해서 DB로부터 유저를 꺼내어 정보 갱신을 해야합니다.
+        userService.updateNormalUser(userDTO);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface NormalUserRepository extends JpaRepository<NormalUser, Long> {
+    public List<NormalUser> findAllByDeletedFalse();
 
-    public List<NormalUser> findAllByDeletedNot();
+    public Optional<NormalUser> findByIdAndDeletedFalse(Long id);
 
-    public Optional<NormalUser> findByIdAndDeletedNot(Long id);
-
-
+    // FIXME: 2018. 8. 15. will be deprecated
+    public Optional<NormalUser> findByEmailAndDeletedFalse(String email);
 }
