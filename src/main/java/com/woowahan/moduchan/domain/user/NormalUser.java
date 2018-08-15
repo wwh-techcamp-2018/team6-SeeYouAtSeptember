@@ -47,4 +47,8 @@ public class NormalUser extends User {
         address = userDTO.getAddress();
         return this;
     }
+
+    public boolean matchPassword(String password, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(password, this.password);
+    }
 }

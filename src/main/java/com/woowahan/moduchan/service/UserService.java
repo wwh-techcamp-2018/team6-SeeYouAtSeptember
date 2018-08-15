@@ -22,14 +22,14 @@ public class UserService {
     public List<UserDTO> findAllNomalUser() {
         // TODO: 2018. 8. 14. 만약에 아무 유저도 없는 경우에는 에러로 처리할 것인가 그냥 반환할 것인가?
         return normalUserRepository.findAllByDeletedFalse().stream()
-                .map(normalUser -> normalUser.toDTO().erasePassword())
+                .map(normalUser -> normalUser.toDTO())
                 .collect(Collectors.toList());
     }
 
     public UserDTO findNormalUserById(Long uid) {
         // TODO: 2018. 8. 14. CustomError: UserNotFound
         return normalUserRepository.findByIdAndDeletedFalse(uid)
-                .map(normalUser -> normalUser.toDTO().erasePassword())
+                .map(normalUser -> normalUser.toDTO())
                 .orElseThrow(RuntimeException::new);
     }
 
@@ -50,5 +50,19 @@ public class UserService {
         // TODO: 2018. 8. 14. CustomError: UserNotFound
         normalUserRepository.findByIdAndDeletedFalse(uid)
                 .orElseThrow(RuntimeException::new).delete();
+    }
+
+    public UserDTO login(UserDTO userDTO) {
+        // TODO: 2018. 8. 14. CustomError: UserNotFound
+        NormalUser loginUser = normalUserRepository
+                .findByEmailAndDeletedFalse(userDTO.getEmail())
+                .orElseThrow(RuntimeException::new);
+
+        if (!loginUser.matchPassword(userDTO.getPassword(), passwordEncoder)) {
+            // TODO: 2018. 8. 16. PasswordNotMatched(Forbidden)
+            throw new RuntimeException();
+        }
+
+        return loginUser.toDTO().erasePassword();
     }
 }

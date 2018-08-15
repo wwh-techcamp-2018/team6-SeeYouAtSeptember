@@ -2,11 +2,13 @@ package com.woowahan.moduchan.controller;
 
 import com.woowahan.moduchan.dto.UserDTO;
 import com.woowahan.moduchan.service.UserService;
+import com.woowahan.moduchan.support.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -22,31 +24,44 @@ public class ApiUserController {
 
     @GetMapping("")
     public ResponseEntity<List<UserDTO>> getNormalUsers() {
-        return new ResponseEntity<List<UserDTO>>(userService.findAllNomalUser(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findAllNomalUser(), HttpStatus.OK);
     }
 
     @GetMapping("/{uid}")
     public ResponseEntity<UserDTO> getNormalUser(@PathVariable Long uid) {
-        return new ResponseEntity<UserDTO>(userService.findNormalUserById(uid), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findNormalUserById(uid), HttpStatus.OK);
     }
 
     @PostMapping("")
     public ResponseEntity<Void> createNormalUser(@RequestBody UserDTO userDTO) {
         // TODO: 2018. 8. 15. Need validation & duplication check
         userService.createNormalUser(userDTO);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{uid}")
     public ResponseEntity<Void> deleteNormalUser(@PathVariable Long uid) {
         userService.deleteNormalUserById(uid);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("")
     public ResponseEntity<Void> updateNormalUser(@RequestBody UserDTO userDTO) {
         // FIXME: 2018. 8. 15. 세션에 기록된 id를 이용해서 DB로부터 유저를 꺼내어 정보 갱신을 해야합니다.
         userService.updateNormalUser(userDTO);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO, HttpSession session) {
+        UserDTO loginUserDTO = userService.login(userDTO);
+        SessionUtil.setLoginUser(session, loginUserDTO);
+        return new ResponseEntity<>(loginUserDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<Void> logout(HttpSession session) {
+        SessionUtil.resetLoginUser(session);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
