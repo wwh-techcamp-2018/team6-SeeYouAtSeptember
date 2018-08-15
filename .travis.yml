@@ -13,7 +13,6 @@ script:
 - mkdir -p dpl_cd_upload
 - mv latest.zip dpl_cd_upload/latest.zip
 
-
 deploy:
 - provider: s3
   access_key_id: $AWS_ACCESS_KEY

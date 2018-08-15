@@ -6,10 +6,22 @@ import javax.persistence.*;
 public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String password;
+    protected Long id;
+    protected String password;
 
     @Column(unique = true)
-    private String email;
-    private String name;
+    protected String email;
+    protected String name;
+
+    protected boolean deleted = false;
+
+    public void delete() {
+        this.deleted = true;
+    }
+
+    public User(String password, String email, String name) {
+        this.password = password;
+        this.email = email;
+        this.name = name;
+    }
 }
