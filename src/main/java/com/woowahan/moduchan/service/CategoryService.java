@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class CategoryService {
-    private static final int PAGE_PROJECT_COUNT = 9;
+    public static final int PAGE_PROJECT_COUNT = 9;
 
     @Autowired
     private CategoryRepository categoryRepository;
