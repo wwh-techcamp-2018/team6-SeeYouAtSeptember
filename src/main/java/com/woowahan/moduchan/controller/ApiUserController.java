@@ -55,13 +55,13 @@ public class ApiUserController {
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO, HttpSession session) {
         UserDTO loginUserDTO = userService.login(userDTO);
-        SessionUtil.setLoginUser(session, loginUserDTO);
+        session.setAttribute(SessionUtil.LOGIN_USER, loginUserDTO);
         return new ResponseEntity<>(loginUserDTO, HttpStatus.OK);
     }
 
     @GetMapping("/logout")
     public ResponseEntity<Void> logout(HttpSession session) {
-        SessionUtil.resetLoginUser(session);
+        session.removeAttribute(SessionUtil.LOGIN_USER);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
