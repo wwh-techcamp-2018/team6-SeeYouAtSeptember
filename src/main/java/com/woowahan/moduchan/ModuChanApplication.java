@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class ModuChanApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ModuChanApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ModuChanApplication.class, args);
+    }
 }

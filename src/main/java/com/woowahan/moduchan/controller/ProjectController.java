@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ProjectController {
     @GetMapping("/aa")
-    public String list(){
+    public String list() {
         return "";
     }
 }
