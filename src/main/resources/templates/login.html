@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>로그인</title>
-</head>
-<body>
+{{> base}}
+{{#block "header"}}
+<link rel="stylesheet" type="text/css" href="/css/reset.css">
+<link rel="stylesheet" type="text/css" href="/css/user.css">
+{{/block}}
+{{#block "contents"}}
 <div id="login">
     <div class="login-box">
         <h2 class="h2_tlt"> 로그인</h2>
@@ -38,9 +38,8 @@
         </form>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="/css/reset.css">
-<link rel="stylesheet" type="text/css" href="/css/user.css">
+{{/block}}
+{{#block "footer"}}
 <script src="/js/common.js"></script>
 <script src="/js/user.js"></script>
-</body>
-</html>
+{{/block}}

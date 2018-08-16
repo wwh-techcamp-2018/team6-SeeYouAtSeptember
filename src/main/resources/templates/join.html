@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>회원가입</title>
-</head>
-<body>
+{{> base}}
+{{#block "header"}}
+<link rel="stylesheet" type="text/css" href="/css/reset.css">
+{{/block}}
+{{#block "contents"}}
 <div id="container">
     <div class="content join">
         <h2 class="h2_tlt">회원가입</h2>
@@ -129,8 +128,8 @@
         </form>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="/css/reset.css">
+{{/block}}
+{{#block "footer"}}
 <script src="/js/common.js"></script>
 <script src="/js/user.js"></script>
-</body>
-</html>
+{{/block}}
