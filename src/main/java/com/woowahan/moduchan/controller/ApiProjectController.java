@@ -1,7 +1,5 @@
 package com.woowahan.moduchan.controller;
 
-import java.util.List;
-
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.service.ProjectService;
@@ -11,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/projects")

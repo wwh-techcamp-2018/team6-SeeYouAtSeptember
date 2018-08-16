@@ -115,24 +115,3 @@ class Category {
 window.addEventListener("DOMContentLoaded", () => {
     new Category();
 })
-
-function $(selector) {
-    return document.querySelector(selector);
-}
-
-function fetchManager({ url, method, body, headers, callback }) {
-  fetch(url, { method, body, headers, credentials: "same-origin" }).then(
-    response => {
-      callback(response);
-    }
-  );
-}
-
-function getData(url, callback) {
-  fetchManager({
-    url: url,
-    method: "GET",
-    headers: { "content-type": "application/json" },
-    callback: callback
-  });
-}

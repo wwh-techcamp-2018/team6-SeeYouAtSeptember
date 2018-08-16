@@ -1,15 +1,12 @@
 package com.woowahan.moduchan.dto.project;
 
-import java.util.List;
-
 import com.woowahan.moduchan.domain.product.Product;
-import com.woowahan.moduchan.domain.project.Project;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Lob;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor

@@ -17,6 +17,15 @@ function fetchManager({url, method, body, headers, callback}) {
     })
 }
 
+function getData(url, callback) {
+  fetchManager({
+    url: url,
+    method: "GET",
+    headers: { "content-type": "application/json" },
+    callback: callback
+  });
+}
+
 function addEventListenerToTarget(target, event, handler) {
     if(!target)
         return;
