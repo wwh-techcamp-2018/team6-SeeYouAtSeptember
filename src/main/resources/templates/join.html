@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>회원가입</title>
-</head>
-<body>
+{{> base}}
+{{#block "header"}}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" type="text/css" href="/css/user.css">
+{{/block}}
+{{#block "contents"}}
 <div id="join">
     <div class="join-box">
         <h2 class="h2-tlt">회원가입</h2>
@@ -62,7 +62,8 @@
                     </th>
                     <td>
                         <input type="password" name="pwd[]" id="pw1" class="join-input" placeholder="8-16자리 영문,숫자 조합">
-                        <span class="tb-in-txt caution" style="display:none;" id="password-caution">비밀번호 형식을 확인해 주세요.</span>
+                        <span class="tb-in-txt caution" style="display:none;"
+                              id="password-caution">비밀번호 형식을 확인해 주세요.</span>
                     </td>
                 </tr>
                 <tr>
@@ -120,9 +121,8 @@
         </form>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
-<link rel="stylesheet" type="text/css" href="/css/user.css">
+{{/block}}
+{{#block "footer"}}
 <script src="/js/common.js"></script>
 <script src="/js/user.js"></script>
-</body>
-</html>
+{{/block}}

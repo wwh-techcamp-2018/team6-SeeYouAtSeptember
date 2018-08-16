@@ -58,10 +58,4 @@ public class ApiUserController {
         session.setAttribute(SessionUtil.LOGIN_USER, loginUserDTO);
         return new ResponseEntity<>(loginUserDTO, HttpStatus.OK);
     }
-
-    @GetMapping("/logout")
-    public ResponseEntity<Void> logout(HttpSession session) {
-        session.removeAttribute(SessionUtil.LOGIN_USER);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }
