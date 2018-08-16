@@ -33,19 +33,14 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public List<Project> getProjectPage(int pageNo) {
-        return projectRepository.findAll(PageRequest.of(pageNo,CategoryService.PAGE_PROJECT_COUNT,
-                new Sort(Sort.Direction.DESC, "startAt"))).getContent();
-    }
-
     @Transactional
     public void createProject(ProjectDTO projectDTO) {
         // TODO: 2018. 8. 15. 유저 찾아서 넣기
         // TODO: 2018. 8. 15. 커스텀 에러 생성
-       projectRepository.save(Project.from(projectDTO)
-               .addCategory(categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new))
-               .addUser((null)))
-               .addProducts(projectDTO.getProductList());
+        projectRepository.save(Project.from(projectDTO)
+                .addCategory(categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new))
+                .addUser((null)))
+                .addProducts(projectDTO.getProductList());
     }
 
     @Transactional

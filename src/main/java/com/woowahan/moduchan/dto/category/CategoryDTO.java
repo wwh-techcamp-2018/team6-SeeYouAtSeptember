@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class CategoryDTO {
     private Long id;
     private String title;
+    private String categoryImageUrl;
 }

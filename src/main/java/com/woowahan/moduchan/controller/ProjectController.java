@@ -18,7 +18,7 @@ public class ProjectController {
 
 
     @GetMapping("")
-    public String list(){
+    public String list() {
         return "";
     }
 }

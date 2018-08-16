@@ -28,20 +28,28 @@ public class CategoryService {
     private ProjectRepository projectRepository;
 
     @Cacheable("categories")
-    public List<CategoryDTO> getCategories(){
+    public List<CategoryDTO> getCategories() {
         List<CategoryDTO> categoryDTOList = new ArrayList<>();
         categoryRepository.findAll().forEach(category -> categoryDTOList.add(category.toDTO()));
         return categoryDTOList;
     }
 
-    public Category geCategory(Long id){
+    public Category geCategory(Long id) {
         //TODO 카테고리를 찾을때 없으면 커스텀 에러 발생
         return categoryRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-    public List<Project> getCategoryPage(Long id,int pageNo) {
+    public List<Project> getCategoryPage(Long id, int pageNo) {
+        if (id == 0) {
+            return getTotalCategoryPage(pageNo);
+        }
         return projectRepository.findByCategory(categoryRepository.findById(id).orElse(null),
-                PageRequest.of(pageNo, PAGE_PROJECT_COUNT, new Sort(Sort.Direction.DESC, "startAt")))
+                PageRequest.of(pageNo, PAGE_PROJECT_COUNT, new Sort(Sort.Direction.DESC, "createdAt")))
                 .getContent();
+    }
+
+    private List<Project> getTotalCategoryPage(int pageNo) {
+        return projectRepository.findAll(PageRequest.of(pageNo, CategoryService.PAGE_PROJECT_COUNT,
+                new Sort(Sort.Direction.DESC, "createdAt"))).getContent();
     }
 }

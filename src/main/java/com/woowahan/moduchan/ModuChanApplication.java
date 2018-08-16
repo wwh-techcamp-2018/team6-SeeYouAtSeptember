@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableCaching
 public class ModuChanApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ModuChanApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ModuChanApplication.class, args);
+    }
 }

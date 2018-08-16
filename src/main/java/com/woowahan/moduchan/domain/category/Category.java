@@ -16,11 +16,12 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private String categoryImageUrl;
 
-    @OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL, mappedBy = "category")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "category")
     private List<Project> projects;
 
     public CategoryDTO toDTO() {
-        return new CategoryDTO(id, title);
+        return new CategoryDTO(id, title, categoryImageUrl);
     }
 }

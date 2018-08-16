@@ -1,6 +1,7 @@
 package com.woowahan.moduchan.controller;
 
 import java.util.List;
+
 import com.woowahan.moduchan.domain.category.Category;
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.category.CategoryDTO;
@@ -24,12 +25,12 @@ public class ApiCategoryController {
     }
 
     @GetMapping("/{cid}")
-    public ResponseEntity<Category> getCategory(@PathVariable("cid") Long cid){
-        return new ResponseEntity<>(categoryService.geCategory(cid),HttpStatus.OK);
+    public ResponseEntity<Category> getCategory(@PathVariable("cid") Long cid) {
+        return new ResponseEntity<>(categoryService.geCategory(cid), HttpStatus.OK);
     }
 
     @GetMapping("/{cid}/page/{pageNo}")
-    public ResponseEntity<List<Project>> getCategoryPage(@PathVariable("cid") Long cid, @PathVariable("pageNo") int pageNo){
-        return new ResponseEntity<>(categoryService.getCategoryPage(cid,pageNo),HttpStatus.OK);
+    public ResponseEntity<List<Project>> getCategoryPage(@PathVariable("cid") Long cid, @PathVariable("pageNo") int pageNo) {
+        return new ResponseEntity<>(categoryService.getCategoryPage(cid, pageNo), HttpStatus.OK);
     }
 }

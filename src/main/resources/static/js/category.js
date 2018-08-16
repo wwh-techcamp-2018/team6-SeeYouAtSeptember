@@ -4,37 +4,43 @@ class Category {
     }
     init() {
         this.categoryTemplate = `
-            <li class="category-li" data-category-id="{id}">
-                {title}
+            <li data-category-id="{id}">
+                <img src="{categoryImageUrl}">
+                <p>{title}</p>
             </li>
-            `;
+         `;
         this.projectTemplate = `
-            <li class="project-li" data-project-id="{id}">
+            <li data-project-id="{id}">
                 <div class="project-img">
                     <img src="{thumbnailUrl}"/>
                 </div>
-                <dl class="project-info-list">
-                    <dt class="project-title">
-                        {title}
-                    </dt>
-                    <dd class="project-owner">
+                <div class="project-div">
+                    <div>
+                    <h4>
+                       {title}
+                    </h4>
+                    <div>
                         {owner}
-                    </dd>
-                    <dd class="project-bar">
+                    </div>
+                    </div>
+                    <div>
                         <progress value="{goalFundRaising}" max="{total}"></progress>
-                    </dd>
-                    <dd class="project-endAt">
+                    </div>
+                    <span>
                         {endAt}
-                    </dd>
+                    </span>
                 </div>
             </li>
             `;
+        this.ulTag = $(".categories");
         getData("/api/categories", this.categoriesCallback.bind(this));
-        $(".categories-ul").addEventListener("click", this.liClickHandler.bind(this));
+        getData("/api/categories/0/page/0", this.categoryProjectCallback.bind(this));
+        this.ulTag.addEventListener("click", this.liClickHandler.bind(this));
     }
     fillCategoryContentHTML(category) {
         let template = this.categoryTemplate;
         template = template.replace(/{id}/g, category.id)
+                            .replace(/{categoryImageUrl}/g, category.categoryImageUrl)
                             .replace(/{title}/g, category.title);
         return template;
     }
@@ -43,17 +49,17 @@ class Category {
         res.forEach(category => {
             html += this.fillCategoryContentHTML(category);
         })
-        $(".categories-ul").insertAdjacentHTML("beforeend", html);
+        this.ulTag.insertAdjacentHTML("beforeend", html);
     }
     categoriesCallback(response) {
         response.json().then(res => {
             this.insertCategoriesContentHTML(res);
+            this.addClassName("on", this.ulTag.firstElementChild);
         })
     }
-    erasefirstChildHTML(parent) {
-        if(parent.childElementCount === 0)
-            return;
-        parent.removeChild(parent.firstElementChild);
+    eraseTargetdHTML(target) {
+        if(!target) return;
+        target.remove();
     }
     fillProjectContentHTML(project) {
         let template = this.projectTemplate;
@@ -67,13 +73,13 @@ class Category {
         return template;
     }
     insertProjectsContentHTML(projects) {
-        const parent = $(".category-project-list");
-        let html = `<ul class="category-project-ul">`;
+        const parent = $(".content");
+        let html = `<ul class="projects">`;
         projects.forEach(project => {
             html += this.fillProjectContentHTML(project);
         })
         html += `</ul>`;
-        this.erasefirstChildHTML(parent);
+        this.eraseTargetdHTML($(".projects"));
         parent.insertAdjacentHTML("beforeend",html);
     }
     categoryProjectCallback(response) {
@@ -86,9 +92,8 @@ class Category {
         getData("/api/categories/"+cid+"/page/0", this.categoryProjectCallback.bind(this));
     }
     removeClassName(classname) {
-        const on = $(".category-li.on");
-        if(!on)
-            return;
+        const on = $(".on");
+        if(!on) return;
         on.classList.remove(classname);
     }
     addClassName(classname, target){
@@ -96,11 +101,11 @@ class Category {
     }
     liClickHandler(evt) {
         evt.preventDefault();
-        const target = evt.target;
-        if(target.classList.contains("on"))
-            return;
-        if(!target.classList.contains("category-li"))
-            return;
+        if(evt.target.tagName === 'UL' ) return;
+
+        const target = evt.target.tagName === 'LI' ? evt.target : evt.target.parentElement;
+
+        if(target.classList.contains("on")) return;
         this.viewCategoryProject(target);
         this.removeClassName("on");
         this.addClassName("on",target);

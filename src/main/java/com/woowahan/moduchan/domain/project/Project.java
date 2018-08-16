@@ -67,7 +67,7 @@ public class Project extends BaseTimeEntity {
     private List<Product> products = new ArrayList<>();
 
     @Builder
-    public Project(String title, String description, String thumbnailUrl, Long goalFundRaising,  Date endAt) {
+    public Project(String title, String description, String thumbnailUrl, Long goalFundRaising, Date endAt) {
         this.title = title;
         this.description = description;
         this.thumbnailUrl = thumbnailUrl;

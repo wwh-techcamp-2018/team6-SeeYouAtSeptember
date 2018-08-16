@@ -20,33 +20,28 @@ public class ApiProjectController {
     private ProjectService projectService;
 
     @GetMapping("")
-    public ResponseEntity<List<Project>> getProjects(){
-        return new ResponseEntity<>(projectService.getProjects(),HttpStatus.OK);
-    }
-
-    @GetMapping("/page/{pageNo}")
-    public ResponseEntity<List<Project>> getProjectPage(@PathVariable int pageNo){
-        return new ResponseEntity<>(projectService.getProjectPage(pageNo),HttpStatus.OK);
+    public ResponseEntity<List<Project>> getProjects() {
+        return new ResponseEntity<>(projectService.getProjects(), HttpStatus.OK);
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createProject(HttpSession session, @RequestBody ProjectDTO projectDTO){
+    public ResponseEntity<Void> createProject(HttpSession session, @RequestBody ProjectDTO projectDTO) {
         //TODO 로그인 유저 판별.
         projectService.createProject(projectDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{pid}")
-    public ResponseEntity<Void> deleteProject(HttpSession session, @PathVariable("pid") Long pid){
+    public ResponseEntity<Void> deleteProject(HttpSession session, @PathVariable("pid") Long pid) {
         //TODO 로그인 유저 판별.
         projectService.deleteProject(pid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("")
-    public ResponseEntity<Project> updateProject(HttpSession session, @RequestBody ProjectDTO projectDTO){
+    public ResponseEntity<Project> updateProject(HttpSession session, @RequestBody ProjectDTO projectDTO) {
         //TODO 로그인 유저 판별.
-        return new ResponseEntity<>(projectService.updateProject(projectDTO),HttpStatus.OK);
+        return new ResponseEntity<>(projectService.updateProject(projectDTO), HttpStatus.OK);
     }
 
 }
