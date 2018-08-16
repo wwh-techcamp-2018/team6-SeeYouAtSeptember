@@ -6,6 +6,10 @@
     grid-template-areas: ". logo project account .";
 }
 
+.header a {
+    text-decoration: none;
+}
+
 .header span {
     margin: 0 5px;
     color: black;
