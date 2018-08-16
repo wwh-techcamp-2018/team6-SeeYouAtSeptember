@@ -1,8 +1,11 @@
 package com.woowahan.moduchan.domain.user;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @MappedSuperclass
+@Getter
 public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
