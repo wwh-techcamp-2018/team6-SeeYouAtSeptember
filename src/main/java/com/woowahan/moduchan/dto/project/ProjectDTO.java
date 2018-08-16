@@ -14,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectDTO {
+    private Long pid;
     private Long cid;
     private String title;
     private String description;

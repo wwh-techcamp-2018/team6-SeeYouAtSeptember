@@ -21,6 +21,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class Project extends BaseTimeEntity {
+
     public enum STATUS {
         DRAFT,
         EVALUATING,
@@ -44,12 +45,13 @@ public class Project extends BaseTimeEntity {
     private Long goalFundRaising;
 
     /* 시간 */
-    private Date startAt;
     private Date endAt;
 
     /*상태*/
-    @Column(columnDefinition = "INT default 1")
+    @Column(columnDefinition = "integer default 1")
     private STATUS status;
+
+    private boolean deleted = false;
 
     /* 사람 */
     @ManyToOne
@@ -61,16 +63,15 @@ public class Project extends BaseTimeEntity {
     @JsonIgnore
     private Category category;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "project")
     private List<Product> products = new ArrayList<>();
 
     @Builder
-    public Project(String title, String description, String thumbnailUrl, Long goalFundRaising, Date startAt, Date endAt) {
+    public Project(String title, String description, String thumbnailUrl, Long goalFundRaising,  Date endAt) {
         this.title = title;
         this.description = description;
         this.thumbnailUrl = thumbnailUrl;
         this.goalFundRaising = goalFundRaising;
-        this.startAt = startAt;
         this.endAt = endAt;
     }
 
@@ -85,7 +86,7 @@ public class Project extends BaseTimeEntity {
     }
 
     public void addProducts(List<Product> productList) {
-        productList.forEach(product -> this.products.add(product));
+        productList.forEach(product -> this.products.add(product.erasePid().addProject(this)));
     }
 
     public static Project from(ProjectDTO projectDTO) {
@@ -96,4 +97,21 @@ public class Project extends BaseTimeEntity {
                 .thumbnailUrl(projectDTO.getThumbnailUrl())
                 .build();
     }
+
+
+    public Project updateProject(ProjectDTO projectDTO, Category category) {
+        this.description = projectDTO.getDescription();
+        this.endAt = projectDTO.getEndAt();
+        this.goalFundRaising = projectDTO.getGoalFundRaising();
+        this.thumbnailUrl = projectDTO.getThumbnailUrl();
+        this.title = projectDTO.getTitle();
+        this.category = category;
+        return this;
+    }
+
+    public void delete() {
+        deleted = true;
+        products.forEach(product -> product.delete());
+    }
+
 }
