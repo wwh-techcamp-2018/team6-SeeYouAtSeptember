@@ -23,8 +23,10 @@ class LoginBtn {
     }
 
     login(response) {
-        if (response.status === 200)
+        if (response.status === 200){
             location.href = "/";
+            return;
+        }
         $("p.err-msg").style.display = "block";
     }
 }
@@ -171,7 +173,7 @@ class Join {
     }
 
     join(response){
-        if(response.status === 200) {
+        if(response.status === 201) {
             location.href = "/";
         }
         //todo: 에러처리
