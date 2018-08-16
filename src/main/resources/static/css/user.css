@@ -2,12 +2,18 @@
     display: none;
 }
 
+ul {
+    -webkit-padding-start: 0px;
+    list-style: none;
+}
+
+/* login */
 #login .login-box {
     width: 500px;
     margin: 50px auto;
 }
 
-#login .login-box .h2_tlt {
+#login .login-box .h2-tlt {
     font-size: 25px;
     text-align: center;
     margin-bottom: 30px;
@@ -48,4 +54,57 @@
     color: #F45452;
     padding-top: 30px;
     text-align: center;
+}
+
+/* join */
+#join .join-box {
+    margin: 50px auto;
+    width: 980px;
+}
+
+#join .join-box .h2-tlt{
+    font-size: 40px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid black;
+}
+
+#join .join-box .tb-join {
+    width: 980px;
+    margin-top: 30px;
+}
+
+#join .join-box .tb-join tr {
+    height: 50px;
+}
+
+#join .join-box .tb-join th {
+    text-align: left;
+}
+
+#join .join-box input {
+    width: 170px;
+    height: 30px;
+    padding-left: 5px;
+    display: inline-block;
+}
+
+#join .join-box input.small {
+    width: 73px;
+}
+
+#join .join-box input.large {
+    width: 270px;
+}
+
+#join .join-box div.selectric-wrapper {
+    display: inline-block;
+}
+
+#join .join-box div.selectric-wrapper select {
+    height: 35px;
+}
+
+span.tb-in-txt.caution {
+    color: red;
+    font-weight: bold;
 }
