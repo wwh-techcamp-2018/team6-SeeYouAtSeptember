@@ -1,14 +1,12 @@
 package com.woowahan.moduchan.domain.user;
 
-import com.woowahan.moduchan.dto.UserDTO;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.woowahan.moduchan.domain.project.Project;
+import lombok.Getter;
 
 import javax.persistence.Entity;
 
 @Entity
-@NoArgsConstructor
+@Getter
 public class NormalUser extends User {
     private String phoneNo;
     private String address;
