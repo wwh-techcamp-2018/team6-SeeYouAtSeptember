@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface NormalUserRepository extends JpaRepository<NormalUser, Long> {
 
-    public List<NormalUser> findAllByDeletedNot();
+    public List<NormalUser> findAllByDeletedFalse();
 
-    public Optional<NormalUser> findByIdAndDeletedNot(Long id);
+    public Optional<NormalUser> findByIdAndDeletedFalse(Long id);
 
 
 }

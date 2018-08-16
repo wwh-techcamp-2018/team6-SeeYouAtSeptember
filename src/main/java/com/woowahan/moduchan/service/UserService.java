@@ -1,6 +1,5 @@
 package com.woowahan.moduchan.service;
 
-import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.UserDTO;
 import com.woowahan.moduchan.repository.NormalUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +16,14 @@ public class UserService {
 
     public List<UserDTO> findAllNomalUser() {
         // TODO: 2018. 8. 14. 만약에 아무 유저도 없는 경우에는 에러로 처리할 것인가 그냥 반환할 것인가?
-        return normalUserRepository.findAllByDeletedNot().stream()
+        return normalUserRepository.findAllByDeletedFalse().stream()
                 .map(normalUser -> normalUser.toDTO().erasePassword())
                 .collect(Collectors.toList());
     }
 
     public UserDTO findNormalUserById(Long uid) {
         // TODO: 2018. 8. 14. CustomError: UserNotFound
-        return normalUserRepository.findByIdAndDeletedNot(uid)
+        return normalUserRepository.findByIdAndDeletedFalse(uid)
                 .map(normalUser -> normalUser.toDTO().erasePassword())
                 .orElseThrow(RuntimeException::new);
     }
@@ -32,7 +31,7 @@ public class UserService {
     @Transactional
     public void deleteNormalUserById(Long uid) {
         // TODO: 2018. 8. 14. CustomError: UserNotFound
-        normalUserRepository.findByIdAndDeletedNot(uid)
+        normalUserRepository.findByIdAndDeletedFalse(uid)
                 .orElseThrow(RuntimeException::new).delete();
     }
 }
