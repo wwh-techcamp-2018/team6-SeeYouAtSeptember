@@ -44,6 +44,7 @@
 }
 
 .promotion {
+    position: absolute;
     width:100%;
     height:450px;
     overflow:hidden;
@@ -55,4 +56,49 @@
 
 .promotion img {
     width: 100%;
+}
+div.dropdown-wrapper {
+    float: left;
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: 55% 35% 10%;
+    grid-template-areas: ". dropdown .";
+}
+
+
+div.dropdown-div {
+    z-index: 1;
+    grid-area: dropdown;
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: 50% 50%;
+    grid-template-areas: "owner support";
+}
+
+ul {
+    visibility: hidden;
+    position: relative;
+    opacity: 0;
+    -webkit-padding-start: 0px;
+    list-style: none;
+    width: 100%;
+    margin: 0px;
+    transition: all .5s
+}
+
+ul.dropdown-owner {
+    grid-area: owner;
+
+}
+
+ul.dropdown-support {
+    grid-area: support;
+}
+
+li.dropdown-item {
+    background-color: #2ac1bc;
+    height: 0px;
+    width: 100%;
+    transition: all .5s;
 }
