@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>회원가입</title>
+</head>
+<body>
+<div id="container">
+    <div class="content join">
+        <h2 class="h2_tlt">회원가입</h2>
+        <form name="join_form" id="join_form" class="join_form_box">
+            <fieldset>
+                <legend class="blind">회원가입 정보입력폼</legend>
+                <table border="1" class="tb_join">
+                    <caption>회원가입 입력 테이블</caption>
+                    <colgroup>
+                        <col width="180px">
+                        <col width="*">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th>
+                            <label>아이디 (이메일)</label>
+                        </th>
+                        <td>
+                            <input type="text" size="50" name="email_id" value="" id="email_id" class="join_input"
+                                   autofocus="">
+                            <span class="block"> @ </span>
+                            <input type="text" size="50" name="email_domain" value="" id="email_domain"
+                                   class="join_input">
+                            <div class="selectric-wrapper join w100">
+                                <div class="selectric-wrapper selectric-selectric">
+                                    <div class="selectric-hide-select">
+                                        <select class="selectric" id="email_domain_select" tabindex="0">
+                                            <option value="0">직접입력</option>
+                                            <option value="naver.com">naver.com</option>
+                                            <option value="gmail.com">gmail.com</option>
+                                            <option value="hanmail.net">hanmail.net</option>
+                                            <option value="daum.net">daum.net</option>
+                                            <option value="nate.com">nate.com</option>
+                                            <option value="hotmail.com">hotmail.com</option>
+                                            <option value="yahoo.co.kr">yahoo.co.kr</option>
+                                            <option value="paran.com">paran.com</option>
+                                            <option value="empal.com">empal.com</option>
+                                            <option value="chollian.net">chollian.net</option>
+                                            <option value="hanafos.com">hanafos.com</option>
+                                            <option value="dreamwiz.com">dreamwiz.com</option>
+                                            <option value="kornet.net">kornet.net</option>
+                                            <option value="korea.com">korea.com</option>
+                                            <option value="lycos.co.kr">lycos.co.kr</option>
+                                            <option value="orgio.net">orgio.net</option>
+                                            <option value="passmail.to">passmail.to</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="tb_in_txt caution" style="display:none;" id="email_caution">이메일 형식을 확인해 주세요.</span>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th>
+                            <label for="pw1">비밀번호</label>
+                        </th>
+                        <td>
+                            <input type="password" size="30" name="pwd[]" id="pw1" class="join_input" maxlength="25"
+                                   placeholder="8-16자리 영문,숫자 조합">
+                            <p class="tb_txt1">
+                                <span id="join_check_password" class="tb_in_txt caution"></span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="pw2">비밀번호 확인</label>
+                        </th>
+                        <td>
+                            <input type="password" size="30" name="pwd[]" id="pw2" class="join_input" maxlength="25"
+                                   placeholder="비밀번호 확인">
+                            <p class="tb_txt1">
+                                <span id="join_check_password2" class="tb_in_txt caution"></span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="name">이름</label>
+                        </th>
+                        <td>
+                            <input type="text" size="24" name="name" value="" id="name" class="join_input">
+                            <span class="tb_in_txt caution"></span>
+                        </td>
+                    </tr>
+                    <tr class="phone">
+                        <th>
+                            <label for="cell1">휴대 전화 번호</label>
+                        </th>
+                        <td>
+                            <input type="text" maxlength="3" size="10" name="cell[]" id="cell1" value=""
+                                   title="휴대 전화 번호 앞자리" class="join_input small">
+                            <span class="block"> - </span>
+                            <input type="text" maxlength="4" size="10" name="cell[]" id="cell2" value=""
+                                   title="휴대 전화 번호 중간자리" class="join_input small">
+                            <span class="block"> - </span>
+                            <input type="text" maxlength="4" size="10" name="cell[]" id="cell3" value=""
+                                   title="휴대 전화 번호 뒷자리" class="join_input small">
+                            <input type="radio" name="unique" value="2" id="unique_phone" style="display: none;">
+                        </td>
+                    </tr>
+                    <tr class="address">
+                        <th>
+                            <label for="address">주소</label>
+                        </th>
+                        <td>
+                            <input type="text" maxlength="100" size="50" name="address" id="address" value=""
+                                   title="주소" class="join_input small">
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </fieldset>
+
+            <div class="btn_area center mt40">
+                <button class="btn btn_mint btn_big">
+                    <span>가입 완료</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="/css/reset.css">
+<script src="/js/common.js"></script>
+<script src="/js/user.js"></script>
+</body>
+</html>

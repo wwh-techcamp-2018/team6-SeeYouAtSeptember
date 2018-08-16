@@ -11,6 +11,5 @@ public interface NormalUserRepository extends JpaRepository<NormalUser, Long> {
 
     public Optional<NormalUser> findByIdAndDeletedFalse(Long id);
 
-    // FIXME: 2018. 8. 15. will be deprecated
     public Optional<NormalUser> findByEmailAndDeletedFalse(String email);
 }

@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
     @GetMapping("/join")
     public String join() {
-        return "redirect:/";
+        return "/join";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "redirect:/";
+        return "/login";
     }
 
     @GetMapping("/logout")
