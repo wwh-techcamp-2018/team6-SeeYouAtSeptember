@@ -2,7 +2,6 @@ package com.woowahan.moduchan.service;
 
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
-import com.woowahan.moduchan.dto.project.ProjectDetailDTO;
 import com.woowahan.moduchan.repository.CategoryRepository;
 import com.woowahan.moduchan.repository.NormalUserRepository;
 import com.woowahan.moduchan.repository.ProjectRepository;
@@ -49,17 +48,18 @@ public class ProjectService {
                .addProducts(projectDTO.getProductList());
     }
 
+    @Transactional
     public void deleteProject(Long pid) {
         // TODO: 2018. 8. 15. 커스텀 에러 생성
-        // TODO: 2018. 8. 16. 해당 유저인지 확인 
-        projectRepository.deleteById(projectRepository.findById(pid).orElseThrow(RuntimeException::new).getId());
+        // TODO: 2018. 8. 16. 해당 유저인지 확인
+        projectRepository.findById(pid).orElseThrow(RuntimeException::new).delete();
     }
 
     @Transactional
-    public Project updateProject(ProjectDetailDTO projectDetailDTO) {
+    public Project updateProject(ProjectDTO projectDTO) {
         // TODO: 2018. 8. 15. 커스텀 에러 생성
         // TODO: 2018. 8. 16. 해당 유저인지 확인
-        return projectRepository.findById(projectDetailDTO.getPid()).orElseThrow(RuntimeException::new)
-                .updateProject(projectDetailDTO, categoryRepository.findById(projectDetailDTO.getCid()).orElseThrow(RuntimeException::new));
+        return projectRepository.findById(projectDTO.getPid()).orElseThrow(RuntimeException::new)
+                .updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new));
     }
 }

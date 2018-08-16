@@ -2,10 +2,8 @@ package com.woowahan.moduchan.controller;
 
 import java.util.List;
 
-import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
-import com.woowahan.moduchan.dto.project.ProjectDetailDTO;
 import com.woowahan.moduchan.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,9 +44,9 @@ public class ApiProjectController {
     }
 
     @PutMapping("")
-    public ResponseEntity<Project> updateProject(HttpSession session, @RequestBody ProjectDetailDTO projectDetailDTO){
+    public ResponseEntity<Project> updateProject(HttpSession session, @RequestBody ProjectDTO projectDTO){
         //TODO 로그인 유저 판별.
-        return new ResponseEntity<>(projectService.updateProject(projectDetailDTO),HttpStatus.OK);
+        return new ResponseEntity<>(projectService.updateProject(projectDTO),HttpStatus.OK);
     }
 
 }

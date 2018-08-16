@@ -5,7 +5,6 @@ import com.woowahan.moduchan.domain.category.Category;
 import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
-import com.woowahan.moduchan.dto.project.ProjectDetailDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +21,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class Project extends BaseTimeEntity {
+
     public enum STATUS {
         DRAFT,
         EVALUATING,
@@ -45,12 +45,13 @@ public class Project extends BaseTimeEntity {
     private Long goalFundRaising;
 
     /* 시간 */
-    private Date startAt;
     private Date endAt;
 
     /*상태*/
     @Column(columnDefinition = "integer default 1")
     private STATUS status;
+
+    private boolean deleted = false;
 
     /* 사람 */
     @ManyToOne
@@ -66,12 +67,11 @@ public class Project extends BaseTimeEntity {
     private List<Product> products = new ArrayList<>();
 
     @Builder
-    public Project(String title, String description, String thumbnailUrl, Long goalFundRaising, Date startAt, Date endAt) {
+    public Project(String title, String description, String thumbnailUrl, Long goalFundRaising,  Date endAt) {
         this.title = title;
         this.description = description;
         this.thumbnailUrl = thumbnailUrl;
         this.goalFundRaising = goalFundRaising;
-        this.startAt = startAt;
         this.endAt = endAt;
     }
 
@@ -86,7 +86,7 @@ public class Project extends BaseTimeEntity {
     }
 
     public void addProducts(List<Product> productList) {
-        productList.forEach(product -> this.products.add(product.addProject(this)));
+        productList.forEach(product -> this.products.add(product.erasePid().addProject(this)));
     }
 
     public static Project from(ProjectDTO projectDTO) {
@@ -99,14 +99,19 @@ public class Project extends BaseTimeEntity {
     }
 
 
-    public Project updateProject(ProjectDetailDTO projectDetailDTO, Category category) {
-        this.description = projectDetailDTO.getDescription();
-        this.endAt = projectDetailDTO.getEndAt();
-        this.goalFundRaising = projectDetailDTO.getGoalFundRaising();
-        this.thumbnailUrl = projectDetailDTO.getThumbnailUrl();
-        this.title = projectDetailDTO.getTitle();
+    public Project updateProject(ProjectDTO projectDTO, Category category) {
+        this.description = projectDTO.getDescription();
+        this.endAt = projectDTO.getEndAt();
+        this.goalFundRaising = projectDTO.getGoalFundRaising();
+        this.thumbnailUrl = projectDTO.getThumbnailUrl();
+        this.title = projectDTO.getTitle();
         this.category = category;
         return this;
+    }
+
+    public void delete() {
+        deleted = true;
+        products.forEach(product -> product.delete());
     }
 
 }

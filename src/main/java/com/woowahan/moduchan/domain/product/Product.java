@@ -26,8 +26,19 @@ public class Product {
     @Lob
     private String description;
 
+    private boolean deleted = true;
+
     public Product addProject(Project project) {
         this.project = project;
         return this;
+    }
+
+    public Product erasePid() {
+        this.id = null;
+        return this;
+    }
+
+    public void delete() {
+        this.deleted = true;
     }
 }
