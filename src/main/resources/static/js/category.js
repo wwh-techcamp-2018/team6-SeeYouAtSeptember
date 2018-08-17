@@ -15,19 +15,22 @@ class Category {
                     <img src="{thumbnailUrl}"/>
                 </div>
                 <div class="project-div">
-                    <div>
+                    <div class="title">
                     <h4>
                        {title}
                     </h4>
                     <div>
                         {owner}
                     </div>
-                    </div>
-                    <div>
-                        <progress value="{goalFundRaising}" max="{total}"></progress>
+                    </div >
+                    <div class="progress">
+                     <span style="width: 25%"></span>
                     </div>
                     <span>
-                        {endAt}
+                        {fundraisingAmount}
+                    </span>
+                    <span class="remain_day">
+                        {period}일 남음
                     </span>
                 </div>
             </li>
@@ -63,13 +66,12 @@ class Category {
     }
     fillProjectContentHTML(project) {
         let template = this.projectTemplate;
-        template = template.replace(/{id}/g, project.id)
+        template = template.replace(/{id}/g, project.pid)
                             .replace(/{thumbnailUrl}/g, project.thumbnailUrl)
                             .replace(/{title}/g, project.title)
-                            .replace(/{owner}/g, project.owner.name)
-                            .replace(/{endAt}/g, project.endAt)
-                            .replace(/{goalFundRaising}/g, project.goalFundRaising)
-                            .replace(/{total}/g, project.total);
+                            .replace(/{owner}/g, project.owner)
+                            .replace(/{period}/g, project.period)
+                            .replace(/{fundraisingAmount}/g, project.fundraisingAmount);
         return template;
     }
     insertProjectsContentHTML(projects) {

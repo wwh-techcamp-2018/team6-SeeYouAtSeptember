@@ -18,6 +18,7 @@ public abstract class User {
     protected String email;
     protected String name;
 
+    @Column(columnDefinition = "bool default false")
     protected boolean deleted = false;
 
     public User(String password, String email, String name) {

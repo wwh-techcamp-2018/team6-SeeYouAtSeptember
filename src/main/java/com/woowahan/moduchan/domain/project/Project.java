@@ -5,6 +5,7 @@ import com.woowahan.moduchan.domain.category.Category;
 import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
+import com.woowahan.moduchan.dto.project.ProjectGatherDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,30 +23,43 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class Project extends BaseTimeEntity {
+
+    private static final int CURRENT_DATE = (1000*60*60*24);
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     /* 프로젝트 정보 */
+    @NotNull
     private String title;
     @Lob
     private String description;
+    @NotNull
     private String thumbnailUrl;
     /* 모금 */
+    @NotNull
     private Long goalFundRaising;
     /* 시간 */
+    @NotNull
     private Date endAt;
     /*상태*/
     @Column(columnDefinition = "integer default 1")
     private STATUS status;
+
+    @NotNull
+    @Column(columnDefinition = "bool default false")
     private boolean deleted = false;
+
     /* 사람 */
     @ManyToOne
     @JoinColumn
     private NormalUser owner;
+
     @ManyToOne
     @JoinColumn
     @JsonIgnore
     private Category category;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "project")
     private List<Product> products = new ArrayList<>();
 
@@ -93,6 +108,19 @@ public class Project extends BaseTimeEntity {
     public void delete() {
         deleted = true;
         products.forEach(product -> product.delete());
+    }
+
+    public ProjectGatherDTO toDTO(){
+        return new ProjectGatherDTO(id,title,owner.getName(),thumbnailUrl, calculatePeriod() , calculateFundraisingAmount());
+    }
+
+    private Long calculateFundraisingAmount() {
+        return null;
+    }
+
+    private int calculatePeriod() {
+        if(endAt == null) return 0;
+        return (int)(endAt.getTime()-new Date().getTime())/CURRENT_DATE;
     }
 
     public enum STATUS {

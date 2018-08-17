@@ -26,7 +26,8 @@ public class Product {
     @Lob
     private String description;
 
-    private boolean deleted = true;
+    @Column(columnDefinition = "bool default false")
+    private boolean deleted = false;
 
     public Product addProject(Project project) {
         this.project = project;
