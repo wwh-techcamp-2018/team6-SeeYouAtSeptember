@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    $("#my-project-btn").addEventListener("click", myProjectClickHandler)
+    addEventListenerToTarget($("#my-project-btn"), "click", myProjectClickHandler)
 });
 
 function myProjectClickHandler(evt) {

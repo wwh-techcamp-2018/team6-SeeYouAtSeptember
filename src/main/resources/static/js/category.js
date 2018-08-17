@@ -82,7 +82,7 @@ class Category {
     }
 
     insertProjectsContentHTML(projects) {
-        const parent = $(".content");
+        const parent = $("#category-content");
         let html = `<ul class="projects">`;
         projects.forEach(project => {
             html += this.fillProjectContentHTML(project);
