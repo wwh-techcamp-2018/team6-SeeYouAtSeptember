@@ -33,9 +33,9 @@ public class ApiUserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createNormalUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<Void> createNormalUser(HttpSession session, @RequestBody UserDTO userDTO) {
         // TODO: 2018. 8. 15. Need validation & duplication check
-        userService.createNormalUser(userDTO);
+        session.setAttribute(SessionUtil.LOGIN_USER, userService.createNormalUser(userDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

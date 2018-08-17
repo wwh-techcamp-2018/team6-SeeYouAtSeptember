@@ -1,10 +1,12 @@
 package com.woowahan.moduchan.domain.user;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @MappedSuperclass
+@Getter
 @NoArgsConstructor
 public abstract class User {
     @Id

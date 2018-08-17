@@ -33,8 +33,11 @@ public class UserService {
                 .orElseThrow(RuntimeException::new);
     }
 
-    public void createNormalUser(UserDTO userDTO) {
-        normalUserRepository.save(NormalUser.from(userDTO).encryptPassword(passwordEncoder));
+    public UserDTO createNormalUser(UserDTO userDTO) {
+        // TODO: 2018. 8. 16. 같은 이메일에 대해서 에러 처리한다.
+        return normalUserRepository
+                .save(NormalUser.from(userDTO).encryptPassword(passwordEncoder))
+                .toDTO().erasePassword();
     }
 
     public void updateNormalUser(UserDTO userDTO) {

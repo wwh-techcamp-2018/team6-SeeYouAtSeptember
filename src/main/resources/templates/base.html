@@ -26,7 +26,7 @@
             </a>
         </h1>
         <div class="navigation-project">
-            <a href="/">
+            <a href="/categories">
                 <span class="collect-project">프로젝트 모아보기</span>
             </a>
             <a href="/">
@@ -34,15 +34,15 @@
             </a>
         </div>
         <div class="navigation-account">
-            {{^LOGIN_USER}}
+            {{^loginUser}}
                 <a href="/users/login">
                     <span id="signin">로그인</span>
                 </a>
                 <a href="/users/join">
                     <span id="signup">회원가입</span>
                 </a>
-            {{/LOGIN_USER}}
-            {{#LOGIN_USER}}
+            {{/loginUser}}
+            {{#loginUser}}
                 <a href="/users/logout">
                     <span id="logout">로그아웃</span>
                 </a>
