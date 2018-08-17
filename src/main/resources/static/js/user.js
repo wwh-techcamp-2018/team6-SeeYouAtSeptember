@@ -88,7 +88,6 @@ class Join {
         $("#pw1").value = "";
         $("#pw2").value = "";
 
-        console.log(this.joinForm)
         fetchManager({
             url: '/api/users',
             method: 'POST',
