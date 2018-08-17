@@ -7,5 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    public Page<Project> findByCategory(Category category, Pageable pageable);
+    public Page<Project> findAllByDeletedFalse(Pageable pageable);
+
+    public Page<Project> findByCategoryAndDeletedFalse(Category category, Pageable pageable);
 }

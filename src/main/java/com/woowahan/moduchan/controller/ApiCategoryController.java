@@ -3,6 +3,7 @@ package com.woowahan.moduchan.controller;
 import com.woowahan.moduchan.domain.category.Category;
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.category.CategoryDTO;
+import com.woowahan.moduchan.dto.project.ProjectGatherDTO;
 import com.woowahan.moduchan.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class ApiCategoryController {
     }
 
     @GetMapping("/{cid}/page/{pageNo}")
-    public ResponseEntity<List<Project>> getCategoryPage(@PathVariable("cid") Long cid, @PathVariable("pageNo") int pageNo) {
+    public ResponseEntity<List<ProjectGatherDTO>> getCategoryPage(@PathVariable("cid") Long cid, @PathVariable("pageNo") int pageNo) {
         return new ResponseEntity<>(categoryService.getCategoryPage(cid, pageNo), HttpStatus.OK);
     }
 }
