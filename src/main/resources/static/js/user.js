@@ -23,7 +23,7 @@ class LoginBtn {
     }
 
     login(response) {
-        if (response.status === 200){
+        if (response.status === 200) {
             location.href = "/";
             return;
         }
@@ -42,17 +42,17 @@ class Join {
     }
 
     focusOutHandler(evt) {
-        if(evt.target.id === "email-domain")
+        if (evt.target.id === "email-domain")
             this.validEmail();
-        if(evt.target.id === "pw1")
+        if (evt.target.id === "pw1")
             this.validPassword();
-        if(evt.target.id === "pw2")
+        if (evt.target.id === "pw2")
             this.validPasswordConfirm();
-        if(evt.target.id === "name")
+        if (evt.target.id === "name")
             this.validName();
-        if(evt.target.id === "cell3")
+        if (evt.target.id === "cell3")
             this.validPhoneNo();
-        if(evt.target.id === "address")
+        if (evt.target.id === "address")
             this.validAddress();
     }
 
@@ -74,7 +74,7 @@ class Join {
     joinBtnClickHandler(evt) {
         evt.preventDefault();
 
-        if(!this.validAll())
+        if (!this.validAll())
             return;
 
         this.joinForm = {
@@ -88,7 +88,6 @@ class Join {
         $("#pw1").value = "";
         $("#pw2").value = "";
 
-        console.log(this.joinForm)
         fetchManager({
             url: '/api/users',
             method: 'POST',
@@ -103,7 +102,7 @@ class Join {
             this.validName.bind(this), this.validPhoneNo.bind(this), this.validAddress.bind(this)];
         this.cnt = this.validList.length;
         this.validList.forEach(valid => {
-            if(valid())
+            if (valid())
                 this.cnt--;
         });
         return this.cnt === 0;
@@ -111,19 +110,19 @@ class Join {
 
     validEmail() {
         this.emailPattern = /^[_0-9a-zA-Z-]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)*$/;
-        this.email = $("#email-id").value+"@"+$("#email-domain").value;
-        if(!this.emailPattern.test(this.email)){
-            $("#email-caution").style.display="inline-block";
+        this.email = $("#email-id").value + "@" + $("#email-domain").value;
+        if (!this.emailPattern.test(this.email)) {
+            $("#email-caution").style.display = "inline-block";
             return false;
         }
-        $("#email-caution").style.display="none";
+        $("#email-caution").style.display = "none";
         return true;
     }
 
     validPassword() {
         this.passwordPattern = /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,12}$/;
         this.password = $("#pw1").value;
-        if(!this.passwordPattern.test(this.password)){
+        if (!this.passwordPattern.test(this.password)) {
             $("#password-caution").style.display = "inline-block"
             return false;
         }
@@ -133,7 +132,7 @@ class Join {
 
     validPasswordConfirm() {
         this.confirmPassword = $("#pw2").value;
-        if(this.password !== this.confirmPassword){
+        if (this.password !== this.confirmPassword) {
             $("#password-confirm-caution").style.display = "inline-block";
             return false;
         }
@@ -143,7 +142,7 @@ class Join {
 
     validName() {
         this.name = $("#name").value;
-        if(!this.name) {
+        if (!this.name) {
             $("#name-caution").style.display = "inline-block";
             return false;
         }
@@ -153,8 +152,8 @@ class Join {
 
     validPhoneNo() {
         this.phoneNoPattern = /^01[0|1|6-9]-[0-9]{3,4}-[0-9]{4}$/;
-        this.phoneNo = $("#cell1").value + "-" + $("#cell2").value + "-" +$("#cell3").value;
-        if(!this.phoneNoPattern.test(this.phoneNo)){
+        this.phoneNo = $("#cell1").value + "-" + $("#cell2").value + "-" + $("#cell3").value;
+        if (!this.phoneNoPattern.test(this.phoneNo)) {
             $("#phone-caution").style.display = "inline-block";
             return false;
         }
@@ -164,7 +163,7 @@ class Join {
 
     validAddress() {
         this.address = $("#address").value;
-        if(!this.address) {
+        if (!this.address) {
             $("#address-caution").style.display = "inline-block";
             return false;
         }
@@ -172,8 +171,8 @@ class Join {
         return true;
     }
 
-    join(response){
-        if(response.status === 201) {
+    join(response) {
+        if (response.status === 201) {
             location.href = "/";
         }
         //todo: 에러처리
