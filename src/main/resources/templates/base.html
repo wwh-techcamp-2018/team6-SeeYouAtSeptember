@@ -47,9 +47,74 @@
                     <span id="logout">로그아웃</span>
                 </a>
             {{/loginUser}}
-            <span>나의 프로젝트
-                <i class="fas fa-caret-down"></i>
-            </span>
+            <a href="#" id="my-project-btn">
+                <span>나의 프로젝트
+                    <i class="fas fa-caret-down"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="dropdown-wrapper">
+        <div class="dropdown-div">
+            <div class="dropdown-owner-div">
+                <label class="dropdown-label"><span class="dropdown-title">후원중인 프로젝트</span></label>
+                <ul class="dropdown-ul dropdown-owner">
+                    <li class="dropdown-item card">
+                        <div class="progress" style="width:70%;"></div>
+                        <div class="content">
+                            <span class="project-title">프로젝트 이름 들어갈곳</span>
+                            <span class="project-info"><span>15일남음</span><span style="float:right">70%</span></span>
+                        </div>
+                    </li>
+                    <li class="dropdown-item card">
+                        <div class="progress" style="width:30%; "></div>
+                        <div class="content">
+                            <span class="project-title">프로젝트 이름 들어갈곳</span>
+                            <span class="project-info"><span>15일남음</span><span style="float:right">70%</span></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown-owner-div">
+                <label class="dropdown-label">진행중인 프로젝트</label>
+                <ul class="dropdown-ul dropdown-support">
+                    <li class="dropdown-item card">
+                        <div class="progress" style="width:20%;"></div>
+                        <div class="content">
+                            <span class="project-title">프로젝트 이름 들어갈곳1</span>
+                            <span class="project-info"><span>15일남음</span><span style="float:right">20%</span></span>
+                        </div>
+                    </li>
+                    <li class="dropdown-item card">
+                        <div class="progress" style="width:40%;"></div>
+                        <div class="content">
+                            <span class="project-title">프로젝트 이름 들어갈곳2</span>
+                            <span class="project-info"><span>15일남음</span><span style="float:right">40%</span></span>
+                        </div>
+                    </li>
+                    <li class="dropdown-item card">
+                        <div class="progress" style="width:60%;"></div>
+                        <div class="content">
+                            <span class="project-title">프로젝트 이름 들어갈곳3</span>
+                            <span class="project-info"><span>15일남음</span><span style="float:right">60%</span></span>
+                        </div>
+                    </li>
+                    <li class="dropdown-item card">
+                        <div class="progress" style="width:80%;"></div>
+                        <div class="content">
+                            <span class="project-title">프로젝트 이름 들어갈곳4</span>
+                            <span class="project-info"><span>15일남음</span><span style="float:right">80%</span></span>
+                        </div>
+                    </li>
+                    <li class="dropdown-item card">
+                        <div class="progress" style="width:100%;"></div>
+                        <div class="content">
+                            <span class="project-title">5아주 아주 아주 긴 프로젝트 이름 들어갈곳5</span>
+                            <span class="project-info"><span>15일남음</span><span style="float:right">100%</span></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 {{#block "contents"}}
@@ -57,6 +122,8 @@
 
 {{#block "footer"}}
 {{/block}}
+    <script src="/js/common.js"></script>
+    <script src="/js/header.js"></script>
 </body>
 
 </html>
