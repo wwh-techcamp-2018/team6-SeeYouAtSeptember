@@ -1,0 +1,58 @@
+.header {
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    height: 95px;
+    display: inline-grid; 
+    grid-template-columns: 10% 15% 30% 35% 10%;
+    grid-template-areas: ". logo project account .";
+}
+
+.header a {
+    text-decoration: none;
+}
+
+.header span {
+    margin: 0 5px;
+    color: black;
+    cursor: pointer;
+    transition-property: color;
+    transition-duration: .25s;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.header span:hover {
+    color: #2bc2bc;
+}
+
+.logo {
+    grid-area: logo;
+    justify-self: center;
+    align-self: center;
+}
+
+.navigation-project {
+    grid-area: project;
+    justify-self: left;
+    align-self: center;
+}
+
+.navigation-account {
+    grid-area: account;
+    justify-self: right;
+    align-self: center;
+}
+
+.promotion {
+    width:100%;
+    height:450px;
+    overflow:hidden;
+
+    background-image: url(https://tumblbug-assets.imgix.net/heroes/toybox01.jpg?w=1800&h=600&fit=crop&q=60);
+    /* background-size: cover;
+    background-position: center center; */
+}
+
+.promotion img {
+    width: 100%;
+}

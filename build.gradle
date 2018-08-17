@@ -1,0 +1,43 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.woowahan.moduchan'
+version = '0.1'
+archivesBaseName = 'moduchan-application'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+
+dependencies {
+	compile('io.springfox:springfox-swagger2:+')
+	compile('io.springfox:springfox-swagger-ui:+')
+	compile('org.springframework.boot:spring-boot-devtools')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.security:spring-security-core:+')
+	compile('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0')
+	compile('mysql:mysql-connector-java:+')
+	compile('com.auth0:java-jwt:+')
+	runtime('com.h2database:h2')
+	runtime('net.rakugakibox.spring.boot:logback-access-spring-boot-starter:+')
+	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
