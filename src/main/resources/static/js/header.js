@@ -1,28 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
-   $("#my-project-btn").addEventListener("click", myProjectClickHandler)
+    $("#my-project-btn").addEventListener("click", myProjectClickHandler)
 });
 
 function myProjectClickHandler(evt) {
     evt.preventDefault();
     const dropdownDiv = $("div.dropdown-div");
-    if(dropdownDiv.classList.contains("on")){
+    const dropdownUl = [...$all("div.dropdown-div ul.dropdown-ul")];
+    if (dropdownDiv.classList.contains("on")) {
         [...dropdownDiv.children].forEach(child => {
             closeDropdown(child);
         });
+        // dropdownUl.forEach(child => {
+        //     closeDropdown(child);
+        // });
         dropdownDiv.classList.remove("on");
         return;
     }
     [...dropdownDiv.children].forEach(child => {
         openDropdown(child);
     });
+    // dropdownUl.forEach(child => {
+    //     openDropdown(child);
+    // });
     dropdownDiv.classList.add("on");
 }
 
 function openDropdown(target) {
     target.style.visibility = "visible";
-    target.style.opacity="1";
+    target.style.opacity = "1";
     target.style.zIndex = "1";
-    [...target.children].forEach(child => {
+    target.style.height = "200px";
+    [...target.children[1].children].forEach(child => {
         child.style.height = "50px"
     });
     $("i.fas").classList.remove("fa-caret-down")
@@ -31,9 +39,10 @@ function openDropdown(target) {
 
 function closeDropdown(target) {
     target.style.visibility = "hidden";
-    target.style.opacity="0";
+    target.style.opacity = "0";
     target.style.zIndex = "0";
-    [...target.children].forEach(child => {
+    target.style.height = "0px";
+    [...target.children[1].children].forEach(child => {
         child.style.height = "0px"
     });
     $("i.fas").classList.remove("fa-caret-up")
