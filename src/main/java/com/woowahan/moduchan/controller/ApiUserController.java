@@ -1,6 +1,6 @@
 package com.woowahan.moduchan.controller;
 
-import com.woowahan.moduchan.dto.UserDTO;
+import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.service.UserService;
 import com.woowahan.moduchan.support.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,12 @@ public class ApiUserController {
 
     @GetMapping("")
     public ResponseEntity<List<UserDTO>> getNormalUsers() {
-        return new ResponseEntity<>(userService.findAllNomalUser(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getNomalUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/{uid}")
     public ResponseEntity<UserDTO> getNormalUser(@PathVariable Long uid) {
-        return new ResponseEntity<>(userService.findNormalUserById(uid), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getNormalUser(uid), HttpStatus.OK);
     }
 
     @PostMapping("")

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 public class UserController {
     @GetMapping("/join")
     public String join() {
-        return "/Join";
+        return "/join";
     }
 
     @GetMapping("/login")
