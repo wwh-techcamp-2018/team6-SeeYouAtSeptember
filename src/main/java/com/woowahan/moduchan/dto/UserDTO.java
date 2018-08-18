@@ -43,4 +43,10 @@ public class UserDTO {
         this.address = null;
         return this;
     }
+
+    public void update(UserDTO userDTO) {
+        this.name = userDTO.getName();
+        this.phoneNo = userDTO.getPhoneNo();
+        this.address = userDTO.getAddress();
+    }
 }

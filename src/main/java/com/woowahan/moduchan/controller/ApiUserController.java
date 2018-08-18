@@ -39,16 +39,17 @@ public class ApiUserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{uid}")
+    @DeleteMapping("/chk/{uid}")
     public ResponseEntity<Void> deleteNormalUser(@PathVariable Long uid) {
         userService.deleteNormalUserById(uid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("")
-    public ResponseEntity<Void> updateNormalUser(@RequestBody UserDTO userDTO) {
-        // FIXME: 2018. 8. 15. 세션에 기록된 id를 이용해서 DB로부터 유저를 꺼내어 정보 갱신을 해야합니다.
-        userService.updateNormalUser(userDTO);
+    @PutMapping("/chk")
+    public ResponseEntity<Void> updateNormalUser(@RequestBody UserDTO userDTO, HttpSession session) {
+        UserDTO loginUserDTO = (UserDTO) session.getAttribute(SessionUtil.LOGIN_USER);
+        loginUserDTO.update(userDTO);
+        userService.updateNormalUser(loginUserDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
