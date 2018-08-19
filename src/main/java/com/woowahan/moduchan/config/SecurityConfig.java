@@ -31,6 +31,6 @@ public class SecurityConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 
         registry.addInterceptor(apiUserSessionInterceptor())
-                .addPathPatterns("/api/users/chk/**");
+                .addPathPatterns("/api/**/chk/**");
     }
 }

@@ -18,8 +18,6 @@ public class ApiUserController {
     private UserService userService;
 
     // TODO: 2018. 8. 14. getAllUsers: normalUser + adminUser가 필요하지 않을까?
-    // TODO: 2018. 8. 14. create에 들어오는 request body와 update로 들어오는
-    // request body에서 내용물이 다른데, @valid가 두 경우 모두 커버할 수 있을지?
     // TODO: 2018. 8. 15. UserApi가 언제 호출되는지, 호출의 권한에 대하여 논의해볼 필요가 있습니다.
 
     @GetMapping("")
