@@ -111,11 +111,15 @@ public class Project extends BaseTimeEntity {
     }
 
     public ProjectGatherDTO toDTO(){
-        return new ProjectGatherDTO(id,title,owner.getName(),thumbnailUrl, calculatePeriod() , calculateFundraisingAmount());
+        return new ProjectGatherDTO(id,title,owner.getName(),thumbnailUrl, calculatePeriod() , getCurrentFunds());
     }
 
-    private Long calculateFundraisingAmount() {
-        return null;
+    public Long getCurrentFunds() {
+        Long currentFunds = 0L;
+        for(Product product: products) {
+            currentFunds = product.addFunds(currentFunds);
+        }
+        return currentFunds;
     }
 
     private int calculatePeriod() {

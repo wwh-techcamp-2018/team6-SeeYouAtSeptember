@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,6 +30,10 @@ public class Product {
     @Column(columnDefinition = "bool default false")
     private boolean deleted = false;
 
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<ProductUserMap> productUserMapList;
+
     public Product addProject(Project project) {
         this.project = project;
         return this;
@@ -41,5 +46,13 @@ public class Product {
 
     public void delete() {
         this.deleted = true;
+    }
+
+    public Long addFunds(Long currentFunds) {
+        Long quantity = 0L;
+        for(ProductUserMap productUserMap : productUserMapList) {
+            quantity = productUserMap.addQuantityToTotal(quantity);
+        }
+        return currentFunds + quantity * price;
     }
 }

@@ -2,10 +2,12 @@ package com.woowahan.moduchan.domain.product;
 
 import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.support.BaseTimeEntity;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor
 @IdClass(ProductUserPK.class)
 public class ProductUserMap extends BaseTimeEntity {
 
@@ -20,4 +22,8 @@ public class ProductUserMap extends BaseTimeEntity {
     private NormalUser normalUser;
 
     private Long quantity;
+
+    public Long addQuantityToTotal(Long total) {
+        return this.quantity + total;
+    }
 }
