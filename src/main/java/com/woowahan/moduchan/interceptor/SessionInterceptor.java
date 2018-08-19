@@ -11,9 +11,9 @@ import java.io.IOException;
 public abstract class SessionInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        UserDTO userDTO = (UserDTO)request.getSession().getAttribute(SessionUtil.LOGIN_USER);
+        UserDTO userDTO = (UserDTO) request.getSession().getAttribute(SessionUtil.LOGIN_USER);
         // TODO: 2018. 8. 19. guestUser 생성시 변경해야함
-        if(userDTO == null){
+        if (userDTO == null) {
             responseUnauth(response);
             return false;
         }

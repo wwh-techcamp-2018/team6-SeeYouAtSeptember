@@ -1,7 +1,6 @@
 package com.woowahan.moduchan.controller;
 
 import com.woowahan.moduchan.domain.category.Category;
-import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.category.CategoryDTO;
 import com.woowahan.moduchan.dto.project.ProjectGatherDTO;
 import com.woowahan.moduchan.service.CategoryService;

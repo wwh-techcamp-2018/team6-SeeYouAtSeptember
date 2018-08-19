@@ -73,11 +73,11 @@ class Category {
     fillProjectContentHTML(project) {
         let template = this.projectTemplate;
         template = template.replace(/{id}/g, project.pid)
-                            .replace(/{thumbnailUrl}/g, project.thumbnailUrl)
-                            .replace(/{title}/g, project.title)
-                            .replace(/{owner}/g, project.owner)
-                            .replace(/{period}/g, project.period)
-                            .replace(/{fundraisingAmount}/g, project.fundraisingAmount);
+            .replace(/{thumbnailUrl}/g, project.thumbnailUrl)
+            .replace(/{title}/g, project.title)
+            .replace(/{owner}/g, project.owner)
+            .replace(/{period}/g, project.period)
+            .replace(/{fundraisingAmount}/g, project.fundraisingAmount);
         return template;
     }
 

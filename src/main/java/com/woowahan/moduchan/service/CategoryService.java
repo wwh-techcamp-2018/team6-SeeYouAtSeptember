@@ -1,7 +1,6 @@
 package com.woowahan.moduchan.service;
 
 import com.woowahan.moduchan.domain.category.Category;
-import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.category.CategoryDTO;
 import com.woowahan.moduchan.dto.project.ProjectGatherDTO;
 import com.woowahan.moduchan.repository.CategoryRepository;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +26,7 @@ public class CategoryService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    @Cacheable(value="categories")
+    @Cacheable(value = "categories")
     public List<CategoryDTO> getCategories() {
         return categoryRepository.findAll().stream().map(category -> category.toDTO()).collect(Collectors.toList());
     }

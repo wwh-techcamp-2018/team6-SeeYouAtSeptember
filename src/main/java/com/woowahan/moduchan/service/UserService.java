@@ -35,7 +35,7 @@ public class UserService {
 
     public UserDTO createNormalUser(UserDTO userDTO) {
         // TODO: 2018. 8. 19. CustomError: AlreadyExistsEmail
-        if(normalUserRepository.existsByEmail(userDTO.getEmail()))
+        if (normalUserRepository.existsByEmail(userDTO.getEmail()))
             throw new RuntimeException();
         return normalUserRepository
                 .save(NormalUser.from(userDTO).encryptPassword(passwordEncoder))

@@ -14,6 +14,6 @@ public class ApiExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> categoryNotFound(MethodArgumentNotValidException exception) {
         log.debug("[MethodArgumentNotValidException] {}", exception.getMessage());
-        return new ResponseEntity(exception.getBindingResult().getAllErrors(),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception.getBindingResult().getAllErrors(), HttpStatus.BAD_REQUEST);
     }
 }
