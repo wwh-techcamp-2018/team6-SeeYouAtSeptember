@@ -24,7 +24,7 @@ public class S3Util {
     private String bucket;
 
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        if(multipartFile == null)
+        if (multipartFile == null)
             return null;
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
@@ -44,7 +44,7 @@ public class S3Util {
     }
 
     private void removeNewFile(File targetFile) {
-        if(targetFile.delete()){
+        if (targetFile.delete()) {
             log.info("파일이 삭제되었습니다.");
         } else {
             log.info("파일이 삭제되지 못했습니다.");
@@ -53,7 +53,7 @@ public class S3Util {
 
     private Optional<File> convert(MultipartFile file) throws IOException {
         File convertFile = new File(file.getOriginalFilename());
-        if(convertFile.createNewFile()) {
+        if (convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
             }

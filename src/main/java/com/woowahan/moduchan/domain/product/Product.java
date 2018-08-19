@@ -50,7 +50,7 @@ public class Product {
 
     public Long addFunds(Long currentFunds) {
         Long quantity = 0L;
-        for(ProductUserMap productUserMap : productUserMapList) {
+        for (ProductUserMap productUserMap : productUserMapList) {
             quantity = productUserMap.addQuantityToTotal(quantity);
         }
         return currentFunds + quantity * price;
