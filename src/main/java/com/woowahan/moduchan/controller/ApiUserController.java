@@ -6,6 +6,7 @@ import com.woowahan.moduchan.support.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -31,8 +32,7 @@ public class ApiUserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createNormalUser(HttpSession session, @RequestBody UserDTO userDTO) {
-        // TODO: 2018. 8. 15. Need validation & duplication check
+    public ResponseEntity<Void> createNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO, HttpSession session) {
         session.setAttribute(SessionUtil.LOGIN_USER, userService.createNormalUser(userDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -44,7 +44,7 @@ public class ApiUserController {
     }
 
     @PutMapping("/chk")
-    public ResponseEntity<Void> updateNormalUser(@RequestBody UserDTO userDTO, HttpSession session) {
+    public ResponseEntity<Void> updateNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO, HttpSession session) {
         UserDTO loginUserDTO = (UserDTO) session.getAttribute(SessionUtil.LOGIN_USER);
         loginUserDTO.update(userDTO);
         userService.updateNormalUser(loginUserDTO);
@@ -52,7 +52,7 @@ public class ApiUserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO, HttpSession session) {
+    public ResponseEntity<UserDTO> login(@Validated(UserDTO.LoginValid.class) @RequestBody UserDTO userDTO, HttpSession session) {
         UserDTO loginUserDTO = userService.login(userDTO);
         session.setAttribute(SessionUtil.LOGIN_USER, loginUserDTO);
         return new ResponseEntity<>(loginUserDTO, HttpStatus.OK);
