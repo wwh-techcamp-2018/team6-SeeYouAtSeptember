@@ -2,6 +2,7 @@ package com.woowahan.moduchan.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,23 +21,29 @@ public class UserDTO {
 
     public interface JoinValid{}
 
+    @ApiModelProperty(hidden = true)
     @Null(groups = {LoginValid.class, JoinValid.class})
     private Long id;
 
+    @ApiModelProperty(example = "password", position = 2)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty(groups = {LoginValid.class, JoinValid.class})
     private String password;
 
+    @ApiModelProperty(example = "example@gmail.com", position = 1)
     @NotEmpty(groups = {LoginValid.class, JoinValid.class})
     private String email;
 
+    @ApiModelProperty(example = "name", position = 3)
     @NotEmpty(groups = JoinValid.class)
     private String name;
 
+    @ApiModelProperty(example = "010-0000-0000", position = 4)
     @NotEmpty(groups = JoinValid.class)
     private String phoneNo;
 
     @NotEmpty(groups = JoinValid.class)
+    @ApiModelProperty(example = "address", position = 5)
     private String address;
 
     public UserDTO erasePassword() {
