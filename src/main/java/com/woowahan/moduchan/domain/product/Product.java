@@ -30,7 +30,7 @@ public class Product {
     @Column(columnDefinition = "bool default false")
     private boolean deleted = false;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "product")
     @JsonIgnore
     private List<ProductUserMap> productUserMapList;
 

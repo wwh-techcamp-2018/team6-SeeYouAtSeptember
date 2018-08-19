@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.woowahan.moduchan.domain.category.Category;
 import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.user.NormalUser;
+import com.woowahan.moduchan.dto.UserDTO;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.project.ProjectGatherDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
@@ -91,8 +92,9 @@ public class Project extends BaseTimeEntity {
         return this;
     }
 
-    public void addProducts(List<Product> productList) {
+    public Project addProducts(List<Product> productList) {
         productList.forEach(product -> this.products.add(product.erasePid().addProject(this)));
+        return this;
     }
 
     public Project updateProject(ProjectDTO projectDTO, Category category) {
@@ -112,6 +114,10 @@ public class Project extends BaseTimeEntity {
 
     public ProjectGatherDTO toDTO(){
         return new ProjectGatherDTO(id,title,owner.getName(),thumbnailUrl, calculatePeriod() , getCurrentFunds());
+    }
+
+    public boolean isOwner(UserDTO user) {
+        return id == user.getId();
     }
 
     public Long getCurrentFunds() {
