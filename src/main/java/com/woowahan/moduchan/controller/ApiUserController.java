@@ -6,6 +6,7 @@ import com.woowahan.moduchan.support.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -18,8 +19,6 @@ public class ApiUserController {
     private UserService userService;
 
     // TODO: 2018. 8. 14. getAllUsers: normalUser + adminUser가 필요하지 않을까?
-    // TODO: 2018. 8. 14. create에 들어오는 request body와 update로 들어오는
-    // request body에서 내용물이 다른데, @valid가 두 경우 모두 커버할 수 있을지?
     // TODO: 2018. 8. 15. UserApi가 언제 호출되는지, 호출의 권한에 대하여 논의해볼 필요가 있습니다.
 
     @GetMapping("")
@@ -33,8 +32,7 @@ public class ApiUserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createNormalUser(HttpSession session, @RequestBody UserDTO userDTO) {
-        // TODO: 2018. 8. 15. Need validation & duplication check
+    public ResponseEntity<Void> createNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO, HttpSession session) {
         session.setAttribute(SessionUtil.LOGIN_USER, userService.createNormalUser(userDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -46,7 +44,7 @@ public class ApiUserController {
     }
 
     @PutMapping("/chk")
-    public ResponseEntity<Void> updateNormalUser(@RequestBody UserDTO userDTO, HttpSession session) {
+    public ResponseEntity<Void> updateNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO, HttpSession session) {
         UserDTO loginUserDTO = (UserDTO) session.getAttribute(SessionUtil.LOGIN_USER);
         loginUserDTO.update(userDTO);
         userService.updateNormalUser(loginUserDTO);
@@ -54,7 +52,7 @@ public class ApiUserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO, HttpSession session) {
+    public ResponseEntity<UserDTO> login(@Validated(UserDTO.LoginValid.class) @RequestBody UserDTO userDTO, HttpSession session) {
         UserDTO loginUserDTO = userService.login(userDTO);
         session.setAttribute(SessionUtil.LOGIN_USER, loginUserDTO);
         return new ResponseEntity<>(loginUserDTO, HttpStatus.OK);

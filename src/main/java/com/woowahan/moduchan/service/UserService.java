@@ -34,7 +34,9 @@ public class UserService {
     }
 
     public UserDTO createNormalUser(UserDTO userDTO) {
-        // TODO: 2018. 8. 16. 같은 이메일에 대해서 에러 처리한다.
+        // TODO: 2018. 8. 19. CustomError: AlreadyExistsEmail
+        if(normalUserRepository.existsByEmail(userDTO.getEmail()))
+            throw new RuntimeException();
         return normalUserRepository
                 .save(NormalUser.from(userDTO).encryptPassword(passwordEncoder))
                 .toDTO().erasePassword();
