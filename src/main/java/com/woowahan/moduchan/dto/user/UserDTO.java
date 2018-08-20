@@ -46,6 +46,7 @@ public class UserDTO {
     }
 
     public void update(UserDTO userDTO) {
+        this.email = userDTO.getEmail();
         this.name = userDTO.getName();
         this.phoneNo = userDTO.getPhoneNo();
         this.address = userDTO.getAddress();

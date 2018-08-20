@@ -84,9 +84,8 @@ public class ApiUserController {
     @PutMapping("")
     public ResponseEntity<Void> updateNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO,
                                                  @ApiIgnore HttpSession session, @ApiIgnore @LoginUser UserDTO loginUserDTO) {
-        // FIXME: 2018. 8. 20. session에 user정보 일부만 담을 경우 update함수를 고쳐야함
         loginUserDTO.update(userDTO);
-        userService.updateNormalUser(loginUserDTO);
+        session.setAttribute(SessionUtil.LOGIN_USER, userService.updateNormalUser(loginUserDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

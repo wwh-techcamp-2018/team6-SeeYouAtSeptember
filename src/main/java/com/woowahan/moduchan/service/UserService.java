@@ -42,11 +42,12 @@ public class UserService {
                 .toDTO().erasePassword();
     }
 
-    public void updateNormalUser(UserDTO userDTO) {
+    public UserDTO updateNormalUser(UserDTO userDTO) {
         // TODO: 2018. 8. 14. CustomError: UserNotFound
-        normalUserRepository.save(
-                normalUserRepository.findByEmail(userDTO.getEmail())
-                        .orElseThrow(RuntimeException::new).update(userDTO));
+        return normalUserRepository.save(
+                normalUserRepository.findById(userDTO.getUid())
+                        .orElseThrow(RuntimeException::new).update(userDTO))
+                .toDTO().erasePassword();
     }
 
     @Transactional

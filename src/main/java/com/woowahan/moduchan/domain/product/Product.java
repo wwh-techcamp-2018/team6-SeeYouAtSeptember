@@ -20,7 +20,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String title;
     private Long price;
     private Long supplyQuantity;
 
@@ -36,7 +36,7 @@ public class Product {
 
     public static Product from(ProductDTO productDTO, Project project) {
         return new ProductBuilder()
-                .name(productDTO.getName())
+                .title(productDTO.getTitle())
                 .price(productDTO.getPrice())
                 .supplyQuantity(productDTO.getSupplyQuantity())
                 .description(productDTO.getDescription())
@@ -50,6 +50,6 @@ public class Product {
     }
 
     public ProductDTO toDTO() {
-        return new ProductDTO(id, name, price, supplyQuantity, description);
+        return new ProductDTO(id, title, price, supplyQuantity, description);
     }
 }

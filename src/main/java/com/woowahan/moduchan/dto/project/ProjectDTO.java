@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -22,8 +21,8 @@ public class ProjectDTO {
     private String title;
     private String description;
     private String thumbnailUrl;
-    private Date createdAt;
-    private Date endAt;
+    private Long createdAt;
+    private Long endAt;
     private Project.STATUS status;
     private String owner;
     private List<ProductDTO> products;

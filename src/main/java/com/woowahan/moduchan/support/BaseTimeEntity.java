@@ -15,5 +15,4 @@ public abstract class BaseTimeEntity {
 
     @CreatedDate
     private Date createdAt;
-
 }

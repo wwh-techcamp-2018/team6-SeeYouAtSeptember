@@ -63,7 +63,7 @@ public class Project extends BaseTimeEntity {
                 .description(projectDTO.getDescription())
                 .thumbnailUrl(projectDTO.getThumbnailUrl())
                 .goalFundRaising(projectDTO.getGoalFundRaising())
-                .endAt(projectDTO.getEndAt())
+                .endAt(new Date(projectDTO.getEndAt()))
                 .status(STATUS.DRAFT)
                 .deleted(false)
                 .owner(owner)
@@ -79,7 +79,7 @@ public class Project extends BaseTimeEntity {
 
     public Project updateProject(ProjectDTO projectDTO, Category category) {
         this.description = projectDTO.getDescription();
-        this.endAt = projectDTO.getEndAt();
+        this.endAt = new Date(projectDTO.getEndAt());
         this.goalFundRaising = projectDTO.getGoalFundRaising();
         this.thumbnailUrl = projectDTO.getThumbnailUrl();
         this.title = projectDTO.getTitle();
@@ -99,8 +99,8 @@ public class Project extends BaseTimeEntity {
                 title,
                 description,
                 thumbnailUrl,
-                getCreatedAt(),
-                endAt,
+                getCreatedAt().getTime(),
+                endAt.getTime(),
                 status,
                 owner.toDTO().getName(),
                 products.stream().map(product -> product.toDTO()).collect(Collectors.toList()),

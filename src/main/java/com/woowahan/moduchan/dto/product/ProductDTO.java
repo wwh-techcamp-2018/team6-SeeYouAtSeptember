@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductDTO {
     private Long pid;
-    private String name;
+    private String title;
     private Long price;
     private Long supplyQuantity;
     private String description;

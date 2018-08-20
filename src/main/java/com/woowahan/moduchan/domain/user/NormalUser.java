@@ -23,8 +23,7 @@ public class NormalUser extends User {
     }
 
     public static NormalUser from(UserDTO userDTO) {
-        NormalUserBuilder normalUserBuilder = new NormalUserBuilder();
-        return normalUserBuilder
+        return new NormalUserBuilder()
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
                 .name(userDTO.getName())
