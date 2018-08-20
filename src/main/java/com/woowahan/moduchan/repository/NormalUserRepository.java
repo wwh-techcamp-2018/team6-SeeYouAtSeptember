@@ -12,4 +12,6 @@ public interface NormalUserRepository extends JpaRepository<NormalUser, Long> {
     public Optional<NormalUser> findByIdAndDeletedFalse(Long id);
 
     public Optional<NormalUser> findByEmailAndDeletedFalse(String email);
+
+    public boolean existsByEmail(String email);
 }

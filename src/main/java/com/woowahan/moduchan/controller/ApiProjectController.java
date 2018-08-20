@@ -23,23 +23,20 @@ public class ApiProjectController {
         return new ResponseEntity<>(projectService.getProjects(), HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping("/chk")
     public ResponseEntity<Void> createProject(HttpSession session, @RequestBody ProjectDTO projectDTO) {
-        //TODO 로그인 유저 판별.
         projectService.createProject(projectDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{pid}")
+    @DeleteMapping("/chk/{pid}")
     public ResponseEntity<Void> deleteProject(HttpSession session, @PathVariable("pid") Long pid) {
-        //TODO 로그인 유저 판별.
         projectService.deleteProject(pid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("")
+    @PutMapping("/chk")
     public ResponseEntity<Project> updateProject(HttpSession session, @RequestBody ProjectDTO projectDTO) {
-        //TODO 로그인 유저 판별.
         return new ResponseEntity<>(projectService.updateProject(projectDTO), HttpStatus.OK);
     }
 

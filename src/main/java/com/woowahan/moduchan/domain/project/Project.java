@@ -24,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Project extends BaseTimeEntity {
 
-    private static final int CURRENT_DATE = (1000*60*60*24);
+    private static final int CURRENT_DATE = (1000 * 60 * 60 * 24);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,8 +110,8 @@ public class Project extends BaseTimeEntity {
         products.forEach(product -> product.delete());
     }
 
-    public ProjectGatherDTO toDTO(){
-        return new ProjectGatherDTO(id,title,owner.getName(),thumbnailUrl, calculatePeriod() , calculateFundraisingAmount());
+    public ProjectGatherDTO toDTO() {
+        return new ProjectGatherDTO(id, title, owner.getName(), thumbnailUrl, calculatePeriod(), calculateFundraisingAmount());
     }
 
     private Long calculateFundraisingAmount() {
@@ -119,8 +119,8 @@ public class Project extends BaseTimeEntity {
     }
 
     private int calculatePeriod() {
-        if(endAt == null) return 0;
-        return (int)(endAt.getTime()-new Date().getTime())/CURRENT_DATE;
+        if (endAt == null) return 0;
+        return (int) (endAt.getTime() - new Date().getTime()) / CURRENT_DATE;
     }
 
     public enum STATUS {

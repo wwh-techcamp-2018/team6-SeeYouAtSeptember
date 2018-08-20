@@ -34,17 +34,18 @@ public class UserService {
     }
 
     public UserDTO createNormalUser(UserDTO userDTO) {
-        // TODO: 2018. 8. 16. 같은 이메일에 대해서 에러 처리한다.
+        // TODO: 2018. 8. 19. CustomError: AlreadyExistsEmail
+        if (normalUserRepository.existsByEmail(userDTO.getEmail()))
+            throw new RuntimeException();
         return normalUserRepository
                 .save(NormalUser.from(userDTO).encryptPassword(passwordEncoder))
                 .toDTO().erasePassword();
     }
 
     public void updateNormalUser(UserDTO userDTO) {
-        // FIXME: 2018. 8. 15. 세션에 기록된 id를 이용해서 DB로부터 유저를 꺼내어 정보 갱신을 해야합니다.
         // TODO: 2018. 8. 14. CustomError: UserNotFound
         normalUserRepository.save(
-                normalUserRepository.findByEmailAndDeletedFalse(userDTO.getEmail())
+                normalUserRepository.findByIdAndDeletedFalse(userDTO.getId())
                         .orElseThrow(RuntimeException::new).update(userDTO));
     }
 
