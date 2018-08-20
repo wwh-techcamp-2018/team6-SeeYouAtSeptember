@@ -119,14 +119,7 @@ class ProjectForm {
     projectForm.append("goalFundRaising",this.goalFundRaising);
     projectForm.append("endAt",this.endAt.getTime());
     projectForm.append("productList",products);
-
-    // fetchManager({
-    //   url: "/api/users",
-    //   method: "POST",
-    //   headers: { "content-type": "application/json" },
-    //   body: JSON.stringify(this.joinForm),
-    //   callback: this.join
-    // });
+    //todo project api 통신
   }
 }
 

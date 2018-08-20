@@ -9,5 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ProjectController {
 
     @GetMapping("/start")
-    public String create(){ return "create_project";}
+    public String create() {
+        return "create_project";
+    }
 }

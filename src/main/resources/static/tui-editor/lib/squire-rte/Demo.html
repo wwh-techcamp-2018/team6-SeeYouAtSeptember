@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta charset="UTF-8">
-  <title>HTML Editor Test</title>
-  <style type="text/css" media="screen">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="UTF-8">
+    <title>HTML Editor Test</title>
+    <style type="text/css" media="screen">
   body {
     position: relative;
     margin: 0 auto;
@@ -59,47 +59,48 @@
     margin: 0;
     padding: 0 10px;
   }
-  </style>
+
+    </style>
 </head>
 <body>
 <h1>HTML Editor Test</h1>
 <header>
-  <p>This is a really simple demo, with the most trivial of UI integrations</p>
-  <p>
-  <span id="bold">Bold</span>
-  <span id="removeBold">Unbold</span>
-  <span id="italic">Italic</span>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span id="removeItalic">Unitalic</span>
-  <span id="underline">Underline</span>
-  <span id="removeUnderline">Deunderline</span>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span id="removeAllFormatting">Remove formatting</span>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span id="setFontSize" class="prompt">Font size</span>
-  <span id="setFontFace" class="prompt">Font face</span>
-  </p>
-  <p>
-  <span id="setTextColour" class="prompt">Text colour</span>
-  <span id="setHighlightColour" class="prompt">Text highlight</span>
-  <span id="makeLink" class="prompt">Link</span>
-  </p>
-  <p>
-    <span id="makeHeader">Make Header</span>
-    <span id="increaseQuoteLevel">Quote</span>
-    <span id="decreaseQuoteLevel">Dequote</span>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span id="makeUnorderedList">List</span>
-    <span id="removeList">Unlist</span>
-    <span id="increaseListLevel">Increase list level</span>
-    <span id="decreaseListLevel">Decrease list level</span>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span id="insertImage" class="prompt">Insert image</span>
-  <span id="setHTML" class="prompt">Set HTML</span>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span id="undo">Undo</span>
-    <span id="redo">Redo</span>
-  </p>
+    <p>This is a really simple demo, with the most trivial of UI integrations</p>
+    <p>
+        <span id="bold">Bold</span>
+        <span id="removeBold">Unbold</span>
+        <span id="italic">Italic</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="removeItalic">Unitalic</span>
+        <span id="underline">Underline</span>
+        <span id="removeUnderline">Deunderline</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="removeAllFormatting">Remove formatting</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="setFontSize" class="prompt">Font size</span>
+        <span id="setFontFace" class="prompt">Font face</span>
+    </p>
+    <p>
+        <span id="setTextColour" class="prompt">Text colour</span>
+        <span id="setHighlightColour" class="prompt">Text highlight</span>
+        <span id="makeLink" class="prompt">Link</span>
+    </p>
+    <p>
+        <span id="makeHeader">Make Header</span>
+        <span id="increaseQuoteLevel">Quote</span>
+        <span id="decreaseQuoteLevel">Dequote</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="makeUnorderedList">List</span>
+        <span id="removeList">Unlist</span>
+        <span id="increaseListLevel">Increase list level</span>
+        <span id="decreaseListLevel">Decrease list level</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="insertImage" class="prompt">Insert image</span>
+        <span id="setHTML" class="prompt">Set HTML</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="undo">Undo</span>
+        <span id="redo">Redo</span>
+    </p>
 </header>
 <script type="text/javascript" src="build/squire-raw.js"></script>
 <div id="editor"></div>
@@ -138,6 +139,7 @@
       editor[ id ]( value );
     }
   }, false );
+
 </script>
 </body>
 </html>

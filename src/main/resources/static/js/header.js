@@ -10,18 +10,12 @@ function myProjectClickHandler(evt) {
         [...dropdownDiv.children].forEach(child => {
             closeDropdown(child);
         });
-        // dropdownUl.forEach(child => {
-        //     closeDropdown(child);
-        // });
         dropdownDiv.classList.remove("on");
         return;
     }
     [...dropdownDiv.children].forEach(child => {
         openDropdown(child);
     });
-    // dropdownUl.forEach(child => {
-    //     openDropdown(child);
-    // });
     dropdownDiv.classList.add("on");
 }
 
