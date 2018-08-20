@@ -21,14 +21,14 @@ public class UserService {
 
     public List<UserDTO> getNomalUsers() {
         // TODO: 2018. 8. 14. 만약에 아무 유저도 없는 경우에는 에러로 처리할 것인가 그냥 반환할 것인가?
-        return normalUserRepository.findAllByDeletedFalse().stream()
+        return normalUserRepository.findAll().stream()
                 .map(normalUser -> normalUser.toDTO())
                 .collect(Collectors.toList());
     }
 
     public UserDTO getNormalUser(Long uid) {
         // TODO: 2018. 8. 14. CustomError: UserNotFound
-        return normalUserRepository.findByIdAndDeletedFalse(uid)
+        return normalUserRepository.findById(uid)
                 .map(normalUser -> normalUser.toDTO())
                 .orElseThrow(RuntimeException::new);
     }
@@ -44,21 +44,21 @@ public class UserService {
         // FIXME: 2018. 8. 15. 세션에 기록된 id를 이용해서 DB로부터 유저를 꺼내어 정보 갱신을 해야합니다.
         // TODO: 2018. 8. 14. CustomError: UserNotFound
         normalUserRepository.save(
-                normalUserRepository.findByEmailAndDeletedFalse(userDTO.getEmail())
+                normalUserRepository.findByEmail(userDTO.getEmail())
                         .orElseThrow(RuntimeException::new).update(userDTO));
     }
 
     @Transactional
     public void deleteNormalUserById(Long uid) {
         // TODO: 2018. 8. 14. CustomError: UserNotFound
-        normalUserRepository.findByIdAndDeletedFalse(uid)
+        normalUserRepository.findById(uid)
                 .orElseThrow(RuntimeException::new).delete();
     }
 
     public UserDTO login(UserDTO userDTO) {
         // TODO: 2018. 8. 14. CustomError: UserNotFound
         NormalUser loginUser = normalUserRepository
-                .findByEmailAndDeletedFalse(userDTO.getEmail())
+                .findByEmail(userDTO.getEmail())
                 .orElseThrow(RuntimeException::new);
 
         if (!loginUser.matchPassword(userDTO.getPassword(), passwordEncoder)) {

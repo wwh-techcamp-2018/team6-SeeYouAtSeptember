@@ -3,6 +3,7 @@ package com.woowahan.moduchan.domain.user;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @MappedSuperclass
 @NoArgsConstructor
@@ -17,8 +18,8 @@ public abstract class User {
     protected String password;
     protected String name;
 
-    @Column(columnDefinition = "bool default false")
-    protected boolean deleted = false;
+    @NotNull
+    protected boolean deleted;
 
     public User(String password, String email, String name) {
         this.password = password;
