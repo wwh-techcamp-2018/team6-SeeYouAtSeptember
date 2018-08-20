@@ -1,4 +1,4 @@
-package com.woowahan.moduchan.dto.category;
+package com.woowahan.moduchan.dto.product;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CategoryDTO {
-    private Long id;
-    private String title;
-    private String categoryImageUrl;
+public class ProductDTO {
+    private Long pid;
+    private String name;
+    private Long price;
+    private Long supplyQuantity;
+    private String description;
 }

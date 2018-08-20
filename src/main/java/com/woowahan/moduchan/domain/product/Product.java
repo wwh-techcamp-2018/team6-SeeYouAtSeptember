@@ -1,45 +1,55 @@
 package com.woowahan.moduchan.domain.product;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.woowahan.moduchan.domain.project.Project;
-import lombok.Getter;
+import com.woowahan.moduchan.dto.product.ProductDTO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Getter
+@Where(clause = "deleted <> '1'")
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
     private Long price;
     private Long supplyQuantity;
-
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore
-    private Project project;
 
     @Lob
     private String description;
 
-    @Column(columnDefinition = "bool default false")
+    @ManyToOne
+    @JoinColumn
+    private Project project;
+
+    @NotNull
     private boolean deleted = false;
 
-    public Product addProject(Project project) {
-        this.project = project;
-        return this;
-    }
-
-    public Product erasePid() {
-        this.id = null;
-        return this;
+    public static Product from(ProductDTO productDTO, Project project) {
+        return new ProductBuilder()
+                .name(productDTO.getName())
+                .price(productDTO.getPrice())
+                .supplyQuantity(productDTO.getSupplyQuantity())
+                .description(productDTO.getDescription())
+                .project(project)
+                .deleted(false)
+                .build();
     }
 
     public void delete() {
         this.deleted = true;
+    }
+
+    public ProductDTO toDTO() {
+        return new ProductDTO(id, name, price, supplyQuantity, description);
     }
 }
