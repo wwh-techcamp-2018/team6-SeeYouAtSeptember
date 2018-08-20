@@ -49,8 +49,8 @@ public class ApiCategoryController {
             @ApiResponse(code = 200, message = "조회 성공")
             //error에 대한 설명 추가
     })
-    @GetMapping("/{cid}/page/{pageNo}")
-    public ResponseEntity<List<ProjectGatherDTO>> getCategoryPage(@PathVariable("cid") Long cid, @PathVariable("pageNo") int pageNo) {
-        return new ResponseEntity<>(categoryService.getCategoryPage(cid, pageNo), HttpStatus.OK);
+    @GetMapping("/{cid}/last/{lastIndex}")
+    public ResponseEntity<List<ProjectGatherDTO>> getCategoryPage(@PathVariable("cid") Long cid, @PathVariable("lastIndex") Long lastIndex) {
+        return new ResponseEntity<>(categoryService.getProjects(cid, lastIndex), HttpStatus.OK);
     }
 }
