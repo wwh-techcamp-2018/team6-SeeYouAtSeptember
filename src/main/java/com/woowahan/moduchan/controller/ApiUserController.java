@@ -1,6 +1,8 @@
 package com.woowahan.moduchan.controller;
 
 import com.woowahan.moduchan.dto.UserDTO;
+import com.woowahan.moduchan.exception.UnauthorizedException;
+import com.woowahan.moduchan.security.LoginUser;
 import com.woowahan.moduchan.service.UserService;
 import com.woowahan.moduchan.support.SessionUtil;
 import io.swagger.annotations.ApiOperation;
@@ -52,7 +54,8 @@ public class ApiUserController {
             //error에 대한 설명 추가
     })
     @PostMapping("")
-    public ResponseEntity<Void> createNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO, @ApiIgnore HttpSession session) {
+    public ResponseEntity<Void> createNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO,
+                                                 @ApiIgnore HttpSession session) {
         session.setAttribute(SessionUtil.LOGIN_USER, userService.createNormalUser(userDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -63,8 +66,10 @@ public class ApiUserController {
             @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
             //error에 대한 설명 추가
     })
-    @DeleteMapping("/chk/{uid}")
-    public ResponseEntity<Void> deleteNormalUser(@PathVariable Long uid) {
+    @DeleteMapping("/{uid}")
+    public ResponseEntity<Void> deleteNormalUser(@PathVariable Long uid, @ApiIgnore @LoginUser UserDTO loginUserDTO) {
+        if (loginUserDTO.getId() != uid)
+            throw new UnauthorizedException();
         userService.deleteNormalUserById(uid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -76,9 +81,10 @@ public class ApiUserController {
             @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
             //error에 대한 설명 추가
     })
-    @PutMapping("/chk")
-    public ResponseEntity<Void> updateNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO, @ApiIgnore HttpSession session) {
-        UserDTO loginUserDTO = (UserDTO) session.getAttribute(SessionUtil.LOGIN_USER);
+    @PutMapping("")
+    public ResponseEntity<Void> updateNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO,
+                                                 @ApiIgnore HttpSession session, @ApiIgnore @LoginUser UserDTO loginUserDTO) {
+        // FIXME: 2018. 8. 20. session에 user정보 일부만 담을 경우 update함수를 고쳐야함
         loginUserDTO.update(userDTO);
         userService.updateNormalUser(loginUserDTO);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -91,7 +97,8 @@ public class ApiUserController {
             //error에 대한 설명 추가
     })
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@Validated(UserDTO.LoginValid.class) @RequestBody UserDTO userDTO, @ApiIgnore HttpSession session) {
+    public ResponseEntity<UserDTO> login(@Validated(UserDTO.LoginValid.class) @RequestBody UserDTO userDTO,
+                                         @ApiIgnore HttpSession session) {
         UserDTO loginUserDTO = userService.login(userDTO);
         session.setAttribute(SessionUtil.LOGIN_USER, loginUserDTO);
         return new ResponseEntity<>(loginUserDTO, HttpStatus.OK);

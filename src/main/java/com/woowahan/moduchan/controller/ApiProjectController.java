@@ -1,12 +1,15 @@
 package com.woowahan.moduchan.controller;
 
 import com.woowahan.moduchan.domain.project.Project;
+import com.woowahan.moduchan.dto.UserDTO;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
+import com.woowahan.moduchan.security.LoginUser;
 import com.woowahan.moduchan.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -23,20 +26,23 @@ public class ApiProjectController {
         return new ResponseEntity<>(projectService.getProjects(), HttpStatus.OK);
     }
 
-    @PostMapping("/chk")
-    public ResponseEntity<Void> createProject(HttpSession session, @RequestBody ProjectDTO projectDTO) {
+    @PostMapping("")
+    public ResponseEntity<Void> createProject(HttpSession session, @RequestBody ProjectDTO projectDTO,
+                                              @ApiIgnore @LoginUser UserDTO loginUserDTO) {
         projectService.createProject(projectDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/chk/{pid}")
-    public ResponseEntity<Void> deleteProject(HttpSession session, @PathVariable("pid") Long pid) {
+    @DeleteMapping("/{pid}")
+    public ResponseEntity<Void> deleteProject(HttpSession session, @PathVariable("pid") Long pid,
+                                              @ApiIgnore @LoginUser UserDTO loginUserDTO) {
         projectService.deleteProject(pid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/chk")
-    public ResponseEntity<Project> updateProject(HttpSession session, @RequestBody ProjectDTO projectDTO) {
+    @PutMapping("")
+    public ResponseEntity<Project> updateProject(HttpSession session, @RequestBody ProjectDTO projectDTO,
+                                                 @ApiIgnore @LoginUser UserDTO loginUserDTO) {
         return new ResponseEntity<>(projectService.updateProject(projectDTO), HttpStatus.OK);
     }
 
