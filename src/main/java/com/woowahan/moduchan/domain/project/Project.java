@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.woowahan.moduchan.domain.category.Category;
 import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.user.NormalUser;
+import com.woowahan.moduchan.dto.UserDTO;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.project.ProjectGatherDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
@@ -24,7 +25,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Project extends BaseTimeEntity {
 
-    private static final int CURRENT_DATE = (1000*60*60*24);
+    private static final int CURRENT_DATE = (1000 * 60 * 60 * 24);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -91,8 +92,9 @@ public class Project extends BaseTimeEntity {
         return this;
     }
 
-    public void addProducts(List<Product> productList) {
+    public Project addProducts(List<Product> productList) {
         productList.forEach(product -> this.products.add(product.erasePid().addProject(this)));
+        return this;
     }
 
     public Project updateProject(ProjectDTO projectDTO, Category category) {
@@ -110,17 +112,25 @@ public class Project extends BaseTimeEntity {
         products.forEach(product -> product.delete());
     }
 
-    public ProjectGatherDTO toDTO(){
-        return new ProjectGatherDTO(id,title,owner.getName(),thumbnailUrl, calculatePeriod() , calculateFundraisingAmount());
+    public ProjectGatherDTO toDTO() {
+        return new ProjectGatherDTO(id, title, owner.getName(), thumbnailUrl, calculatePeriod(), getCurrentFunds());
     }
 
-    private Long calculateFundraisingAmount() {
-        return null;
+    public boolean isOwner(UserDTO user) {
+        return id == user.getId();
+    }
+
+    public Long getCurrentFunds() {
+        Long currentFunds = 0L;
+        for (Product product : products) {
+            currentFunds = product.addFunds(currentFunds);
+        }
+        return currentFunds;
     }
 
     private int calculatePeriod() {
-        if(endAt == null) return 0;
-        return (int)(endAt.getTime()-new Date().getTime())/CURRENT_DATE;
+        if (endAt == null) return 0;
+        return (int) (endAt.getTime() - new Date().getTime()) / CURRENT_DATE;
     }
 
     public enum STATUS {

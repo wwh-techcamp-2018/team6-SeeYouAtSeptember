@@ -2,11 +2,11 @@ class CategoryManager {
     constructor() {
         this.categoryList = {};
         this.cid = 0;
-        this.lastPid = 0;
         this.ulTag = $(".categories");
         getData("/api/categories", this.categoriesCallback.bind(this));
-        getData("/api/categories/0/page/0", this.categoryProjectCallback.bind(this));
+        getData("/api/categories/"+this.cid+"/last/0", this.categoryProjectCallback.bind(this));
         this.ulTag.addEventListener("click", this.liClickHandler.bind(this));
+        addEventListenerToTarget($("#more_project_btn"),"click",this.projectsMoreViewHandler.bind(this));
     }
     fillCategoryContentHTML(category) {
         let categoryTemplate = `<li data-category-id="{id}"><img src="{categoryImageUrl}"><p>{title}</p></li>`;
@@ -65,57 +65,78 @@ class CategoryManager {
                               .replace(/{owner}/g, project.owner)
                               .replace(/{period}/g, project.period)
                               .replace(/{fundraisingAmount}/g, project.fundraisingAmount);
-
     }
+
     insertProjectsContentHTML(projects) {
-        const parent = $(".content");
-        
+        const parent = $("#category-content");
         let html = `<ul class="projects">`;
         projects.forEach(project => {
             html += this.fillProjectContentHTML(project);
         })
-        this.lastPid = projects[projects.length - 1].pid;
         html += `</ul>`;
 
         this.eraseTargetdHTML($(".projects"));
         parent.insertAdjacentHTML("beforeend",html);
         this.categoryList[this.cid] = $(".projects");
     }
+
     categoryProjectCallback(response) {
         response.json().then(res => {
             this.insertProjectsContentHTML(res);
         })
     }
+
     viewCategoryProject(target) {
         this.cid = target.getAttribute("data-category-id");
         
         if(this.categoryList[this.cid] !== ''){
             this.eraseTargetdHTML($(".projects"));
-            $(".content").insertAdjacentElement("beforeend",this.categoryList[this.cid]);
+            $("#category-content").insertAdjacentElement("beforeend",this.categoryList[this.cid]);
             return;
         }
 
-        getData("/api/categories/"+this.cid+"/last/"+this.lastPid, this.categoryProjectCallback.bind(this));
+        getData("/api/categories/"+this.cid+"/last/0", this.categoryProjectCallback.bind(this));
     }
+
     removeClassName(classname) {
         const on = $(".on");
-        if(!on) return;
+        if (!on) return;
         on.classList.remove(classname);
     }
-    addClassName(classname, target){
+
+    addClassName(classname, target) {
         target.classList.add(classname);
     }
+
     liClickHandler(evt) {
         evt.preventDefault();
-        if(evt.target.tagName === 'UL' ) return;
+        if (evt.target.tagName === 'UL') return;
 
         const target = evt.target.tagName === 'LI' ? evt.target : evt.target.parentElement;
 
-        if(target.classList.contains("on")) return;
+        if (target.classList.contains("on")) return;
         this.viewCategoryProject(target);
         this.removeClassName("on");
-        this.addClassName("on",target);
+        this.addClassName("on", target);
     }
+
+    projectsMoreViewCallback(response){
+        response.json().then(projects => {
+            const projectListUl = $(".projects");
+            let html =``;
+            projects.forEach(project=>{
+                html += this.fillProjectContentHTML(project);    
+            })
+            projectListUl.insertAdjacentHTML("beforeend",html);
+            this.categoryList[this.cid] = $(".projects");
+        })
+    }
+
+    projectsMoreViewHandler(evt){
+        evt.preventDefault();
+        getData("/api/categories/"+this.cid+"/last/"+$('.projects').lastElementChild.dataset.projectId,this.projectsMoreViewCallback.bind(this));  
+    }
+
 }
 
 

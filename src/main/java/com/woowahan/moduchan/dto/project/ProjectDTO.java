@@ -20,4 +20,8 @@ public class ProjectDTO {
     private Long goalFundRaising;
     private Date endAt;
     private List<Product> productList;
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
 }

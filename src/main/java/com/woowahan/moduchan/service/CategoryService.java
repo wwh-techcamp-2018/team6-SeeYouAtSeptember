@@ -1,7 +1,6 @@
 package com.woowahan.moduchan.service;
 
 import com.woowahan.moduchan.domain.category.Category;
-import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.category.CategoryDTO;
 import com.woowahan.moduchan.dto.project.ProjectGatherDTO;
 import com.woowahan.moduchan.repository.CategoryRepository;
@@ -9,11 +8,8 @@ import com.woowahan.moduchan.repository.ProjectRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +24,7 @@ public class CategoryService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    @Cacheable(value="categories")
+    @Cacheable(value = "categories")
     public List<CategoryDTO> getCategories() {
         return categoryRepository.findAll().stream().map(category -> category.toDTO()).collect(Collectors.toList());
     }
@@ -38,20 +34,29 @@ public class CategoryService {
         return categoryRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-    @Cacheable(value = "projects", condition = "#pageNo<2", key = "#id.toString()+#pageNo.toString()")
-    public List<ProjectGatherDTO> getCategoryPage(Long id, int pageNo) {
-        if (id == 0) {
-            return getTotalCategoryPage(pageNo);
+    public List<ProjectGatherDTO> getProjects(Long cid, Long lastIndex) {
+        if (cid == 0) {
+            return getProjectsOfAllCategory(lastIndex);
         }
-        return projectRepository.findByCategoryAndDeletedFalse(categoryRepository.findById(id).orElse(null),
-                PageRequest.of(pageNo, PAGE_PROJECT_COUNT, new Sort(Sort.Direction.DESC, "createdAt")))
-                .getContent()
+        return getProjectsOfOneCategory(cid, lastIndex);
+    }
+
+    private List<ProjectGatherDTO> getProjectsOfAllCategory(Long lastIndex) {
+        if (lastIndex == 0) {
+            return projectRepository.findTop9ByOrderByIdDesc()
+                    .stream().map(project -> project.toDTO()).collect(Collectors.toList());
+        }
+        return projectRepository.findTop9ByIdLessThanOrderByIdDesc(lastIndex)
                 .stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
 
-    private List<ProjectGatherDTO> getTotalCategoryPage(int pageNo) {
-        return projectRepository.findAllByDeletedFalse(PageRequest.of(pageNo, CategoryService.PAGE_PROJECT_COUNT,
-                new Sort(Sort.Direction.DESC, "createdAt"))).getContent()
+    private List<ProjectGatherDTO> getProjectsOfOneCategory(Long cid, Long lastIndex) {
+        if (lastIndex == 0) {
+            return projectRepository.findTop9ByCategoryOrderByIdDesc(categoryRepository.findById(cid).orElseThrow(RuntimeException::new))
+                    .stream().map(project -> project.toDTO()).collect(Collectors.toList());
+        }
+        return projectRepository
+                .findTop9ByCategoryAndIdLessThanOrderByIdDesc(categoryRepository.findById(cid).orElseThrow(RuntimeException::new), lastIndex)
                 .stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
 }

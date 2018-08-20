@@ -1,6 +1,9 @@
+.idea
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
+
+aws.yml
 
 ### STS ###
 .apt_generated
