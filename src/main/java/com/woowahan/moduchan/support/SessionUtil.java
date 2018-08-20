@@ -12,7 +12,7 @@ public class SessionUtil {
         UserDTO loginUserDTO = (UserDTO) webRequest.getAttribute(LOGIN_USER, WebRequest.SCOPE_SESSION);
         // FIXME: 2018. 8. 20. guestUser 사용시 변경해야함(null->guestUser)
         if (loginUserDTO == null)
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("Need to be login user");
         return loginUserDTO;
     }
 }
