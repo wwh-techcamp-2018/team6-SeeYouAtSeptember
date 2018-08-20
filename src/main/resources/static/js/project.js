@@ -32,10 +32,12 @@ class ProjectForm {
   removeProductCreateFormHandler(evt){
     const maybeRemoveProductBtn = evt.target;
     if(maybeRemoveProductBtn.id === "removeProduct"){
-    
-    this.productList.forEach((product,i)=>{ 
-        if(product.productTag === maybeRemoveProductBtn.parentElement) this.productList.splice(i,1);
-    });
+       
+    for(let product of iterable){
+        if(product.productTag === maybeRemoveProductBtn.parentElement) 
+            this.productList.splice(i,1) 
+            break;
+    }
     
      maybeRemoveProductBtn.parentElement.remove();
     }
