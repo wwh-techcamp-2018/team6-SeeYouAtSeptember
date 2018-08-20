@@ -11,7 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Where(clause = "deleted <> '1'")
+@Where(clause = "deleted=false")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

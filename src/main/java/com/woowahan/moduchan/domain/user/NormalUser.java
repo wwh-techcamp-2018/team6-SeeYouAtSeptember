@@ -22,6 +22,17 @@ public class NormalUser extends User {
         this.address = address;
     }
 
+    public static NormalUser from(UserDTO userDTO) {
+        NormalUserBuilder normalUserBuilder = new NormalUserBuilder();
+        return normalUserBuilder
+                .email(userDTO.getEmail())
+                .password(userDTO.getPassword())
+                .name(userDTO.getName())
+                .phoneNo(userDTO.getPhoneNo())
+                .address(userDTO.getAddress())
+                .build();
+    }
+
     public NormalUser encryptPassword(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
         return this;
@@ -37,17 +48,6 @@ public class NormalUser extends User {
         phoneNo = userDTO.getPhoneNo();
         address = userDTO.getAddress();
         return this;
-    }
-
-    public static NormalUser from(UserDTO userDTO) {
-        NormalUserBuilder normalUserBuilder = new NormalUserBuilder();
-        return normalUserBuilder
-                .email(userDTO.getEmail())
-                .password(userDTO.getPassword())
-                .name(userDTO.getName())
-                .phoneNo(userDTO.getPhoneNo())
-                .address(userDTO.getAddress())
-                .build();
     }
 
     public UserDTO toDTO() {

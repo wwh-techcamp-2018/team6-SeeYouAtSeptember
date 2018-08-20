@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class CategoryService {
-    public static final int PAGE_PROJECT_COUNT = 9;
+    public static final int PROJECTS_PER_PAGE = 9;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -31,7 +31,7 @@ public class CategoryService {
     }
 
     public CategoryDTO getCategory(Long id) {
-        //TODO 카테고리를 찾을때 없으면 커스텀 에러 발생
+        // TODO: 2018. 8. 20. Need custom error: CategoryNotFoundException
         return categoryRepository.findById(id).orElseThrow(RuntimeException::new).toDTO();
     }
 
@@ -41,13 +41,13 @@ public class CategoryService {
             return getTotalCategoryPage(pageNo);
         }
         return projectRepository.findByCategory(categoryRepository.findById(id).orElse(null),
-                PageRequest.of(pageNo, PAGE_PROJECT_COUNT, new Sort(Sort.Direction.DESC, "createdAt")))
+                PageRequest.of(pageNo, PROJECTS_PER_PAGE, new Sort(Sort.Direction.DESC, "createdAt")))
                 .getContent()
                 .stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
 
     private List<ProjectDTO> getTotalCategoryPage(int pageNo) {
-        return projectRepository.findAll(PageRequest.of(pageNo, CategoryService.PAGE_PROJECT_COUNT,
+        return projectRepository.findAll(PageRequest.of(pageNo, CategoryService.PROJECTS_PER_PAGE,
                 new Sort(Sort.Direction.DESC, "createdAt"))).getContent()
                 .stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
