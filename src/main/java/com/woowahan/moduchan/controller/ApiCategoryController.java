@@ -1,8 +1,7 @@
 package com.woowahan.moduchan.controller;
 
-import com.woowahan.moduchan.domain.category.Category;
 import com.woowahan.moduchan.dto.category.CategoryDTO;
-import com.woowahan.moduchan.dto.project.ProjectGatherDTO;
+import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,17 +21,17 @@ public class ApiCategoryController {
     private CategoryService categoryService;
 
     @GetMapping("")
-    public ResponseEntity<List<CategoryDTO>> list() {
+    public ResponseEntity<List<CategoryDTO>> getCategories() {
         return new ResponseEntity<>(categoryService.getCategories(), HttpStatus.OK);
     }
 
     @GetMapping("/{cid}")
-    public ResponseEntity<Category> getCategory(@PathVariable("cid") Long cid) {
-        return new ResponseEntity<>(categoryService.geCategory(cid), HttpStatus.OK);
+    public ResponseEntity<CategoryDTO> getCategory(@PathVariable Long cid) {
+        return new ResponseEntity<>(categoryService.getCategory(cid), HttpStatus.OK);
     }
 
     @GetMapping("/{cid}/page/{pageNo}")
-    public ResponseEntity<List<ProjectGatherDTO>> getCategoryPage(@PathVariable("cid") Long cid, @PathVariable("pageNo") int pageNo) {
+    public ResponseEntity<List<ProjectDTO>> getCategoryPage(@PathVariable Long cid, @PathVariable int pageNo) {
         return new ResponseEntity<>(categoryService.getCategoryPage(cid, pageNo), HttpStatus.OK);
     }
 }

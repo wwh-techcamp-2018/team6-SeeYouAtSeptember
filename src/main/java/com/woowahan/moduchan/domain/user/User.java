@@ -1,25 +1,25 @@
 package com.woowahan.moduchan.domain.user;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @MappedSuperclass
-@Getter
 @NoArgsConstructor
 public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    protected String password;
 
     @Column(unique = true)
     protected String email;
+
+    protected String password;
     protected String name;
 
-    @Column(columnDefinition = "bool default false")
-    protected boolean deleted = false;
+    @NotNull
+    protected boolean deleted;
 
     public User(String password, String email, String name) {
         this.password = password;
