@@ -25,7 +25,6 @@ public class Product {
 
     @Lob
     private String description;
-
     @Column(columnDefinition = "bool default false")
     private boolean deleted = false;
 
