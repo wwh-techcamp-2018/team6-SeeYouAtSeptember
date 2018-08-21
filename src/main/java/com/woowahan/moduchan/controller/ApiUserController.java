@@ -1,6 +1,6 @@
 package com.woowahan.moduchan.controller;
 
-import com.woowahan.moduchan.dto.UserDTO;
+import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.exception.UnauthorizedException;
 import com.woowahan.moduchan.security.LoginUser;
 import com.woowahan.moduchan.service.UserService;
@@ -30,28 +30,28 @@ public class ApiUserController {
     @ApiOperation(value = "일반 유저 전체 조회", notes = "모든 일반 유저의 정보를 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "조회 성공")
-            //error에 대한 설명 추가
+            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
     })
     @GetMapping("")
     public ResponseEntity<List<UserDTO>> getNormalUsers() {
-        return new ResponseEntity<>(userService.findAllNomalUser(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getNomalUsers(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "일반 유저 조회", notes = "특정 일반 유저의 정보를 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "조회 성공")
-            //error에 대한 설명 추가
+            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
     })
     @GetMapping("/{uid}")
     public ResponseEntity<UserDTO> getNormalUser(@PathVariable Long uid) {
-        return new ResponseEntity<>(userService.findNormalUserById(uid), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getNormalUser(uid), HttpStatus.OK);
     }
 
     @ApiOperation(value = "일반 유저 생성", notes = "일반 유저를 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "생성 성공"),
             @ApiResponse(code = 400, message = "유효성 검사 실패")
-            //error에 대한 설명 추가
+            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
     })
     @PostMapping("")
     public ResponseEntity<Void> createNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO,
@@ -64,11 +64,11 @@ public class ApiUserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "삭제 성공"),
             @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
-            //error에 대한 설명 추가
+            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
     })
     @DeleteMapping("/{uid}")
     public ResponseEntity<Void> deleteNormalUser(@PathVariable Long uid, @ApiIgnore @LoginUser UserDTO loginUserDTO) {
-        if (loginUserDTO.getId() != uid)
+        if (loginUserDTO.getUid() != uid)
             throw new UnauthorizedException();
         userService.deleteNormalUserById(uid);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -79,14 +79,14 @@ public class ApiUserController {
             @ApiResponse(code = 200, message = "갱신 성공"),
             @ApiResponse(code = 400, message = "유효성 검사 실패"),
             @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
-            //error에 대한 설명 추가
+            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
     })
     @PutMapping("")
     public ResponseEntity<Void> updateNormalUser(@Validated(UserDTO.JoinValid.class) @RequestBody UserDTO userDTO,
                                                  @ApiIgnore @LoginUser UserDTO loginUserDTO) {
         // FIXME: 2018. 8. 20. session에 user정보 일부만 담을 경우 update함수를 고쳐야함
         loginUserDTO.update(userDTO);
-        userService.updateNormalUser(loginUserDTO);
+        session.setAttribute(SessionUtil.LOGIN_USER, userService.updateNormalUser(loginUserDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -94,7 +94,7 @@ public class ApiUserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "로그인 성공"),
             @ApiResponse(code = 400, message = "유효성 검사 실패")
-            //error에 대한 설명 추가
+            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
     })
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@Validated(UserDTO.LoginValid.class) @RequestBody UserDTO userDTO,

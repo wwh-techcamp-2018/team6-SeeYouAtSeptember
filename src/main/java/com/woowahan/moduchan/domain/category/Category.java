@@ -2,14 +2,12 @@ package com.woowahan.moduchan.domain.category;
 
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.category.CategoryDTO;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Getter
 @NoArgsConstructor
 public class Category {
     @Id

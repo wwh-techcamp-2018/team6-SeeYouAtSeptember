@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -27,18 +28,22 @@ public class ProjectService {
     @Autowired
     private NormalUserRepository normalUserRepository;
 
-    public List<Project> getProjects() {
-        return projectRepository.findAll();
+    public List<ProjectDTO> getProjects() {
+        return projectRepository.findAll().stream()
+                .map(project -> project.toDTO())
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public void createProject(ProjectDTO projectDTO) {
         // TODO: 2018. 8. 15. 유저 찾아서 넣기
         // TODO: 2018. 8. 15. 커스텀 에러 생성
-        projectRepository.save(Project.from(projectDTO)
-                .addCategory(categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new))
-                .addUser((null)))
-                .addProducts(projectDTO.getProductList());
+        Project newProject = Project.from(
+                projectDTO,
+                categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new),
+                null);
+        projectDTO.getProducts().stream().forEach(productDTO -> newProject.addProduct(productDTO));
+        projectRepository.save(newProject);
     }
 
     @Transactional
@@ -49,10 +54,11 @@ public class ProjectService {
     }
 
     @Transactional
-    public Project updateProject(ProjectDTO projectDTO) {
+    public ProjectDTO updateProject(ProjectDTO projectDTO) {
         // TODO: 2018. 8. 15. 커스텀 에러 생성
         // TODO: 2018. 8. 16. 해당 유저인지 확인
         return projectRepository.findById(projectDTO.getPid()).orElseThrow(RuntimeException::new)
-                .updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new));
+                .updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new))
+                .toDTO();
     }
 }

@@ -16,6 +16,6 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return SessionUtil.GetLoginUserFromWebRequest(webRequest);
+        return SessionUtil.getLoginUserFromWebRequest(webRequest);
     }
 }
