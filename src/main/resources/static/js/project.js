@@ -1,3 +1,4 @@
+test=''
 class ProjectForm {
   constructor() {
     this.productList = [];
@@ -109,18 +110,24 @@ class ProjectForm {
     this.productList.forEach(product=>{
         products.push(product.validProductAll());
     })
-    
+
     const projectForm = new FormData();
 
-    projectForm.append("title",this.title);
-    projectForm.append("description",editor.getHtml());
+    const project = {
+        "title":this.title,
+        "decription":editor.getHtml(),
+        "goalFundRaising":this.goalFundRaising,
+        "cid":$('.categories_dropbox select').value,
+        "endAt":this.endAt.getTime(),
+        "products": JSON.stringify(products)
+    };
+
+    projectForm.append("projectDto",JSON.stringify(project));
     if (this.thumbnailUrl !== undefined) {
         projectForm.append("thumbnailUrl",this.thumbnailUrl);
     }
-    projectForm.append("goalFundRaising",this.goalFundRaising);
-    projectForm.append("endAt",this.endAt.getTime());
-    projectForm.append("productList",products);
-    
+    console.log(products);
+    test = projectForm
   }
 }
 

@@ -18,6 +18,14 @@
         <input type="file">
     </div>
     <div class="projects_form_detail">
+        <div class="categories_dropbox">
+            <span>카테고리 설정:</span>
+            <select>
+                {{#categories}}
+                <option value="{{id}}">{{title}}</option>
+                {{/categories}}
+            </select>
+        </div>
         <div class="projects_form detail title">
             <span>제목 :</span><input type="text" id="projects_title_input">
         </div>
