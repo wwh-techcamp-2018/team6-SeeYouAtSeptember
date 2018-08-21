@@ -8,6 +8,7 @@ import com.woowahan.moduchan.dto.product.ProductDTO;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
+import com.woowahan.moduchan.support.S3Util;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -85,6 +86,7 @@ public class Project extends BaseTimeEntity {
         this.thumbnailUrl = projectDTO.getThumbnailUrl();
         this.title = projectDTO.getTitle();
         this.category = category;
+        updateProducts(projectDTO.getProducts());
         return this;
     }
 
@@ -116,7 +118,20 @@ public class Project extends BaseTimeEntity {
     public String getFileName() {
         if (thumbnailUrl == null)
             return null;
-        return thumbnailUrl.substring(thumbnailUrl.lastIndexOf("/") + 1);
+        return S3Util.DIR_NAME + thumbnailUrl.substring(thumbnailUrl.lastIndexOf(S3Util.SLASH));
+    }
+
+    private void updateProducts(List<ProductDTO> productDTOs) {
+        products.stream().filter(product -> product.isDeleted())
+                .forEach(product -> {
+                    if (productDTOs.size() == 0)
+                        product.delete();
+
+                    if (product.update(productDTOs.get(0))) {
+                        productDTOs.remove(0);
+                    }
+                });
+        productDTOs.forEach(productDTO -> products.add(Product.from(productDTO, this)));
     }
 
     public enum STATUS {

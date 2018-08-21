@@ -50,9 +50,8 @@ public class ApiProjectController {
             // TODO: 2018. 8. 21.  error에 대한 설명 추가
     })
     @PostMapping(value = "")
-    public ResponseEntity<Void> createProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestParam("file") MultipartFile multipartFile,
-                                              @RequestParam(value = "project") ProjectDTO projectDTO) throws IOException {
-        projectService.createProject(projectDTO, loginUserDTO, multipartFile);
+    public ResponseEntity<Void> createProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProjectDTO projectDTO) {
+        projectService.createProject(projectDTO, loginUserDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -77,9 +76,8 @@ public class ApiProjectController {
             // TODO: 2018. 8. 21.  error에 대한 설명 추가
     })
     @PutMapping("")
-    public ResponseEntity<ProjectDTO> updateProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestPart(value = "project") ProjectDTO projectDTO,
-                                                    @RequestPart("file") MultipartFile multipartFile) throws IOException {
-        return new ResponseEntity<>(projectService.updateProject(projectDTO, loginUserDTO, multipartFile), HttpStatus.OK);
+    public ResponseEntity<ProjectDTO> updateProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProjectDTO projectDTO) {
+        return new ResponseEntity<>(projectService.updateProject(projectDTO, loginUserDTO), HttpStatus.OK);
     }
 
     @ApiOperation(value = "에디터 이미지 업로드", notes = "에디터 이미지를 업로드합니다.")
@@ -89,8 +87,9 @@ public class ApiProjectController {
             // TODO: 2018. 8. 21.  error에 대한 설명 추가
     })
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadEditorImage(@ApiIgnore @LoginUser UserDTO loginUserDTO, MultipartFile multipartFile) throws IOException {
-        return new ResponseEntity<>(projectService.uploadImage(multipartFile), HttpStatus.OK);
+    public ResponseEntity<String> uploadEditorImage(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestPart("file") MultipartFile multipartFile,
+                                                    @RequestParam("previousFileUrl") String previousFileUrl) throws IOException {
+        return new ResponseEntity<>(projectService.uploadImage(multipartFile, previousFileUrl), HttpStatus.OK);
     }
 
     @ApiOperation(value = "후원", notes = "상품을 후원합니다.")

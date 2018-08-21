@@ -130,7 +130,7 @@ class ProjectForm {
     // fetchManager({
     //     url : "/api/projects",
     //     method : "POST",
-    //     body : projectForm , 
+    //     body : projectForm ,
     //     headers :{"content-type": "multipart/form-data"},
     //     callback : this.createProjectCallback.bind(this)
     // })
