@@ -2,29 +2,22 @@
 {{#block "header"}}
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
 <link rel="stylesheet" type="text/css" href="/css/project-detail.css">
-<link rel="stylesheet" href="/tui-editor/lib/codemirror/lib/codemirror.css">
-<link rel="stylesheet" href="/tui-editor/lib/highlightjs/styles/github.css">
-<link rel="stylesheet" href="/tui-editor/dist/tui-editor.css">
-<link rel="stylesheet" href="/tui-editor/dist/tui-editor-contents.css">
-<link rel="stylesheet" href="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.css">
-<link rel="stylesheet" href="/tui-editor/lib/tui-chart/dist/tui-chart.css">
 {{/block}}
 {{#block "contents"}}
-{{#project}}
 <div id="project-detail">
     <div class="project-detail-grid" id="row1">
         <div class="thumbnail-container container">
-            <img class="thumbnail-img" src="{{imgUrl}}">
+            <img class="thumbnail-img" src="https://cdn.bmf.kr/_data/product/IDB51/267a850c3eac55e222d5bc920673a581.jpg">
         </div>
         <div class="summary-container container">
             <div id="state-box">
-                <p class="remainning-day">remianningDay}}</p>
+                <p class="remainning-day">30일 남음</p>
                 <div class="progress">
-                    <span style="width:25%"></span>
+                    <span style="width:55%"></span>
                 </div>
-                <p class="achievement-rate"><strong>rate}}</strong> 달성</p>
-                <p class="total-fundraising"><strong>totalFundraising}}</strong> 후원</p>
-                <p class="total-supporter"><strong>totalSupporter}}</strong>명의 후원</p>
+                <p class="achievement-rate"><strong>70%</strong> 달성</p>
+                <p class="total-fundraising"><strong>1,000,000원</strong> 후원</p>
+                <p class="total-supporter"><strong>32</strong>명의 후원</p>
             </div>
             <button class="support-btn">후원하기</button>
         </div>
@@ -32,8 +25,7 @@
     <div class="separator"></div>
     <div class="project-detail-grid" id="row2">
         <div class="description-container container">
-            <div class="description-viewer" data-description="{{description}}">
-                <div id="viewer-section"></div>
+            <div class="description-viewer">
                 <p style="font-size: 150px; margin: 0.5em; text-align: center">설</p>
                 <p style="font-size: 150px; margin: 0.5em; text-align: center">명</p>
                 <p style="font-size: 150px; margin: 0.5em; text-align: center">구</p>
@@ -45,8 +37,7 @@
                 <p>후원목록</p>
             </div>
             <div class="product-list">
-                {{#project.products}}
-                <div class="product-btn" data-product-id="{{id}}">
+                <div class="product-btn">
                     <div class="product-info-container">
                         <div class="product-info-title">프로덕트 제목</div>
                         <div class="product-info-description">
@@ -68,25 +59,36 @@
                         </div>
                     </div>
                 </div>
-                {{/project.products}}
+
+                <div class="product-btn">
+                    <div class="product-info-container">
+                        <div class="product-info-title">프로덕트 제목</div>
+                        <div class="product-info-description">
+                            프로덕트 설명<br>
+                            프로덕트 설명<br>
+                            프로덕트 설명
+                        </div>
+                        <div class="product-info-price">
+                            가격<br>
+                            <strong>5,800원</strong>
+                        </div>
+                        <div class="product-info-delivery">
+                            배송비<br>
+                            <strong>0원</strong>
+                        </div>
+                        <div class="product-info-quantity">
+                            <span>제한수량 10개 현재 3개 남음</span>
+                            <span style="display: none;">재고가 모두 소진되었습니다.</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
-{{/project}}
 {{/block}}
 {{#block "footer"}}
-<script src="/tui-editor/lib/jquery/dist/jquery.js"></script>
-<script src="/tui-editor/lib/markdown-it/dist/markdown-it.js"></script>
-<script src="/tui-editor/lib/to-mark/dist/to-mark.js"></script>
-<script src="/tui-editor/lib/tui-code-snippet/dist/tui-code-snippet.js"></script>
-<script src="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.js"></script>
-<script src="/tui-editor/lib/codemirror/lib/codemirror.js"></script>
-<script src="/tui-editor/lib/highlightjs/highlight.pack.js"></script>
-<script src="/tui-editor/lib/squire-rte/build/squire-raw.js"></script>
-<script src="/tui-editor/lib/raphael/raphael.js"></script>
-<script src="/tui-editor/lib/tui-chart/dist/tui-chart.js"></script>
-<script src="/tui-editor/dist/tui-editor-Viewer.js"></script>
-<script src="/js/common.js"></script>
-<script src="/js/project_detail.js"></script>
+<!--<script src="/js/common.js"></script>-->
+<!--<script src="/js/user.js"></script>-->
 {{/block}}

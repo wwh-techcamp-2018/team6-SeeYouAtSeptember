@@ -28,7 +28,6 @@ INSERT INTO CATEGORY (title, category_image_url) VALUES ('생선반찬','http://
 INSERT INTO CATEGORY (title, category_image_url) VALUES ('간식','http://blog.samsunghospital.com/wp-content/uploads/2016/12/20160321_03.jpg');
 INSERT INTO CATEGORY (title, category_image_url) VALUES ('기타','https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Guitar_1.jpg/300px-Guitar_1.jpg');
 
-
 INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,created_at, end_at, goal_fund_raising, deleted) VALUES ('[리쿡54] 꼬시래기무침 200g', '꼬들꼬들한 식감에 새콤달콤한 꼬시래기 무침 ', 'https://cdn.bmf.kr/_data/product/IDB51/267a850c3eac55e222d5bc920673a581.jpg', 1, 1,'2018-08-10T06:10:15.790Z','2018-08-20T06:10:15.790Z',1000, false);
 INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,created_at, end_at, goal_fund_raising, deleted) VALUES ('[진가네반찬] 창란무무침 200g', '두고두고 먹는 매콤달콤 밥반찬 ', 'https://cdn.bmf.kr/_data/product/I3EC1/1b2fb12bdc49a34eb8fa0d7e7e9cedfb.jpg',1, 1,'2018-01-20T06:10:15.790Z','2018-08-20T06:10:15.790Z',1000, false);
 INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,created_at, end_at, goal_fund_raising, deleted) VALUES ('[리쿡54] 오이지 200g', '냉국으로 즐겨도 손색없는 오이지',  'https://cdn.bmf.kr/_data/product/IFA25/cfad500e3b2d6799592b28a3523165d5.jpg',2, 1,'2018-08-01T06:10:15.790Z','2018-08-17T06:10:15.790Z',2000, false);
@@ -43,5 +42,9 @@ INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,cr
 INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,created_at, end_at, goal_fund_raising, deleted) VALUES ('[마더앤찬] 담백한 곤드레나물 150g', '고소하면서도 깔끔한 곤드레나물',  'https://cdn.bmf.kr/_data/product/H1EDE/99f7884af08d069eb21812a7b6437b28.jpg',1, 4,'2018-08-24T06:10:15.790Z','2018-08-24T06:10:15.790Z',1000, false);
 INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,created_at, end_at, goal_fund_raising, deleted) VALUES ('[탐나는밥상] 건부지갱이볶음 150g', '향이 진하고 식감이 부드러운 울릉도 특산 나물',  'https://cdn.bmf.kr/_data/product/I04CB/d134acd4146533b98538b1047081a5d4.jpg',2, 5,'2018-08-24T06:10:15.790Z','2018-08-30T06:10:15.790Z',1000, false);
 
-
-
+INSERT INTO PRODUCT (description, price, supply_quantity, project_id, deleted) VALUES ('설명부분', 5800, 500, 1, false);
+INSERT INTO PRODUCT (description, price, supply_quantity, project_id, deleted) VALUES ('설명부분', 5800, 500, 1, false);
+INSERT INTO PRODUCT (description, price, supply_quantity, project_id, deleted) VALUES ('설명부분', 5800, 500, 1, false);
+INSERT INTO PRODUCT (description, price, supply_quantity, project_id, deleted) VALUES ('설명부분', 5800, 500, 1, false);
+INSERT INTO PRODUCT (description, price, supply_quantity, project_id, deleted) VALUES ('설명부분', 5800, 500, 1, false);
+INSERT INTO PRODUCT (description, price, supply_quantity, project_id, deleted) VALUES ('설명부분', 5800, 500, 1, false);
