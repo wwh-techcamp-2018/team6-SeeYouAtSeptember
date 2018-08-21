@@ -1,4 +1,3 @@
-test = '';
 class CategoryManager {
     constructor() {
         this.categoryList = {};
@@ -6,7 +5,8 @@ class CategoryManager {
         this.ulTag = $(".categories");
         getData("/api/categories", this.categoriesCallback.bind(this));
         getData("/api/categories/"+this.currentCid+"/last/0", this.categoryProjectCallback.bind(this));
-        this.ulTag.addEventListener("click", this.liClickHandler.bind(this));
+        addEventListenerToTarget(this.ulTag,"click",this.liClickHandler.bind(this));
+        addEventListenerToTarget($("#more_project_btn"),"click",this.projectsMoreViewHandler.bind(this));
     }
 
     fillCategoryContentHTML(category) {
@@ -34,13 +34,12 @@ class CategoryManager {
 
     categoryProjectCallback(response) {
         response.json().then(projects => {
-            this.addCategoryList(projects);
+            this.addCategory(projects);
         })
     }
 
-    addCategoryList(projects){
+    addCategory(projects){
         this.categoryList[this.currentCid] = new Category(projects,this.currentCid);
-        test = this.categoryList;
     }
 
     viewCategoryProject(target) {
@@ -76,13 +75,17 @@ class CategoryManager {
         this.removeClassName("on");
         this.addClassName("on", target);
     }
+
+    projectsMoreViewHandler(evt){
+        evt.preventDefault();
+        this.categoryList[this.currentCid].projectsMoreViewApiManager(this.currentCid);
+    }
+
 }
 
 class Category{
-    constructor(projects,cid){
-        this.cid = cid;
+    constructor(projects){
         this.insertProjectsContentHTML(projects);
-        addEventListenerToTarget($("#more_project_btn"),"click",this.projectsMoreViewHandler.bind(this));
     }
 
     fillProjectContentHTML(project) {
@@ -146,14 +149,13 @@ class Category{
         })
     }
 
-    projectsMoreViewHandler(evt){
-        evt.preventDefault();
-        getData("/api/categories/"+this.cid+"/last/"+$('.projects').lastElementChild.dataset.projectId,this.projectsMoreViewCallback.bind(this));  
+    projectsMoreViewApiManager(cid){
+        getData("/api/categories/"+cid+"/last/"+$('.projects').lastElementChild.dataset.projectId,this.projectsMoreViewCallback.bind(this));  
     }
 }
 
 
 
 window.addEventListener("DOMContentLoaded", () => {
-   test = new CategoryManager();
+        new CategoryManager();
 })

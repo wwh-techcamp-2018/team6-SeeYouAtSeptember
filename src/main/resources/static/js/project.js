@@ -119,12 +119,12 @@ class ProjectForm {
     projectForm.append("goalFundRaising",this.goalFundRaising);
     projectForm.append("endAt",this.endAt.getTime());
     projectForm.append("productList",products);
-    //todo project api 통신
+    
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  projectForm = new ProjectForm();
+  new ProjectForm();
   editor = new tui.Editor({
     el: document.querySelector("#editSection"),
     initialEditType: "markdown",
