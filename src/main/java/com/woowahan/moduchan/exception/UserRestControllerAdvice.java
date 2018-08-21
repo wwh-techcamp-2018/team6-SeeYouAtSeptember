@@ -31,7 +31,6 @@ public class UserRestControllerAdvice {
     @ExceptionHandler(PasswordNotMatchedException.class)
     public ResponseEntity<Void> passwordNotMatched(PasswordNotMatchedException exception) {
         log.debug("[PasswordNotMatched] {}", exception.getMessage());
-        // TODO: 2018. 8. 21. BAD_REQUEST VS UNAUTHORIZED
-        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 }

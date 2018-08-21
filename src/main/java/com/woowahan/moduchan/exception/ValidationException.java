@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class CategoryRestControllerAdvice {
+public class ValidationException {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> categoryNotFound(MethodArgumentNotValidException exception) {
+    public ResponseEntity<String> validationException(MethodArgumentNotValidException exception) {
         log.debug("[MethodArgumentNotValidException] {}", exception.getMessage());
         return new ResponseEntity(exception.getBindingResult().getAllErrors(), HttpStatus.BAD_REQUEST);
     }
