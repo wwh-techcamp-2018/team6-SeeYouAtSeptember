@@ -1,6 +1,6 @@
 class CategoryManager {
     constructor() {
-        this.categoryList = {};
+        this.categories = {};
         this.currentCid = 0;
         this.ulTag = $(".categories");
         getData("/api/categories", this.categoriesCallback.bind(this));
@@ -20,7 +20,7 @@ class CategoryManager {
         let html = ``;
         res.forEach(category => {
             html += this.fillCategoryContentHTML(category);
-            this.categoryList[category.id] = null; 
+            this.categories[category.id] = null; 
         })
         this.ulTag.insertAdjacentHTML("beforeend", html);
     }
@@ -28,7 +28,7 @@ class CategoryManager {
     categoriesCallback(response) {
         response.json().then(res => {
             this.insertCategoriesContentHTML(res);
-            this.addClassName("on", this.ulTag.firstElementChild);
+            addClassName("on", this.ulTag.firstElementChild);
         })
     }
 
@@ -39,29 +39,19 @@ class CategoryManager {
     }
 
     addCategory(projects){
-        this.categoryList[this.currentCid] = new Category(projects,this.currentCid);
+        this.categories[this.currentCid] = new Category(projects,this.currentCid);
     }
 
     viewCategoryProject(target) {
-        this.currentCid = target.getAttribute("data-category-id");
+        this.currentCid = target.dataset.categoryId;
        
-        if(this.categoryList[this.currentCid] !== null){
-            eraseTargetdHTML($(".projects"));
-            $("#category-content").insertAdjacentElement("beforeend",this.categoryList[this.currentCid].categoryChildProductsTag);
+        if(this.categories[this.currentCid] !== null){
+            eraseHTML($(".projects"));
+            $("#category-content").insertAdjacentElement("beforeend",this.categories[this.currentCid].categoryChildProductsTag);
             return;
         }
 
         getData("/api/categories/"+this.currentCid+"/last/0", this.categoryProjectCallback.bind(this));
-    }
-
-    removeClassName(classname) {
-        const on = $(".on");
-        if (!on) return;
-        on.classList.remove(classname);
-    }
-
-    addClassName(classname, target) {  
-        target.classList.add(classname);
     }
 
     liClickHandler(evt) {
@@ -72,13 +62,13 @@ class CategoryManager {
 
         if (target.classList.contains("on")) return;
         this.viewCategoryProject(target);
-        this.removeClassName("on");
-        this.addClassName("on", target);
+        removeClassName("on",$('.on'));
+        addClassName("on", target);
     }
 
     projectsMoreViewHandler(evt){
         evt.preventDefault();
-        this.categoryList[this.currentCid].projectsMoreViewApiManager(this.currentCid);
+        this.categories[this.currentCid].projectsMoreViewApiManager(this.currentCid);
     }
 
 }
@@ -130,7 +120,7 @@ class Category{
         })
         html += `</ul>`;
         
-        eraseTargetdHTML($(".projects"));
+        eraseHTML($(".projects"));
         $("#category-content").insertAdjacentHTML("beforeend",html);
         this.categoryChildProductsTag = $('.projects');
     }

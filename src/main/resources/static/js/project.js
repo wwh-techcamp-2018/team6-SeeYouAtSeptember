@@ -34,9 +34,10 @@ class ProjectForm {
     if(maybeRemoveProductBtn.id === "removeProduct"){
        
     for(let product of iterable){
-        if(product.productTag === maybeRemoveProductBtn.parentElement) 
+        if(product.productTag === maybeRemoveProductBtn.parentElement){ 
             this.productList.splice(i,1) 
             break;
+        }
     }
     
      maybeRemoveProductBtn.parentElement.remove();
@@ -46,7 +47,7 @@ class ProjectForm {
   validProjectAll() {
     this.validProjectList = [
       this.validTitle.bind(this),
-      this.validendAt.bind(this),
+      this.validEndAt.bind(this),
       this.validGoalFundRaising.bind(this)
     ];
 
@@ -63,7 +64,7 @@ class ProjectForm {
     return this.title.length >= minTitleLength;
   }
 
-  validendAt() {
+  validEndAt() {
     this.endAt = new Date($("#projects_endAt_input").value);
     this.currentDate = new Date();
     this.currentDate.setDate(this.currentDate.getDate() + 30);
@@ -80,7 +81,7 @@ class ProjectForm {
     if (evt.target.id === "projects_title_input") this.validTitle();
     if (evt.target.id === "projects_goalFundRaising_input")
       this.validGoalFundRaising();
-    if (evt.target.id === "projects_endAt_input") this.validendAt();
+    if (evt.target.id === "projects_endAt_input") this.validEndAt();
   }
 
   insertImgFile(evt) {

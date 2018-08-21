@@ -42,7 +42,7 @@ public class ProjectService {
     @Transactional
     public void createProject(ProjectDTO projectDTO, UserDTO writer, MultipartFile multipartFile) throws IOException {
         // TODO: 2018. 8. 15. 커스텀 에러 생성
-        projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, "static"));
+        projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, S3Util.DIR_NAME));
         Project newProject = Project.from(
                 projectDTO,
                 categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new),
@@ -63,17 +63,15 @@ public class ProjectService {
     }
 
     @Transactional
-    public ProjectDTO updateProject(ProjectDTO projectDTO, UserDTO user, MultipartFile multipartFile) throws IOException {
+    public ProjectDTO updateProject(ProjectDTO projectDTO, UserDTO userDTO, MultipartFile multipartFile) throws IOException {
         // TODO: 2018. 8. 15. 커스텀 에러 생성
         Project project = projectRepository.findById(projectDTO.getPid()).orElseThrow(RuntimeException::new);
-        if (!project.isOwner(user)) {
-            // TODO: 2018. 8. 19.  커스텀 에러 생성
+        if (!project.isOwner(userDTO)) {
             throw new RuntimeException();
         }
-        String fileName = project.getFileName();
-        if (fileName != multipartFile.getName()) {
-            s3Util.removeFileFromS3(fileName);
-            projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, "static"));
+        if (multipartFile != null) {
+            s3Util.removeFileFromS3(project.getFileName());
+            projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, S3Util.DIR_NAME));
         }
         // TODO: 2018. 8. 21. product 수정 가능하도록 바꾸기
         return projectRepository.findById(projectDTO.getPid()).orElseThrow(RuntimeException::new)

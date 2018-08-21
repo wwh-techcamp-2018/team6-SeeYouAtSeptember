@@ -27,7 +27,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/projects")
 public class ApiProjectController {
-    // TODO: 2018. 8. 16. 스웨거 정리
     @Autowired
     private ProjectService projectService;
 

@@ -93,8 +93,8 @@ public class Project extends BaseTimeEntity {
         products.forEach(product -> product.delete());
     }
 
-    public boolean isOwner(UserDTO user) {
-        return id == user.getUid();
+    public boolean isOwner(UserDTO userDTO) {
+        return id == userDTO.getUid();
     }
 
     public ProjectDTO toDTO() {

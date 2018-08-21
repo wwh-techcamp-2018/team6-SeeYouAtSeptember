@@ -11,12 +11,4 @@ public class ProductUserMapDTO {
     private Long uid;
     @ApiModelProperty(example = "1", position = 2)
     private Long quantity;
-
-    public void setUid(Long id) {
-        this.uid = id;
-    }
-
-    public void setPid(Long pid) {
-        this.pid = pid;
-    }
 }

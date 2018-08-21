@@ -25,10 +25,10 @@ public class ProductUserMapService {
 
     public void donateProduct(UserDTO loginUser, ProductUserMapDTO productUserMapDTO) {
         // TODO: 2018. 8. 19. user없을 때 custom exception 발생
-        ProductUserMap productUserMap = productUserMapRepository.save(
-                ProductUserMap.from(productUserMapDTO,
-                        normalUserRepository.findById(productUserMapDTO.getUid()).orElseThrow(RuntimeException::new))
-                        .addProduct(productRepository.findByIdAndDeletedFalse(productUserMapDTO.getPid())));
+        productUserMapRepository.save(
+                new ProductUserMap(productRepository.findById(productUserMapDTO.getPid()).orElseThrow(RuntimeException::new),
+                        normalUserRepository.findById(productUserMapDTO.getUid()).orElseThrow(RuntimeException::new)
+                        , productUserMapDTO.getQuantity()));
     }
 
     public void cancelDonateProduct(UserDTO userDTO, Long pid) {
