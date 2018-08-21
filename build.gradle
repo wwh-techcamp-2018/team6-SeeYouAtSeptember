@@ -40,7 +40,7 @@ dependencies {
 	compile('org.springframework.cloud:spring-cloud-starter-aws')
 	runtime('com.h2database:h2')
 	runtime('net.rakugakibox.spring.boot:logback-access-spring-boot-starter:+')
-	compileOnly('org.projectlombok:lombok')
+	compileOnly('org.projectlombok:lombok:+')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
