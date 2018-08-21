@@ -1,8 +1,7 @@
 package com.woowahan.moduchan.service;
 
-import com.woowahan.moduchan.domain.category.Category;
 import com.woowahan.moduchan.dto.category.CategoryDTO;
-import com.woowahan.moduchan.dto.project.ProjectGatherDTO;
+import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.repository.CategoryRepository;
 import com.woowahan.moduchan.repository.ProjectRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class CategoryService {
-    public static final int PAGE_PROJECT_COUNT = 9;
+    public static final int PROJECTS_PER_PAGE = 9;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -29,19 +28,19 @@ public class CategoryService {
         return categoryRepository.findAll().stream().map(category -> category.toDTO()).collect(Collectors.toList());
     }
 
-    public Category geCategory(Long id) {
-        //TODO 카테고리를 찾을때 없으면 커스텀 에러 발생
-        return categoryRepository.findById(id).orElseThrow(RuntimeException::new);
+    public CategoryDTO getCategory(Long id) {
+        // TODO: 2018. 8. 20. Need custom error: CategoryNotFoundException
+        return categoryRepository.findById(id).orElseThrow(RuntimeException::new).toDTO();
     }
 
-    public List<ProjectGatherDTO> getProjects(Long cid, Long lastIndex) {
+    public List<ProjectDTO> getCategoryPage(Long cid, Long lastIndex) {
         if (cid == 0) {
             return getProjectsOfAllCategory(lastIndex);
         }
         return getProjectsOfOneCategory(cid, lastIndex);
     }
 
-    private List<ProjectGatherDTO> getProjectsOfAllCategory(Long lastIndex) {
+    private List<ProjectDTO> getProjectsOfAllCategory(Long lastIndex) {
         if (lastIndex == 0) {
             return projectRepository.findTop9ByOrderByIdDesc()
                     .stream().map(project -> project.toDTO()).collect(Collectors.toList());
@@ -50,7 +49,7 @@ public class CategoryService {
                 .stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
 
-    private List<ProjectGatherDTO> getProjectsOfOneCategory(Long cid, Long lastIndex) {
+    private List<ProjectDTO> getProjectsOfOneCategory(Long cid, Long lastIndex) {
         if (lastIndex == 0) {
             return projectRepository.findTop9ByCategoryOrderByIdDesc(categoryRepository.findById(cid).orElseThrow(RuntimeException::new))
                     .stream().map(project -> project.toDTO()).collect(Collectors.toList());

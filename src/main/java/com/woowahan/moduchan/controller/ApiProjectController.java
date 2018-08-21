@@ -1,12 +1,12 @@
 package com.woowahan.moduchan.controller;
 
-import com.woowahan.moduchan.domain.project.Project;
-import com.woowahan.moduchan.dto.UserDTO;
+
 import com.woowahan.moduchan.dto.product.ProductUserMapDTO;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
+import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.security.LoginUser;
 import com.woowahan.moduchan.service.ProductUserMapService;
 import com.woowahan.moduchan.service.ProjectService;
-import com.woowahan.moduchan.support.SessionUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -40,8 +39,9 @@ public class ApiProjectController {
             @ApiResponse(code = 200, message = "조회 성공")
             //error에 대한 설명 추가
     })
+
     @GetMapping("")
-    public ResponseEntity<List<Project>> getProjects() {
+    public ResponseEntity<List<ProjectDTO>> getProjects() {
         return new ResponseEntity<>(projectService.getProjects(), HttpStatus.OK);
     }
 
@@ -52,9 +52,10 @@ public class ApiProjectController {
             //error에 대한 설명 추가
     })
     @PostMapping(value = "", consumes = {"multipart/form-data"})
-    public ResponseEntity<Void> createProject(@ApiIgnore HttpSession session, @RequestPart(value = "project") ProjectDTO projectDTO,
+    public ResponseEntity<Void> createProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestPart(value = "project") ProjectDTO projectDTO,
                                               @RequestPart("file") MultipartFile multipartFile) throws IOException {
-        projectService.createProject(projectDTO, (UserDTO) session.getAttribute(SessionUtil.LOGIN_USER), multipartFile);
+        projectService.createProject(projectDTO, loginUserDTO, multipartFile);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -66,8 +67,8 @@ public class ApiProjectController {
             //error에 대한 설명 추가
     })
     @DeleteMapping("/{pid}")
-    public ResponseEntity<Void> deleteProject(@ApiIgnore HttpSession session, @PathVariable("pid") Long pid) {
-        projectService.deleteProject(pid, (UserDTO) session.getAttribute(SessionUtil.LOGIN_USER));
+    public ResponseEntity<Void> deleteProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @PathVariable("pid") Long pid) {
+        projectService.deleteProject(pid, loginUserDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -79,10 +80,9 @@ public class ApiProjectController {
             //error에 대한 설명 추가
     })
     @PutMapping("")
-    public ResponseEntity<Project> updateProject(@ApiIgnore HttpSession session, @RequestBody ProjectDTO projectDTO,
-                                                 @RequestPart("fileContent") MultipartFile multipartFile) throws IOException {
-        Project project = projectService.updateProject(projectDTO, (UserDTO) session.getAttribute(SessionUtil.LOGIN_USER), multipartFile);
-        return new ResponseEntity<>(project, HttpStatus.OK);
+    public ResponseEntity<ProjectDTO> updateProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProjectDTO projectDTO,
+                                                    @RequestPart("fileContent") MultipartFile multipartFile) throws IOException {
+        return new ResponseEntity<>(projectService.updateProject(projectDTO, loginUserDTO, multipartFile), HttpStatus.OK);
     }
 
     @ApiOperation(value = "후원", notes = "상품을 후원합니다.")
@@ -92,8 +92,8 @@ public class ApiProjectController {
             //error에 대한 설명 추가
     })
     @PostMapping("/{pid}/donate")
-    public ResponseEntity<Void> donateProject(@ApiIgnore HttpSession session, @RequestBody ProductUserMapDTO productUserMapDTO) {
-        productUserMapService.donateProduct((UserDTO) session.getAttribute(SessionUtil.LOGIN_USER), productUserMapDTO);
+    public ResponseEntity<Void> donateProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProductUserMapDTO productUserMapDTO) {
+        productUserMapService.donateProduct(loginUserDTO, productUserMapDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -104,8 +104,8 @@ public class ApiProjectController {
             //error에 대한 설명 추가
     })
     @DeleteMapping("/{pid}/donate")
-    public ResponseEntity<Void> cancelDonateProject(@ApiIgnore HttpSession session, @PathVariable("pid") Long pid) {
-        productUserMapService.cancelDonateProduct((UserDTO) session.getAttribute(SessionUtil.LOGIN_USER), pid);
+    public ResponseEntity<Void> cancelDonateProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @PathVariable("pid") Long pid) {
+        productUserMapService.cancelDonateProduct(loginUserDTO, pid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

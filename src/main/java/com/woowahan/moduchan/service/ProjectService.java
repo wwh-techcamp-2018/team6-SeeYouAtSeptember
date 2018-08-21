@@ -1,8 +1,8 @@
 package com.woowahan.moduchan.service;
 
 import com.woowahan.moduchan.domain.project.Project;
-import com.woowahan.moduchan.dto.UserDTO;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
+import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.repository.CategoryRepository;
 import com.woowahan.moduchan.repository.NormalUserRepository;
 import com.woowahan.moduchan.repository.ProjectRepository;
@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,18 +33,22 @@ public class ProjectService {
     @Autowired
     private NormalUserRepository normalUserRepository;
 
-    public List<Project> getProjects() {
-        return projectRepository.findAll();
+    public List<ProjectDTO> getProjects() {
+        return projectRepository.findAll().stream()
+                .map(project -> project.toDTO())
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public void createProject(ProjectDTO projectDTO, UserDTO writer, MultipartFile multipartFile) throws IOException {
         // TODO: 2018. 8. 15. 커스텀 에러 생성
         projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, "static"));
-        projectRepository.save(Project.from(projectDTO)
-                .addCategory(categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new))
-                .addUser(normalUserRepository.findByIdAndDeletedFalse(writer.getId()).orElseThrow(RuntimeException::new))
-                .addProducts(projectDTO.getProductList()));
+        Project newProject = Project.from(
+                projectDTO,
+                categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new),
+                normalUserRepository.findById(writer.getUid()).orElseThrow(RuntimeException::new));
+        projectDTO.getProducts().stream().forEach(productDTO -> newProject.addProduct(productDTO));
+        projectRepository.save(newProject);
     }
 
     @Transactional
@@ -58,23 +63,21 @@ public class ProjectService {
     }
 
     @Transactional
-    public Project updateProject(ProjectDTO projectDTO, UserDTO user, MultipartFile multipartFile) throws IOException {
+    public ProjectDTO updateProject(ProjectDTO projectDTO, UserDTO user, MultipartFile multipartFile) throws IOException {
         // TODO: 2018. 8. 15. 커스텀 에러 생성
         Project project = projectRepository.findById(projectDTO.getPid()).orElseThrow(RuntimeException::new);
         if (!project.isOwner(user)) {
             // TODO: 2018. 8. 19.  커스텀 에러 생성
             throw new RuntimeException();
         }
-        String fileName = getFileName(project);
+        String fileName = project.getFileName();
         if (fileName != multipartFile.getName()) {
             s3Util.removeFileFromS3(fileName);
             projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, "static"));
         }
-        return project.updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new));
-    }
-
-    private String getFileName(Project project) {
-        String fileUrl = project.getThumbnailUrl();
-        return fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+        // TODO: 2018. 8. 21. product 수정 가능하도록 바꾸기
+        return projectRepository.findById(projectDTO.getPid()).orElseThrow(RuntimeException::new)
+                .updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new))
+                .toDTO();
     }
 }

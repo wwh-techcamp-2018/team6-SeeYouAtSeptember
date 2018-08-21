@@ -1,57 +1,55 @@
 package com.woowahan.moduchan.domain.product;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.woowahan.moduchan.domain.project.Project;
-import lombok.Getter;
+import com.woowahan.moduchan.dto.product.ProductDTO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Getter
+@Where(clause = "deleted=false")
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
     private Long price;
     private Long supplyQuantity;
 
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore
-    private Project project;
-
     @Lob
     private String description;
-    @Column(columnDefinition = "bool default false")
+
+    @ManyToOne
+    @JoinColumn
+    private Project project;
+
+    @NotNull
     private boolean deleted = false;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "product")
-    @JsonIgnore
-    private List<ProductUserMap> productUserMapList;
-
-    public Product addProject(Project project) {
-        this.project = project;
-        return this;
-    }
-
-    public Product erasePid() {
-        this.id = null;
-        return this;
+    public static Product from(ProductDTO productDTO, Project project) {
+        return new ProductBuilder()
+                .title(productDTO.getTitle())
+                .price(productDTO.getPrice())
+                .supplyQuantity(productDTO.getSupplyQuantity())
+                .description(productDTO.getDescription())
+                .project(project)
+                .deleted(false)
+                .build();
     }
 
     public void delete() {
         this.deleted = true;
     }
 
-    public Long addFunds(Long currentFunds) {
-        Long quantity = 0L;
-        for (ProductUserMap productUserMap : productUserMapList) {
-            quantity = productUserMap.addQuantityToTotal(quantity);
-        }
-        return currentFunds + quantity * price;
+    public ProductDTO toDTO() {
+        return new ProductDTO(id, title, price, supplyQuantity, description);
     }
 }
