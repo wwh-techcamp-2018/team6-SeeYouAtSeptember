@@ -68,6 +68,8 @@ class CategoryManager {
 
     projectsMoreViewHandler(evt){
         evt.preventDefault();
+        console.log(this.currentCid);
+        
         this.categories[this.currentCid].projectsMoreViewApiManager(this.currentCid);
     }
 
@@ -80,6 +82,7 @@ class Category{
 
     fillProjectContentHTML(project) {
         let projectTemplate = `
+        <a href="/products/{id}">
             <li data-project-id="{id}">
                 <div class="project-img">
                     <img src="{thumbnailUrl}"/>
@@ -104,6 +107,7 @@ class Category{
                     </span>
                 </div>
             </li>
+        </a>
             `;
         return projectTemplate.replace(/{id}/g, project.pid)
                               .replace(/{thumbnailUrl}/g, project.thumbnailUrl)
@@ -140,7 +144,7 @@ class Category{
     }
 
     projectsMoreViewApiManager(cid){
-        getData("/api/categories/"+cid+"/last/"+$('.projects').lastElementChild.dataset.projectId,this.projectsMoreViewCallback.bind(this));  
+        getData("/api/categories/"+cid+"/last/"+$('.projects').lastElementChild.firstElementChild.dataset.projectId,this.projectsMoreViewCallback.bind(this));  
     }
 }
 

@@ -49,7 +49,7 @@ public class ApiProjectController {
             @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
             // TODO: 2018. 8. 21.  error에 대한 설명 추가
     })
-    @PostMapping(value = "", consumes = {"multipart/form-data"})
+    @PostMapping(value = "")
     public ResponseEntity<Void> createProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestPart(value = "project") ProjectDTO projectDTO,
                                               @RequestPart("file") MultipartFile multipartFile) throws IOException {
         projectService.createProject(projectDTO, loginUserDTO, multipartFile);

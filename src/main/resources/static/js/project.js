@@ -122,13 +122,26 @@ class ProjectForm {
         "products": JSON.stringify(products)
     };
 
-    projectForm.append("projectDto",JSON.stringify(project));
+    projectForm.append("project",JSON.stringify(project));
     if (this.thumbnailUrl !== undefined) {
-        projectForm.append("thumbnailUrl",this.thumbnailUrl);
+        projectForm.append("file",this.thumbnailUrl);
     }
-    console.log(products);
-    test = projectForm
+    test = projectForm;
+    fetchManager({
+        url : "/api/projects",
+        method : "POST",
+        body : projectForm , 
+        headers :{"content-type": "multipart/mixed"}, 
+        callback : this.createProjectCallback.bind(this)
+    })
   }
+
+  createProjectCallback(response){
+      response.json().then(result=>{
+          console.log(result);
+      })
+  }
+  
 }
 
 document.addEventListener("DOMContentLoaded", () => {
