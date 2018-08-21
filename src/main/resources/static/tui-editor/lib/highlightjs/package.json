@@ -1,0 +1,34 @@
+{
+  "_from": "highlightjs",
+  "_id": "highlightjs@9.10.0",
+  "_inBundle": false,
+  "_integrity": "sha1-/Km3jdqjsavKidbD7hBa0nCoAZA=",
+  "_location": "/highlightjs",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "highlightjs",
+    "name": "highlightjs",
+    "escapedName": "highlightjs",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/highlightjs/-/highlightjs-9.10.0.tgz",
+  "_shasum": "fca9b78ddaa3b1abca89d6c3ee105ad270a80190",
+  "_spec": "highlightjs",
+  "_where": "/Users/woowatechcamp_6/Documents/testmodule/node_modules",
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Syntax highlighting for the Web",
+  "license": "BSD-3-Clause",
+  "main": "highlight.pack.js",
+  "name": "highlightjs",
+  "private": false,
+  "version": "9.10.0"
+}

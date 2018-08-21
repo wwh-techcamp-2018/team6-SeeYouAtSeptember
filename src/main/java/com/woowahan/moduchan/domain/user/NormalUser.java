@@ -3,6 +3,7 @@ package com.woowahan.moduchan.domain.user;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Where;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 
 @Entity
 @Where(clause = "deleted=false")
+@ToString
 @NoArgsConstructor
 public class NormalUser extends User {
     private String phoneNo;

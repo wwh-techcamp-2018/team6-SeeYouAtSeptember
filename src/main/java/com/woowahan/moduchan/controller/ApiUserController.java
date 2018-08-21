@@ -69,7 +69,7 @@ public class ApiUserController {
     @DeleteMapping("/{uid}")
     public ResponseEntity<Void> deleteNormalUser(@PathVariable Long uid, @ApiIgnore @LoginUser UserDTO loginUserDTO) {
         if (loginUserDTO.getUid() != uid)
-            throw new UnauthorizedException();
+            throw new UnauthorizedException(loginUserDTO.toString());
         userService.deleteNormalUserById(uid);
         return new ResponseEntity<>(HttpStatus.OK);
     }

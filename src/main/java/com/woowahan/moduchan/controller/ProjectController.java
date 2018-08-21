@@ -6,10 +6,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/project")
+@RequestMapping("/projects")
 public class ProjectController {
+
     @GetMapping("/{pid}")
-    public String getProject(@PathVariable("pid") Long pid){
+    public String getProject(@PathVariable("pid") Long pid) {
         return "project-detail";
+    }
+
+    @GetMapping("/start")
+    public String create() {
+        return "create_project";
     }
 }

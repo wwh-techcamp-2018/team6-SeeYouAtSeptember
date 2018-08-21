@@ -27,5 +27,8 @@ public class ProjectDTO {
     private String owner;
     private List<ProductDTO> products;
     private Long goalFundRaising;
-    private Long fundraisingAmount;
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
 }

@@ -1,0 +1,68 @@
+{{> base}}
+
+{{#block "header"}}
+<link rel="stylesheet" href="/css/category.css"/>
+<link rel="stylesheet" href="/css/project.css"/>
+<link rel="stylesheet" href="/tui-editor/lib/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="/tui-editor/lib/highlightjs/styles/github.css">
+<link rel="stylesheet" href="/tui-editor/dist/tui-editor.css">
+<link rel="stylesheet" href="/tui-editor/dist/tui-editor-contents.css">
+<link rel="stylesheet" href="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.css">
+<link rel="stylesheet" href="/tui-editor/lib/tui-chart/dist/tui-chart.css">
+
+{{/block}}
+{{#block "contents"}}
+<div class="projects_form">
+    <div class="projects_form img">
+        <img id="thumbnailUrl"><br>
+        <input type="file">
+    </div>
+    <div class="projects_form_detail">
+        <div class="projects_form detail title">
+            <span>제목 :</span><input type="text" id="projects_title_input">
+        </div>
+        <div class="projects_form goalFundRaising">
+            <span>목표 금액</span>
+            <span>KRW</span>
+            <input type="number" value="1000000" min="1000000" step="500000" id="projects_goalFundRaising_input"/>
+        </div>
+        <div class="projects_form detail endAt">
+            <span>목표 날짜:</span><input type="date" id="projects_endAt_input">
+        </div>
+    </div>
+    <div class="edit_des">
+        <div id="editSection"></div>
+    </div>
+    <div class="products_addList">
+        <button id="addProduct">물품 추가하기</button>
+        <div class="product_addInfo">
+            <span>물품 설명:</span><input type="text" id="product_description_input"><br>
+            <span>물품 가격:</span><input type="number" value="0" min="0" step="100" id="product_price_input"><br>
+            <span>물품 수량:</span><input type="number" value="10" min="10" step="1" id="product_supplyQuantity_input"><br>
+            <button id="removeProduct">물품 빼기</button>
+        </div>
+    </div>
+    <div>
+        <button id="create_project_btn">프로젝트 시작</button>
+    </div>
+</div>
+
+{{/block}}
+
+{{#block "footer"}}
+<script src="/tui-editor/lib/jquery/dist/jquery.js"></script>
+<script src="/tui-editor/lib/markdown-it/dist/markdown-it.js"></script>
+<script src="/tui-editor/lib/to-mark/dist/to-mark.js"></script>
+<script src="/tui-editor/lib/tui-code-snippet/dist/tui-code-snippet.js"></script>
+<script src="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.js"></script>
+<script src="/tui-editor/lib/codemirror/lib/codemirror.js"></script>
+<script src="/tui-editor/lib/highlightjs/highlight.pack.js"></script>
+<script src="/tui-editor/lib/squire-rte/build/squire-raw.js"></script>
+<script src="/tui-editor/lib/raphael/raphael.js"></script>
+<script src="/tui-editor/lib/tui-chart/dist/tui-chart.js"></script>
+<script src="/tui-editor/dist/tui-editor-Editor.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/product.js"></script>
+<script src="/js/project.js"></script>
+
+{{/block}}
