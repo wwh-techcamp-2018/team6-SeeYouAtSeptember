@@ -52,10 +52,10 @@ public class ProjectService {
     }
 
     @Transactional
-    public void deleteProject(Long pid, UserDTO user) {
+    public void deleteProject(Long pid, UserDTO userDTO) {
         // TODO: 2018. 8. 15. 커스텀 에러 생성
         Project project = projectRepository.findById(pid).orElseThrow(RuntimeException::new);
-        if (!project.isOwner(user)) {
+        if (!project.isOwner(userDTO)) {
             // TODO: 2018. 8. 19.  커스텀 에러 생성
             throw new RuntimeException();
         }
