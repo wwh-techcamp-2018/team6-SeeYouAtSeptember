@@ -3,6 +3,10 @@ package com.woowahan.moduchan.service;
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.exception.CategoryNotFoundException;
+import com.woowahan.moduchan.exception.ProjectNotFoundException;
+import com.woowahan.moduchan.exception.UnAuthorizedException;
+import com.woowahan.moduchan.exception.UserNotFoundException;
 import com.woowahan.moduchan.repository.CategoryRepository;
 import com.woowahan.moduchan.repository.NormalUserRepository;
 import com.woowahan.moduchan.repository.ProjectRepository;
@@ -22,9 +26,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ProjectService {
-
-    // TODO: 2018. 8. 8. 단일 항목 CRUD, 조건별 조회
-
     private final S3Util s3Util;
     @Autowired
     private ProjectRepository projectRepository;
@@ -41,41 +42,41 @@ public class ProjectService {
 
     @Transactional
     public void createProject(ProjectDTO projectDTO, UserDTO writer, MultipartFile multipartFile) throws IOException {
-        // TODO: 2018. 8. 15. 커스텀 에러 생성
         projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, S3Util.DIR_NAME));
         Project newProject = Project.from(
                 projectDTO,
-                categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new),
-                normalUserRepository.findById(writer.getUid()).orElseThrow(RuntimeException::new));
+                categoryRepository.findById(projectDTO.getCid())
+                        .orElseThrow(() -> new CategoryNotFoundException("cid: " + projectDTO.getCid())),
+                normalUserRepository.findById(writer.getUid())
+                        .orElseThrow(() -> new UserNotFoundException("uid: " + writer.getUid())));
         projectDTO.getProducts().stream().forEach(productDTO -> newProject.addProduct(productDTO));
         projectRepository.save(newProject);
     }
 
     @Transactional
     public void deleteProject(Long pid, UserDTO userDTO) {
-        // TODO: 2018. 8. 15. 커스텀 에러 생성
-        Project project = projectRepository.findById(pid).orElseThrow(RuntimeException::new);
+        Project project = projectRepository.findById(pid)
+                .orElseThrow(() -> new ProjectNotFoundException("pid: " + pid));
         if (!project.isOwner(userDTO)) {
-            // TODO: 2018. 8. 19.  커스텀 에러 생성
-            throw new RuntimeException();
+            throw new UnAuthorizedException("pid: " + pid + " tried uid: " + userDTO.getUid());
         }
         project.delete();
     }
 
     @Transactional
     public ProjectDTO updateProject(ProjectDTO projectDTO, UserDTO userDTO, MultipartFile multipartFile) throws IOException {
-        // TODO: 2018. 8. 15. 커스텀 에러 생성
-        Project project = projectRepository.findById(projectDTO.getPid()).orElseThrow(RuntimeException::new);
+        Project project = projectRepository.findById(projectDTO.getPid())
+                .orElseThrow(() -> new ProjectNotFoundException("pid: " + projectDTO.getPid()));
         if (!project.isOwner(userDTO)) {
-            throw new RuntimeException();
+            throw new UnAuthorizedException("project owner: " + project.toDTO().getPid() + " tried uid: " + userDTO.getUid());
         }
         if (multipartFile != null) {
             s3Util.removeFileFromS3(project.getFileName());
             projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, S3Util.DIR_NAME));
         }
         // TODO: 2018. 8. 21. product 수정 가능하도록 바꾸기
-        return projectRepository.findById(projectDTO.getPid()).orElseThrow(RuntimeException::new)
-                .updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new))
+        return project.updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid())
+                .orElseThrow(() -> new CategoryNotFoundException("cid: " + projectDTO.getCid())))
                 .toDTO();
     }
 }

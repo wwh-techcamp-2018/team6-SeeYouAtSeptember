@@ -4,6 +4,8 @@ import com.woowahan.moduchan.domain.product.ProductUserMap;
 import com.woowahan.moduchan.domain.product.ProductUserPK;
 import com.woowahan.moduchan.dto.product.ProductUserMapDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.exception.ProductNotFoundException;
+import com.woowahan.moduchan.exception.UserNotFoundException;
 import com.woowahan.moduchan.repository.NormalUserRepository;
 import com.woowahan.moduchan.repository.ProductRepository;
 import com.woowahan.moduchan.repository.ProductUserMapRepository;
@@ -24,10 +26,11 @@ public class ProductUserMapService {
     private NormalUserRepository normalUserRepository;
 
     public void donateProduct(UserDTO loginUser, ProductUserMapDTO productUserMapDTO) {
-        // TODO: 2018. 8. 19. user없을 때 custom exception 발생
         productUserMapRepository.save(
-                new ProductUserMap(productRepository.findById(productUserMapDTO.getPid()).orElseThrow(RuntimeException::new),
-                        normalUserRepository.findById(productUserMapDTO.getUid()).orElseThrow(RuntimeException::new)
+                new ProductUserMap(productRepository.findById(productUserMapDTO.getPid())
+                        .orElseThrow(() -> new ProductNotFoundException("pid: " + productUserMapDTO.getPid())),
+                        normalUserRepository.findById(productUserMapDTO.getUid())
+                                .orElseThrow(() -> new UserNotFoundException("uid: " + productUserMapDTO.getUid()))
                         , productUserMapDTO.getQuantity()));
     }
 
