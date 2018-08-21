@@ -2,6 +2,7 @@ package com.woowahan.moduchan.service;
 
 import com.woowahan.moduchan.dto.category.CategoryDTO;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
+import com.woowahan.moduchan.exception.CategoryNotFoundException;
 import com.woowahan.moduchan.repository.CategoryRepository;
 import com.woowahan.moduchan.repository.ProjectRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +29,10 @@ public class CategoryService {
         return categoryRepository.findAll().stream().map(category -> category.toDTO()).collect(Collectors.toList());
     }
 
-    public CategoryDTO getCategory(Long id) {
-        // TODO: 2018. 8. 20. Need custom error: CategoryNotFoundException
-        return categoryRepository.findById(id).orElseThrow(RuntimeException::new).toDTO();
+    public CategoryDTO getCategory(Long cid) {
+        return categoryRepository.findById(cid)
+                .orElseThrow(() -> new CategoryNotFoundException("cid: " + cid))
+                .toDTO();
     }
 
     public List<ProjectDTO> getCategoryPage(Long cid, Long lastIndex) {

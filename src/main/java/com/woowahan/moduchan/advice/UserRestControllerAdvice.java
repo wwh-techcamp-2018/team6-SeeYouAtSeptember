@@ -1,5 +1,6 @@
-package com.woowahan.moduchan.exception;
+package com.woowahan.moduchan.advice;
 
+import com.woowahan.moduchan.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +11,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class UserRestControllerAdvice {
 
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<Void> loginUserNotFound(UnauthorizedException exception) {
-        log.debug("[UnauthorizedException] {}", exception.getMessage());
+    @ExceptionHandler(UnAuthenticatedException.class)
+    public ResponseEntity<Void> loginUserNotFound(UnAuthenticatedException exception) {
+        log.debug("[UnAuthenticatedException] {}", exception.getMessage());
         return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UnAuthorizedException.class)
+    public ResponseEntity<Void> unAuthorized(UnAuthorizedException exception) {
+        log.debug("[UnAuthorizedException] {}", exception.getMessage());
+        return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
