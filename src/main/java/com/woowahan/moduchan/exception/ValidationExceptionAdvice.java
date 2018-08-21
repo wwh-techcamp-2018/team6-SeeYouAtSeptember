@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class ValidationException {
+public class ValidationExceptionAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> validationException(MethodArgumentNotValidException exception) {
         log.debug("[MethodArgumentNotValidException] {}", exception.getMessage());
