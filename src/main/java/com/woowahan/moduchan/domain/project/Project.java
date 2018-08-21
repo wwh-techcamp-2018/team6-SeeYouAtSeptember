@@ -6,6 +6,7 @@ import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.product.ProductDTO;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
+import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -92,6 +93,10 @@ public class Project extends BaseTimeEntity {
         products.forEach(product -> product.delete());
     }
 
+    public boolean isOwner(UserDTO userDTO) {
+        return id == userDTO.getUid();
+    }
+
     public ProjectDTO toDTO() {
         return new ProjectDTO(
                 category.toDTO().getId(),
@@ -104,12 +109,14 @@ public class Project extends BaseTimeEntity {
                 status,
                 owner.toDTO().getName(),
                 products.stream().map(product -> product.toDTO()).collect(Collectors.toList()),
-                goalFundRaising,
-                calculateFundraisingAmount());
+                goalFundRaising
+        );
     }
 
-    private Long calculateFundraisingAmount() {
-        return null;
+    public String getFileName() {
+        if (thumbnailUrl == null)
+            return null;
+        return thumbnailUrl.substring(thumbnailUrl.lastIndexOf("/") + 1);
     }
 
     public enum STATUS {

@@ -31,3 +31,18 @@ function addEventListenerToTarget(target, event, handler) {
         return;
     target.addEventListener(event, handler)
 }
+
+function eraseHTML(target) {
+    if(!target) return;
+    target.remove();
+}
+
+function removeClassName(classname, target) {
+    if (!target) return;
+    target.classList.remove(classname);
+}
+
+function addClassName(classname, target) { 
+    if (!target) return; 
+    target.classList.add(classname);
+}
