@@ -46,3 +46,9 @@ function addClassName(classname, target) {
     if (!target) return; 
     target.classList.add(classname);
 }
+function fetchFormData(formData,url,callback){
+    fetch(url, {method : "POST", body : formData})
+       .then((response) => {
+            callback(response);
+    })
+}

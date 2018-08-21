@@ -33,7 +33,7 @@ class ProjectForm {
     const maybeRemoveProductBtn = evt.target;
     if(maybeRemoveProductBtn.id === "removeProduct"){
        
-    for(let product of iterable){
+    for(let [product,i] of this.productList.entries()){
         if(product.productTag === maybeRemoveProductBtn.parentElement){ 
             this.productList.splice(i,1) 
             break;
@@ -87,17 +87,22 @@ class ProjectForm {
   insertImgFile(evt) {
     const maybeImg = evt.target.files[0];
     if (maybeImg["type"].split("/")[0] === "image") {
-      this.thumbnailUrl = maybeImg;
-      this.readImage();
+      const projectForm = new FormData();
+      projectForm.append("file",maybeImg);
+      if (this.thumbnailUrl !== undefined) {
+         projectForm.append("thumbnailUrl",this.thumbnailUrl);
+       }
+       fetchFormData(projectForm,"/api/projects/upload",this.imageUploadCallback.this(bind));
     }
+    //todo 이미지 파일이 아닌 다른 파일 올릴 시 사용자 에러
+    console.log("전송실패");
   }
 
-  readImage() {
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      $("#thumbnailUrl").src = fileReader.result;
-    };
-    fileReader.readAsDataURL(this.thumbnailUrl);
+  imageUploadCallback(response){
+    response.json().then(img =>{
+        this.thumbnailUrl = img;
+        $("#thumbnailUrl").src = fileReader.result;
+    })
   }
 
   createProjectBtnHandler(evt) {
@@ -110,8 +115,6 @@ class ProjectForm {
         products.push(product.validProductAll());
     })
 
-    const projectForm = new FormData();
-
     const project = {
         "title":this.title,
         "decription":editor.getHtml(),
@@ -119,26 +122,8 @@ class ProjectForm {
         "cid":$('.categories_dropbox select').value,
         "endAt":this.endAt.getTime(),
         "products": JSON.stringify(products)
-    };
-
-    projectForm.append("projectDTO",JSON.stringify(project));
-    console.log(this.thumbnailUrl);
-    
-    if (this.thumbnailUrl !== undefined) {
-        projectForm.append("file",this.thumbnailUrl);
-    }
-    // fetchManager({
-    //     url : "/api/projects",
-    //     method : "POST",
-    //     body : projectForm , 
-    //     headers :{"content-type": "multipart/form-data"},
-    //     callback : this.createProjectCallback.bind(this)
-    // })
-
-    // fetch("/api/projects", {method : "POST", body : projectForm})
-    //     .then((response) => {
-    //         console.log(response);
-    // })
+    };    
+    getData("/api/products",project);
   }
 
   createProjectCallback(response){
