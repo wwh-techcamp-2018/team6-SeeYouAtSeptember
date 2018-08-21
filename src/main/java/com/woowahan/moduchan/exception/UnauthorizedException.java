@@ -1,11 +1,11 @@
 package com.woowahan.moduchan.exception;
 
-public class UnauthorizedException extends RuntimeException {
-    public UnauthorizedException() {
+public class UnAuthorizedException extends RuntimeException {
+    public UnAuthorizedException() {
         super("");
     }
 
-    public UnauthorizedException(String message) {
+    public UnAuthorizedException(String message) {
         super(message);
     }
 }

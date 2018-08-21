@@ -1,7 +1,7 @@
 package com.woowahan.moduchan.support;
 
 import com.woowahan.moduchan.dto.user.UserDTO;
-import com.woowahan.moduchan.exception.UnauthorizedException;
+import com.woowahan.moduchan.exception.UnAuthenticatedException;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
@@ -12,7 +12,7 @@ public class SessionUtil {
         UserDTO loginUserDTO = (UserDTO) webRequest.getAttribute(LOGIN_USER, WebRequest.SCOPE_SESSION);
         // FIXME: 2018. 8. 20. guestUser 사용시 변경해야함(null->guestUser)
         if (loginUserDTO == null)
-            throw new UnauthorizedException("Need to be login user");
+            throw new UnAuthenticatedException("Need to be login user");
         return loginUserDTO;
     }
 }

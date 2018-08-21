@@ -19,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/categories")
 public class ApiCategoryController {
-    // TODO: 2018. 8. 14. 스웨거 작성 
     @Autowired
     private CategoryService categoryService;
 
