@@ -1,0 +1,25 @@
+.edit_des{
+    width:800px;
+}
+
+#thumbnailUrl{
+    width:400px;
+    height:400px;
+}
+
+.projects_form_detail{
+margin-top:50px;
+margin-bottom:50px;
+}
+
+.products_addList{
+margin-top:50px;
+margin-bottom:10px;
+}
+
+.projects_form{
+display: grid;
+grid-template-columns: 10% 50% 30% 10%;
+grid-template-rows: 400px auto;
+position: absolute;
+}
