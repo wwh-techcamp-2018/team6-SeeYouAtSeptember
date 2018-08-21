@@ -42,7 +42,7 @@ public class ProjectService {
     @Transactional
     public void createProject(ProjectDTO projectDTO, UserDTO writer, MultipartFile multipartFile) throws IOException {
         // TODO: 2018. 8. 15. 커스텀 에러 생성
-        projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, S3Util.DIR_NAME));
+        projectDTO.setThumbnailUrl(uploadImage(multipartFile));
         Project newProject = Project.from(
                 projectDTO,
                 categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new),
@@ -71,11 +71,14 @@ public class ProjectService {
         }
         if (multipartFile != null) {
             s3Util.removeFileFromS3(project.getFileName());
-            projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, S3Util.DIR_NAME));
+            projectDTO.setThumbnailUrl(uploadImage(multipartFile));
         }
         // TODO: 2018. 8. 21. product 수정 가능하도록 바꾸기
-        return projectRepository.findById(projectDTO.getPid()).orElseThrow(RuntimeException::new)
-                .updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new))
+        return project.updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid()).orElseThrow(RuntimeException::new))
                 .toDTO();
+    }
+
+    public String uploadImage(MultipartFile multipartFile) throws IOException {
+        return s3Util.upload(multipartFile, S3Util.DIR_NAME);
     }
 }
