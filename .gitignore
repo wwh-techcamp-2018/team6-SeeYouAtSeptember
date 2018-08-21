@@ -3,7 +3,7 @@
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 
-aws.yml
+aws.properties
 
 ### STS ###
 .apt_generated

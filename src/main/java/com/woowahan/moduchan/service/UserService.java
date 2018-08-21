@@ -30,7 +30,7 @@ public class UserService {
 
     public UserDTO getNormalUser(Long uid) {
         return normalUserRepository.findById(uid)
-                .orElseThrow(() -> new UserNotFoundException("uid: " + uid.toString()))
+                .orElseThrow(() -> new UserNotFoundException("uid: " + uid))
                 .toDTO();
     }
 
@@ -53,7 +53,7 @@ public class UserService {
     @Transactional
     public void deleteNormalUserById(Long uid) {
         normalUserRepository.findById(uid)
-                .orElseThrow(() -> new UserNotFoundException("uid: " + uid.toString()))
+                .orElseThrow(() -> new UserNotFoundException("uid: " + uid))
                 .delete();
     }
 

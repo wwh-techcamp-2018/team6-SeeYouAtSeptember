@@ -1,7 +1,7 @@
 package com.woowahan.moduchan.controller;
 
 import com.woowahan.moduchan.dto.user.UserDTO;
-import com.woowahan.moduchan.exception.UnauthorizedException;
+import com.woowahan.moduchan.exception.UnAuthenticatedException;
 import com.woowahan.moduchan.security.LoginUser;
 import com.woowahan.moduchan.service.UserService;
 import com.woowahan.moduchan.support.SessionUtil;
@@ -69,7 +69,7 @@ public class ApiUserController {
     @DeleteMapping("/{uid}")
     public ResponseEntity<Void> deleteNormalUser(@PathVariable Long uid, @ApiIgnore @LoginUser UserDTO loginUserDTO) {
         if (loginUserDTO.getUid() != uid)
-            throw new UnauthorizedException(loginUserDTO.toString());
+            throw new UnAuthenticatedException(loginUserDTO.toString());
         userService.deleteNormalUserById(uid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
