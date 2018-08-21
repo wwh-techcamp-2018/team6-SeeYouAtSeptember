@@ -2,6 +2,9 @@ package com.woowahan.moduchan.service;
 
 import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.exception.EmailAlreadyExistsException;
+import com.woowahan.moduchan.exception.PasswordNotMatchedException;
+import com.woowahan.moduchan.exception.UserNotFoundException;
 import com.woowahan.moduchan.repository.NormalUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,52 +23,47 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public List<UserDTO> getNomalUsers() {
-        // TODO: 2018. 8. 14. 만약에 아무 유저도 없는 경우에는 에러로 처리할 것인가 그냥 반환할 것인가?
         return normalUserRepository.findAll().stream()
                 .map(normalUser -> normalUser.toDTO())
                 .collect(Collectors.toList());
     }
 
     public UserDTO getNormalUser(Long uid) {
-        // TODO: 2018. 8. 14. CustomError: UserNotFound
         return normalUserRepository.findById(uid)
-                .orElseThrow(RuntimeException::new)
+                .orElseThrow(() -> new UserNotFoundException("uid: " + uid.toString()))
                 .toDTO();
     }
 
     public UserDTO createNormalUser(UserDTO userDTO) {
-        // TODO: 2018. 8. 19. CustomError: AlreadyExistsEmail
         if (normalUserRepository.existsByEmail(userDTO.getEmail()))
-            throw new RuntimeException();
+            throw new EmailAlreadyExistsException(userDTO.erasePassword().toString());
         return normalUserRepository
                 .save(NormalUser.from(userDTO).encryptPassword(passwordEncoder))
                 .toDTO().erasePassword();
     }
 
     public UserDTO updateNormalUser(UserDTO userDTO) {
-        // TODO: 2018. 8. 14. CustomError: UserNotFound
         return normalUserRepository.save(
                 normalUserRepository.findById(userDTO.getUid())
-                        .orElseThrow(RuntimeException::new).update(userDTO))
+                        .orElseThrow(() -> new UserNotFoundException(userDTO.toString()))
+                        .update(userDTO))
                 .toDTO().erasePassword();
     }
 
     @Transactional
     public void deleteNormalUserById(Long uid) {
-        // TODO: 2018. 8. 14. CustomError: UserNotFound
         normalUserRepository.findById(uid)
-                .orElseThrow(RuntimeException::new).delete();
+                .orElseThrow(() -> new UserNotFoundException("uid: " + uid.toString()))
+                .delete();
     }
 
     public UserDTO login(UserDTO userDTO) {
-        // TODO: 2018. 8. 14. CustomError: UserNotFound
         NormalUser loginUser = normalUserRepository
                 .findByEmail(userDTO.getEmail())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new UserNotFoundException(userDTO.erasePassword().toString()));
 
         if (!loginUser.matchPassword(userDTO.getPassword(), passwordEncoder)) {
-            // TODO: 2018. 8. 16. PasswordNotMatched(Forbidden)
-            throw new RuntimeException();
+            throw new PasswordNotMatchedException(userDTO.erasePassword().toString());
         }
 
         return loginUser.toDTO().erasePassword();

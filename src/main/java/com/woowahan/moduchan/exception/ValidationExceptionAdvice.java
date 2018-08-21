@@ -9,17 +9,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class ApiExceptionHandler {
-
+public class ValidationExceptionAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> categoryNotFound(MethodArgumentNotValidException exception) {
+    public ResponseEntity<String> validationException(MethodArgumentNotValidException exception) {
         log.debug("[MethodArgumentNotValidException] {}", exception.getMessage());
         return new ResponseEntity(exception.getBindingResult().getAllErrors(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<String> loginUserNotFound(UnauthorizedException exception) {
-        log.debug("[UnauthorizedException] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
     }
 }
