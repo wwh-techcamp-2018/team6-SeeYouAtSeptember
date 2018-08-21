@@ -1,4 +1,3 @@
-test=''
 class ProjectForm {
   constructor() {
     this.productList = [];
@@ -122,18 +121,24 @@ class ProjectForm {
         "products": JSON.stringify(products)
     };
 
-    projectForm.append("project",JSON.stringify(project));
+    projectForm.append("projectDTO",JSON.stringify(project));
+    console.log(this.thumbnailUrl);
+    
     if (this.thumbnailUrl !== undefined) {
         projectForm.append("file",this.thumbnailUrl);
     }
-    test = projectForm;
-    fetchManager({
-        url : "/api/projects",
-        method : "POST",
-        body : projectForm , 
-        headers :{"content-type": "multipart/mixed"}, 
-        callback : this.createProjectCallback.bind(this)
-    })
+    // fetchManager({
+    //     url : "/api/projects",
+    //     method : "POST",
+    //     body : projectForm , 
+    //     headers :{"content-type": "multipart/form-data"},
+    //     callback : this.createProjectCallback.bind(this)
+    // })
+
+    // fetch("/api/projects", {method : "POST", body : projectForm})
+    //     .then((response) => {
+    //         console.log(response);
+    // })
   }
 
   createProjectCallback(response){

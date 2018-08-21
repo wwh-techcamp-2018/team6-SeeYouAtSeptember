@@ -42,8 +42,8 @@ public class S3Util {
     }
 
     private String putS3(File uploadFile, String fileName) {
-        amazonS3Client.putObject(new PutObjectRequest(bucket, UUID.randomUUID().toString(), uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+        amazonS3Client.putObject(new PutObjectRequest(bucket, DIR_NAME+"/"+UUID.randomUUID().toString()+getExtension(fileName), uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        return amazonS3Client.getUrl(bucket, DIR_NAME+"/"+UUID.randomUUID().toString()+getExtension(fileName)).toString();
     }
 
     private void removeNewFile(File targetFile) {
@@ -63,6 +63,10 @@ public class S3Util {
             return Optional.of(convertFile);
         }
         return Optional.empty();
+    }
+
+    private String getExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 
     public void removeFileFromS3(String key) {
