@@ -22,6 +22,8 @@ public class S3Util {
     private final AmazonS3Client amazonS3Client;
 
     public final static String DIR_NAME = "static";
+    public final static String SLASH = "/";
+    public final static String DOT = ".";
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -35,15 +37,16 @@ public class S3Util {
     }
 
     public String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+        String fileName = dirName + SLASH + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
     }
 
     private String putS3(File uploadFile, String fileName) {
-        amazonS3Client.putObject(new PutObjectRequest(bucket, DIR_NAME+"/"+UUID.randomUUID().toString()+getExtension(fileName), uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, DIR_NAME+"/"+UUID.randomUUID().toString()+getExtension(fileName)).toString();
+        String unqiueKey = DIR_NAME + SLASH + UUID.randomUUID().toString() + getExtension(fileName);
+        amazonS3Client.putObject(new PutObjectRequest(bucket, unqiueKey, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        return amazonS3Client.getUrl(bucket, unqiueKey).toString();
     }
 
     private void removeNewFile(File targetFile) {
@@ -66,7 +69,7 @@ public class S3Util {
     }
 
     private String getExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf("."));
+        return fileName.substring(fileName.lastIndexOf(DOT));
     }
 
     public void removeFileFromS3(String key) {

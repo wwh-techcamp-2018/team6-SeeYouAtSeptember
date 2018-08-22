@@ -41,8 +41,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public void createProject(ProjectDTO projectDTO, UserDTO writer, MultipartFile multipartFile) throws IOException {
-        projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, S3Util.DIR_NAME));
+    public void createProject(ProjectDTO projectDTO, UserDTO writer) {
         Project newProject = Project.from(
                 projectDTO,
                 categoryRepository.findById(projectDTO.getCid())
@@ -64,23 +63,21 @@ public class ProjectService {
     }
 
     @Transactional
-    public ProjectDTO updateProject(ProjectDTO projectDTO, UserDTO userDTO, MultipartFile multipartFile) throws IOException {
+    public ProjectDTO updateProject(ProjectDTO projectDTO, UserDTO userDTO) {
         Project project = projectRepository.findById(projectDTO.getPid())
                 .orElseThrow(() -> new ProjectNotFoundException("pid: " + projectDTO.getPid()));
         if (!project.isOwner(userDTO)) {
             throw new UnAuthorizedException("project owner: " + project.toDTO().getPid() + " tried uid: " + userDTO.getUid());
         }
-        if (multipartFile != null) {
-            s3Util.removeFileFromS3(project.getFileName());
-            projectDTO.setThumbnailUrl(uploadImage(multipartFile));
-        }
-        // TODO: 2018. 8. 21. product 수정 가능하도록 바꾸기
         return project.updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid())
                 .orElseThrow(() -> new CategoryNotFoundException("cid: " + projectDTO.getCid())))
                 .toDTO();
     }
 
-    public String uploadImage(MultipartFile multipartFile) throws IOException {
+    public String uploadImage(MultipartFile multipartFile, String previousFileUrl) throws IOException {
+        if (previousFileUrl != null && !previousFileUrl.isEmpty()) {
+            s3Util.removeFileFromS3(S3Util.DIR_NAME + previousFileUrl.substring(previousFileUrl.lastIndexOf(S3Util.SLASH)));
+        }
         return s3Util.upload(multipartFile, S3Util.DIR_NAME);
     }
 }

@@ -12,6 +12,7 @@ import com.woowahan.moduchan.repository.ProductUserMapRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -31,12 +32,13 @@ public class ProductUserMapService {
                         .orElseThrow(() -> new ProductNotFoundException("pid: " + productUserMapDTO.getPid())),
                         normalUserRepository.findById(productUserMapDTO.getUid())
                                 .orElseThrow(() -> new UserNotFoundException("uid: " + productUserMapDTO.getUid()))
-                        , productUserMapDTO.getQuantity()));
+                        , productUserMapDTO.getQuantity(), false));
     }
 
+    @Transactional
     public void cancelDonateProduct(UserDTO userDTO, Long pid) {
         // TODO: 2018. 8. 19. 해당 productUserMap에 값이 없을 때 custom exception 발생
-        productUserMapRepository.delete(productUserMapRepository.findById(new ProductUserPK(userDTO.getUid(), pid))
-                .orElseThrow(RuntimeException::new));
+        productUserMapRepository.findById(new ProductUserPK(userDTO.getUid(), pid))
+                .orElseThrow(RuntimeException::new).delete();
     }
 }
