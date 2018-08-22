@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NoArgsConstructor
@@ -24,6 +25,17 @@ public class ProductUserMap extends BaseTimeEntity {
     private NormalUser normalUser;
 
     private Long quantity;
+
+    @NotNull
+    private boolean deleted = false;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void delete() {
+        this.deleted = true;
+    }
 
     public Long getQuantity() {
         return quantity;

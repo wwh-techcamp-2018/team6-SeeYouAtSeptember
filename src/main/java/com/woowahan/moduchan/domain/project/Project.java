@@ -8,7 +8,11 @@ import com.woowahan.moduchan.dto.product.ProductDTO;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
-import lombok.*;
+
+import com.woowahan.moduchan.support.S3Util;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Where;
 
@@ -19,7 +23,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
 @Slf4j
 @Entity
 @Where(clause = "deleted=false")
@@ -84,6 +87,7 @@ public class Project extends BaseTimeEntity {
         this.thumbnailUrl = projectDTO.getThumbnailUrl();
         this.title = projectDTO.getTitle();
         this.category = category;
+        //updateProducts(projectDTO.getProducts());
         return this;
     }
 
@@ -115,7 +119,20 @@ public class Project extends BaseTimeEntity {
     public String getFileName() {
         if (thumbnailUrl == null)
             return null;
-        return thumbnailUrl.substring(thumbnailUrl.lastIndexOf("/") + 1);
+        return S3Util.DIR_NAME + thumbnailUrl.substring(thumbnailUrl.lastIndexOf("/"));
+    }
+
+    private void updateProducts(List<ProductDTO> productDTOs) {
+        products.stream().filter(product -> product.isDeleted())
+                .forEach(product -> {
+                    if (productDTOs.size() == 0)
+                        product.delete();
+
+                    if (product.update(productDTOs.get(0))) {
+                        productDTOs.remove(0);
+                    }
+                });
+        productDTOs.forEach(productDTO -> addProduct(productDTO));
     }
 
     public enum STATUS {

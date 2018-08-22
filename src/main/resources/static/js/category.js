@@ -4,23 +4,23 @@ class CategoryManager {
         this.currentCid = 0;
         this.ulTag = $(".categories");
         getData("/api/categories", this.categoriesCallback.bind(this));
-        getData("/api/categories/"+this.currentCid+"/last/0", this.categoryProjectCallback.bind(this));
-        addEventListenerToTarget(this.ulTag,"click",this.liClickHandler.bind(this));
-        addEventListenerToTarget($("#more_project_btn"),"click",this.projectsMoreViewHandler.bind(this));
+        getData("/api/categories/" + this.currentCid + "/last/0", this.categoryProjectCallback.bind(this));
+        addEventListenerToTarget(this.ulTag, "click", this.liClickHandler.bind(this));
+        addEventListenerToTarget($("#more_project_btn"), "click", this.projectsMoreViewHandler.bind(this));
     }
 
     fillCategoryContentHTML(category) {
         let categoryTemplate = `<li data-category-id="{id}"><img src="{categoryImageUrl}"><p>{title}</p></li>`;
         return categoryTemplate.replace(/{id}/g, category.id)
-                               .replace(/{categoryImageUrl}/g, category.categoryImageUrl)
-                               .replace(/{title}/g, category.title);
+            .replace(/{categoryImageUrl}/g, category.categoryImageUrl)
+            .replace(/{title}/g, category.title);
     }
 
     insertCategoriesContentHTML(res) {
         let html = ``;
         res.forEach(category => {
             html += this.fillCategoryContentHTML(category);
-            this.categories[category.id] = null; 
+            this.categories[category.id] = null;
         })
         this.ulTag.insertAdjacentHTML("beforeend", html);
     }
@@ -38,20 +38,20 @@ class CategoryManager {
         })
     }
 
-    addCategory(projects){
-        this.categories[this.currentCid] = new Category(projects,this.currentCid);
+    addCategory(projects) {
+        this.categories[this.currentCid] = new Category(projects, this.currentCid);
     }
 
     viewCategoryProject(target) {
         this.currentCid = target.dataset.categoryId;
-       
-        if(this.categories[this.currentCid] !== null){
+
+        if (this.categories[this.currentCid] !== null) {
             eraseHTML($(".projects"));
-            $("#category-content").insertAdjacentElement("beforeend",this.categories[this.currentCid].categoryChildProductsTag);
+            $("#category-content").insertAdjacentElement("beforeend", this.categories[this.currentCid].categoryChildProductsTag);
             return;
         }
 
-        getData("/api/categories/"+this.currentCid+"/last/0", this.categoryProjectCallback.bind(this));
+        getData("/api/categories/" + this.currentCid + "/last/0", this.categoryProjectCallback.bind(this));
     }
 
     liClickHandler(evt) {
@@ -62,24 +62,26 @@ class CategoryManager {
 
         if (target.classList.contains("on")) return;
         this.viewCategoryProject(target);
-        removeClassName("on",$('.on'));
+        removeClassName("on", $('.on'));
         addClassName("on", target);
     }
 
-    projectsMoreViewHandler(evt){
+    projectsMoreViewHandler(evt) {
         evt.preventDefault();
+
         this.categories[this.currentCid].projectsMoreViewApiManager(this.currentCid);
     }
 
 }
 
-class Category{
-    constructor(projects){
+class Category {
+    constructor(projects) {
         this.insertProjectsContentHTML(projects);
     }
 
     fillProjectContentHTML(project) {
         let projectTemplate = `
+        <a href="/products/{id}">
             <li data-project-id="{id}">
                 <div class="project-img">
                     <img src="{thumbnailUrl}"/>
@@ -104,13 +106,14 @@ class Category{
                     </span>
                 </div>
             </li>
+        </a>
             `;
         return projectTemplate.replace(/{id}/g, project.pid)
-                              .replace(/{thumbnailUrl}/g, project.thumbnailUrl)
-                              .replace(/{title}/g, project.title)
-                              .replace(/{owner}/g, project.owner)
-                              .replace(/{period}/g, project.period)
-                              .replace(/{fundraisingAmount}/g, project.fundraisingAmount);
+            .replace(/{thumbnailUrl}/g, project.thumbnailUrl)
+            .replace(/{title}/g, project.title)
+            .replace(/{owner}/g, project.owner)
+            .replace(/{period}/g, project.period)
+            .replace(/{fundraisingAmount}/g, project.fundraisingAmount);
     }
 
     insertProjectsContentHTML(projects) {
@@ -119,33 +122,33 @@ class Category{
             html += this.fillProjectContentHTML(project);
         })
         html += `</ul>`;
-        
+
         eraseHTML($(".projects"));
-        $("#category-content").insertAdjacentHTML("beforeend",html);
+        $("#category-content").insertAdjacentHTML("beforeend", html);
         this.categoryChildProductsTag = $('.projects');
     }
 
-    projectsMoreViewCallback(response){
+    projectsMoreViewCallback(response) {
         response.json().then(projects => {
             const projectListUl = $(".projects");
-            
-            let html =``;
-            projects.forEach(project=>{
-                html += this.fillProjectContentHTML(project);    
+
+            let html = ``;
+            projects.forEach(project => {
+                html += this.fillProjectContentHTML(project);
             })
-            projectListUl.insertAdjacentHTML("beforeend",html);
-            
+            projectListUl.insertAdjacentHTML("beforeend", html);
+
             this.categoryChildProductsTag = $(".projects");
         })
     }
 
-    projectsMoreViewApiManager(cid){
-        getData("/api/categories/"+cid+"/last/"+$('.projects').lastElementChild.dataset.projectId,this.projectsMoreViewCallback.bind(this));  
+    projectsMoreViewApiManager(cid) {
+        getData("/api/categories/" + cid + "/last/" + $('.projects').lastElementChild.firstElementChild.dataset.projectId, this.projectsMoreViewCallback.bind(this));
     }
 }
 
 
 
 window.addEventListener("DOMContentLoaded", () => {
-        new CategoryManager();
+    new CategoryManager();
 })
