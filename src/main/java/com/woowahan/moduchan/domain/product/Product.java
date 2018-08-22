@@ -52,7 +52,7 @@ public class Product {
     }
 
     public void delete() {
-        if (productUserMaps.stream().filter(productUserMap -> !productUserMap.isDeleted()).collect(Collectors.toList()).size() != 0) {
+        if (productUserMaps.stream().filter(productUserMap -> !productUserMap.isDeleted()).count() != 0) {
             // TODO: 2018. 8. 22. 후원자가 존재하는데 삭제한 경우, 에러를 반환한다. 
             throw new RuntimeException();
         }
@@ -83,7 +83,7 @@ public class Product {
             return false;
         }
 
-        if (productUserMaps.stream().filter(productUserMap -> !productUserMap.isDeleted()).collect(Collectors.toList()).size() == 0) {
+        if (productUserMaps.stream().filter(productUserMap -> !productUserMap.isDeleted()).count() == 0) {
             updateAll(productDTO);
         } else {
             updateDescription(productDTO.getDescription());

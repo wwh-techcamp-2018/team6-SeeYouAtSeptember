@@ -63,7 +63,8 @@ public class ProjectService {
         Project project = projectRepository.findById(pid)
                 .orElseThrow(() -> new ProjectNotFoundException("pid: " + pid));
         if (!project.isOwner(userDTO)) {
-            throw new UnAuthorizedException("pid: " + pid + " tried uid: " + userDTO.getUid());
+            throw new UnAuthorizedException(String.format("pid: {} tried :{} ",
+                   pid,userDTO.getUid()));
         }
         project.delete();
     }
@@ -73,7 +74,8 @@ public class ProjectService {
         Project project = projectRepository.findById(projectDTO.getPid())
                 .orElseThrow(() -> new ProjectNotFoundException("pid: " + projectDTO.getPid()));
         if (!project.isOwner(userDTO)) {
-            throw new UnAuthorizedException("project owner: " + project.toDTO().getPid() + " tried uid: " + userDTO.getUid());
+            throw new UnAuthorizedException(String.format("project owner: {} tried :{} ",
+                    project.toDTO().getPid(),userDTO.getUid()));
         }
         return project.updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid())
                 .orElseThrow(() -> new CategoryNotFoundException("cid: " + projectDTO.getCid())))
@@ -82,7 +84,7 @@ public class ProjectService {
 
     public String uploadImage(MultipartFile multipartFile, String previousFileUrl) throws IOException {
         if (!previousFileUrl.isEmpty()) {
-            s3Util.removeFileFromS3(S3Util.DIR_NAME + previousFileUrl.substring(previousFileUrl.lastIndexOf(S3Util.SLASH)));
+            s3Util.removeFileFromS3(S3Util.DIR_NAME + previousFileUrl.substring(previousFileUrl.lastIndexOf("/")));
         }
         return s3Util.upload(multipartFile, S3Util.DIR_NAME);
     }

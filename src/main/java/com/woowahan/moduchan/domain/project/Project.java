@@ -118,7 +118,7 @@ public class Project extends BaseTimeEntity {
     public String getFileName() {
         if (thumbnailUrl == null)
             return null;
-        return S3Util.DIR_NAME + thumbnailUrl.substring(thumbnailUrl.lastIndexOf(S3Util.SLASH));
+        return S3Util.DIR_NAME + thumbnailUrl.substring(thumbnailUrl.lastIndexOf("/"));
     }
 
     private void updateProducts(List<ProductDTO> productDTOs) {
@@ -131,7 +131,7 @@ public class Project extends BaseTimeEntity {
                         productDTOs.remove(0);
                     }
                 });
-        productDTOs.forEach(productDTO -> products.add(Product.from(productDTO, this)));
+        productDTOs.forEach(productDTO -> addProduct(productDTO));
     }
 
     public enum STATUS {
