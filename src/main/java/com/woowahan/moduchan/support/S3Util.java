@@ -18,10 +18,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class S3Util {
-    private final AmazonS3Client amazonS3Client;
-
     public final static String DIR_NAME = "static";
-
+    private final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 

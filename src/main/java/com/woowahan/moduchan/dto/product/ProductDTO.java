@@ -13,6 +13,8 @@ public class ProductDTO {
     private Long pid;
     private String title;
     private Long price;
-    private Long supplyQuantity;
+    private Long quantitySupplied;
     private String description;
+    private int supporterCount;
+    private Long quantityConsumed;
 }
