@@ -68,7 +68,6 @@ class CategoryManager {
 
     projectsMoreViewHandler(evt){
         evt.preventDefault();
-        console.log(this.currentCid);
         
         this.categories[this.currentCid].projectsMoreViewApiManager(this.currentCid);
     }
