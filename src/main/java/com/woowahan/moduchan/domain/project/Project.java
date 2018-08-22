@@ -86,7 +86,7 @@ public class Project extends BaseTimeEntity {
         this.thumbnailUrl = projectDTO.getThumbnailUrl();
         this.title = projectDTO.getTitle();
         this.category = category;
-        updateProducts(projectDTO.getProducts());
+        //updateProducts(projectDTO.getProducts());
         return this;
     }
 

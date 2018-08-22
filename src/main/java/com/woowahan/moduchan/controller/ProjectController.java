@@ -1,5 +1,7 @@
 package com.woowahan.moduchan.controller;
 
+import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.security.LoginUser;
 import com.woowahan.moduchan.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +19,7 @@ public class ProjectController {
     private CategoryService categoryService;
 
     @GetMapping("/start")
-    public String create(Model model) {
+    public String create(@LoginUser UserDTO loginUserDTO, Model model) {
         model.addAttribute("categories", categoryService.getCategories().stream().
                 filter(categoryDTO -> categoryDTO.getId() != 0).collect(Collectors.toList()));
         return "create_project";

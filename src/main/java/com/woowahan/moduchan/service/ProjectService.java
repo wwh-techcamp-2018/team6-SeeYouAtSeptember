@@ -75,7 +75,7 @@ public class ProjectService {
     }
 
     public String uploadImage(MultipartFile multipartFile, String previousFileUrl) throws IOException {
-        if (previousFileUrl != null && !previousFileUrl.isEmpty()) {
+        if (!previousFileUrl.isEmpty()) {
             s3Util.removeFileFromS3(S3Util.DIR_NAME + previousFileUrl.substring(previousFileUrl.lastIndexOf(S3Util.SLASH)));
         }
         return s3Util.upload(multipartFile, S3Util.DIR_NAME);

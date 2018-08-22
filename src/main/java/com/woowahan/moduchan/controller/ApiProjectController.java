@@ -80,7 +80,7 @@ public class ApiProjectController {
         return new ResponseEntity<>(projectService.updateProject(projectDTO, loginUserDTO), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "에디터 이미지 업로드", notes = "에디터 이미지를 업로드합니다.")
+    @ApiOperation(value = "이미지 업로드", notes = "이미지를 업로드합니다.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "업로드 성공"),
             @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
