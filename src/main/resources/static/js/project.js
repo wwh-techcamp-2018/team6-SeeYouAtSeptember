@@ -33,7 +33,7 @@ class ProjectForm {
     const maybeRemoveProductBtn = evt.target;
     if(maybeRemoveProductBtn.id === "removeProduct"){
        
-    for(let product of iterable){
+    for(let [product,i] of this.productList.entries()){
         if(product.productTag === maybeRemoveProductBtn.parentElement){ 
             this.productList.splice(i,1) 
             break;
@@ -48,7 +48,8 @@ class ProjectForm {
     this.validProjectList = [
       this.validTitle.bind(this),
       this.validEndAt.bind(this),
-      this.validGoalFundRaising.bind(this)
+      this.validGoalFundRaising.bind(this),
+      this.validThumbnailUrl.bind(this)
     ];
 
     this.cnt = this.validProjectList.length;
@@ -77,6 +78,10 @@ class ProjectForm {
     return this.goalFundRaising >= minGoalFundRaising;
   }
 
+  validThumbnailUrl(){
+    return this.thumbnailUrl !== undefined;
+  }
+
   focusOutProjectInputHandler(evt) {
     if (evt.target.id === "projects_title_input") this.validTitle();
     if (evt.target.id === "projects_goalFundRaising_input")
@@ -86,42 +91,72 @@ class ProjectForm {
 
   insertImgFile(evt) {
     const maybeImg = evt.target.files[0];
+    
+    if(maybeImg === undefined) return;
+
     if (maybeImg["type"].split("/")[0] === "image") {
-      this.thumbnailUrl = maybeImg;
-      this.readImage();
+       fetchFormData(this.setFormData(maybeImg),"/api/projects/upload",this.imageUploadCallback.bind(this));
     }
   }
 
-  readImage() {
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      $("#thumbnailUrl").src = fileReader.result;
-    };
-    fileReader.readAsDataURL(this.thumbnailUrl);
+   setFormData(maybeImg){
+    const projectForm = new FormData();
+    projectForm.append("file",maybeImg);
+    if (this.thumbnailUrl !== undefined) {
+       projectForm.append("previousFileUrl",this.thumbnailUrl);
+       return projectForm;
+     } 
+     projectForm.append("previousFileUrl","");
+     return projectForm;
+   }
+
+  imageUploadCallback(response){
+      response.text().then(img=>{
+          this.thumbnailUrl = img
+          $("#thumbnailUrl").src = this.thumbnailUrl;
+      }).catch(()=>{
+          alert("잘못된 형식의 이미지입니다.")
+      })
   }
 
   createProjectBtnHandler(evt) {
     evt.preventDefault();
 
-    if (!this.validProjectAll()) return;
-    
+    if (!this.validProjectAll()){ 
+      alert("프로젝트 양식을 확인해주세요!")
+      return;
+    }
+
     const products = [];
     this.productList.forEach(product=>{
         products.push(product.validProductAll());
     })
-    
-    const projectForm = new FormData();
 
-    projectForm.append("title",this.title);
-    projectForm.append("description",editor.getHtml());
-    if (this.thumbnailUrl !== undefined) {
-        projectForm.append("thumbnailUrl",this.thumbnailUrl);
-    }
-    projectForm.append("goalFundRaising",this.goalFundRaising);
-    projectForm.append("endAt",this.endAt.getTime());
-    projectForm.append("productList",products);
+    const project = {
+        "title":this.title,
+        "description":editor.getHtml(),
+        "goalFundRaising":this.goalFundRaising,
+        "cid":$('.categories_dropbox select').value,
+        "endAt":this.endAt.getTime(),
+        "products": products,
+        "thumbnailUrl":this.thumbnailUrl
+    };    
     
+    fetchManager({
+      url: '/api/projects',
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(project),
+      callback: this.createProjectCallback.bind(this)
+    });
   }
+
+  createProjectCallback(response){
+    if(response.status === 201){    
+      location.href = "/categories"
+    }
+  }
+  
 }
 
 document.addEventListener("DOMContentLoaded", () => {

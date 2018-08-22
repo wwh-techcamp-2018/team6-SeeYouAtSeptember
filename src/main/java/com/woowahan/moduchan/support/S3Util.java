@@ -12,14 +12,19 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class S3Util {
     public final static String DIR_NAME = "static";
+
     private final AmazonS3Client amazonS3Client;
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -32,15 +37,19 @@ public class S3Util {
     }
 
     public String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+        String fileName = Paths.get(DIR_NAME,uploadFile.getName().toString()).toString();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
     }
 
     private String putS3(File uploadFile, String fileName) {
-        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+        String unqiueKey = new StringBuilder(DIR_NAME).append("/")
+                                                      .append(UUID.randomUUID().toString())
+                                                      .append(getExtension(fileName))
+                                                      .toString();
+        amazonS3Client.putObject(new PutObjectRequest(bucket, unqiueKey, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        return amazonS3Client.getUrl(bucket, unqiueKey).toString();
     }
 
     private void removeNewFile(File targetFile) {
@@ -60,6 +69,10 @@ public class S3Util {
             return Optional.of(convertFile);
         }
         return Optional.empty();
+    }
+
+    private String getExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 
     public void removeFileFromS3(String key) {
