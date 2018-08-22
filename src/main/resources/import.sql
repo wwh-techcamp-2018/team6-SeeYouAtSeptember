@@ -18,6 +18,7 @@ insert into NORMAL_USER (email, name, deleted, address, phone_no) values ('ebeig
 insert into NORMAL_USER (email, name, deleted, address, phone_no) values ('nwalewiczh@smugmug.com', 'Walewicz', false, '16410 Randy Place', '857-572-1941');
 insert into NORMAL_USER (email, name, deleted, address, phone_no) values ('aweylandi@utexas.edu', 'Weyland', true, '9 David Center', '414-765-8212');
 insert into NORMAL_USER (email, name, deleted, address, phone_no) values ('ddroverj@mit.edu', 'Drover', false, '53575 Talmadge Terrace', '448-130-7169');
+insert into NORMAL_USER (email, name, deleted, address, phone_no, password) values ('a', 'test', false, '53575 Talmadge Terrace', '448-130-7169', '$2a$10$wcN5tM.qDTynm/yNS/8KC.rTGAMMQq4QhURkkvBzR1mXElb2kcjmq');
 
 INSERT INTO CATEGORY (id, title, category_image_url) VALUES (0,'전체보기','https://cdn.wadiz.kr/resources/assets/img/912f519d6d62214aea09ffd35630daab.jpg');
 INSERT INTO CATEGORY (title, category_image_url) VALUES ('고기반찬','http://cfile235.uf.daum.net/image/124E57244BB155377FE901');
@@ -28,7 +29,7 @@ INSERT INTO CATEGORY (title, category_image_url) VALUES ('생선반찬','http://
 INSERT INTO CATEGORY (title, category_image_url) VALUES ('간식','http://blog.samsunghospital.com/wp-content/uploads/2016/12/20160321_03.jpg');
 INSERT INTO CATEGORY (title, category_image_url) VALUES ('기타','https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Guitar_1.jpg/300px-Guitar_1.jpg');
 
-INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,created_at, end_at, goal_fund_raising, deleted) VALUES ('[리쿡54] 꼬시래기무침 200g', '꼬들꼬들한 식감에 새콤달콤한 꼬시래기 무침 ', 'https://cdn.bmf.kr/_data/product/IDB51/267a850c3eac55e222d5bc920673a581.jpg', 1, 1,'2018-08-10T06:10:15.790Z','2018-08-20T06:10:15.790Z',1000, false);
+INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,created_at, end_at, goal_fund_raising, deleted) VALUES ('[리쿡54] 꼬시래기무침 200g', '<h1>꼬들꼬들한 식감에 새콤달콤한 꼬시래기 무침</h1><h2>두번째 제목입니다.</h2> <p>내용부분</p>', 'https://cdn.bmf.kr/_data/product/IDB51/267a850c3eac55e222d5bc920673a581.jpg', 1, 1,'2018-08-10T06:10:15.790Z','2018-08-20T06:10:15.790Z',1000, false);
 INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,created_at, end_at, goal_fund_raising, deleted) VALUES ('[진가네반찬] 창란무무침 200g', '두고두고 먹는 매콤달콤 밥반찬 ', 'https://cdn.bmf.kr/_data/product/I3EC1/1b2fb12bdc49a34eb8fa0d7e7e9cedfb.jpg',1, 1,'2018-01-20T06:10:15.790Z','2018-08-20T06:10:15.790Z',1000, false);
 INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,created_at, end_at, goal_fund_raising, deleted) VALUES ('[리쿡54] 오이지 200g', '냉국으로 즐겨도 손색없는 오이지',  'https://cdn.bmf.kr/_data/product/IFA25/cfad500e3b2d6799592b28a3523165d5.jpg',2, 1,'2018-08-01T06:10:15.790Z','2018-08-17T06:10:15.790Z',2000, false);
 INSERT INTO PROJECT (title, description, thumbnail_url, owner_id, category_id,created_at, end_at, goal_fund_raising, deleted) VALUES ('[셰프찬] 마늘쫑무침 130g', '아삭아삭 마늘쫑에 셰프찬 특제 양념이 만난 기본반찬 ', 'https://cdn.bmf.kr/_data/product/I1A6C/1c0cb16398988c64f41989d36575b920.jpg',1, 2,'2018-09-02T06:10:15.790Z','2018-09-20T06:10:15.790Z',3000, false);
@@ -243,6 +244,7 @@ insert into PRODUCT (deleted, description, title, price, quantity_supplied, proj
 insert into PRODUCT (deleted, description, title, price, quantity_supplied, project_id) values (false, 'mesh cross-media interfaces', 'Born Yesterday', 9295.9465, 968, 2);
 insert into PRODUCT (deleted, description, title, price, quantity_supplied, project_id) values (true, 'visualize integrated infrastructures', 'Outlaw', 13334.8474, 869, 5);
 
+insert into PRODUCT_USER_MAP (created_at, quantity, normal_user_id, product_id) values ('2018-08-05 07:56:10', 2000, 1, 62);
 insert into PRODUCT_USER_MAP (created_at, quantity, normal_user_id, product_id) values ('2018-05-29 03:31:03', 54, 14, 22);
 insert into PRODUCT_USER_MAP (created_at, quantity, normal_user_id, product_id) values ('2018-01-15 06:33:58', 61, 9, 39);
 insert into PRODUCT_USER_MAP (created_at, quantity, normal_user_id, product_id) values ('2018-05-12 01:46:59', 88, 15, 32);

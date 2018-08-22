@@ -14,17 +14,18 @@
 <div id="project-detail">
     <div class="project-detail-grid" id="row1">
         <div class="thumbnail-container container">
-            <img class="thumbnail-img" src="{{imgUrl}}">
+            <img class="thumbnail-img" src="{{thumbnailUrl}}">
         </div>
         <div class="summary-container container">
             <div id="state-box">
-                <p class="remainning-day">remianningDay}}</p>
+                <p class="project-title">{{title}}</p>
+                <p class="remainning-day">{{dayRemainingUntilDeadline}}일 남음</p>
                 <div class="progress">
-                    <span style="width:25%"></span>
+                    <span style="width:{{progress}}%"></span>
                 </div>
-                <p class="achievement-rate"><strong>rate}}</strong> 달성</p>
-                <p class="total-fundraising"><strong>totalFundraising}}</strong> 후원</p>
-                <p class="total-supporter"><strong>totalSupporter}}</strong>명의 후원</p>
+                <p class="achievement-rate"><strong>{{progress}}%</strong> 달성</p>
+                <p class="total-fundraising"><strong>{{currentFundRaising}}원</strong> 후원</p>
+                <p class="total-supporter"><strong>{{supporterCount}}</strong>명의 후원</p>
             </div>
             <button class="support-btn">후원하기</button>
         </div>
@@ -34,10 +35,6 @@
         <div class="description-container container">
             <div class="description-viewer" data-description="{{description}}">
                 <div id="viewer-section"></div>
-                <p style="font-size: 150px; margin: 0.5em; text-align: center">설</p>
-                <p style="font-size: 150px; margin: 0.5em; text-align: center">명</p>
-                <p style="font-size: 150px; margin: 0.5em; text-align: center">구</p>
-                <p style="font-size: 150px; margin: 0.5em; text-align: center">역</p>
             </div>
         </div>
         <div class="product-container container">
@@ -45,26 +42,56 @@
                 <p>후원목록</p>
             </div>
             <div class="product-list">
+                {{^loginUser}}
+                <div class="need-login-cover">
+                    <p>로</p>
+                    <p>그</p>
+                    <p>인</p>
+                    <p>이</p>
+                    <p>필</p>
+                    <p>요</p>
+                    <p>한</p>
+                    <p>서</p>
+                    <p>비</p>
+                    <p>스</p>
+                    <p>입</p>
+                    <p>니</p>
+                    <p>다</p>
+                </div>
+                {{/loginUser}}
                 {{#project.products}}
-                <div class="product-btn" data-product-id="{{id}}">
+                {{#if isRemainQuantity}}
+                <div class="product-btn" data-product-id="{{pid}}">
+                {{else}}
+                <div class="product-btn soldout" data-product-id="{{pid}}">
+                {{/if}}
                     <div class="product-info-container">
-                        <div class="product-info-title">프로덕트 제목</div>
+                        <div class="product-info-title">{{title}}</div>
                         <div class="product-info-description">
-                            프로덕트 설명<br>
-                            프로덕트 설명<br>
-                            프로덕트 설명
+                            {{description}}
                         </div>
                         <div class="product-info-price">
                             가격<br>
-                            <strong>5,800원</strong>
+                            <strong>{{price}}원</strong>
                         </div>
                         <div class="product-info-delivery">
                             배송비<br>
                             <strong>0원</strong>
                         </div>
                         <div class="product-info-quantity">
-                            <span>제한수량 10개 현재 3개 남음</span>
+                            {{#if isRemainQuantity}}
+                            <span>제한수량 {{quantitySupplied}}개 현재 {{remainQuantity}}개 남음</span>
                             <span style="display: none;">재고가 모두 소진되었습니다.</span>
+                            {{else}}
+                            <span style="display: none;">제한수량 {{quantitySupplied}}개 현재 {{remainQuantity}}개 남음</span>
+                            <span>재고가 모두 소진되었습니다.</span>
+                            {{/if}}
+                        </div>
+                        <div class="product-support">
+                            <input type="number" class="product-quantity" placeholder="갯수">
+                            <button class="product-support-btn">후원하기</button>
+                            <button class="product-support-cancel-btn">취소</button>
+                            <div class="product-caution caution">수량을 0개 이상 넣어주세요.</div>
                         </div>
                     </div>
                 </div>

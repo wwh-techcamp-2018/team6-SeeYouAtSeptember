@@ -63,8 +63,13 @@ ul {
     width: 100%;
 }
 
-#project-detail .project-detail-grid#row1 .summary-container #state-box .remainning-day {
+#project-detail .project-detail-grid#row1 .summary-container #state-box .project-title {
     font-size: 30px;
+    font-weight: bold;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container #state-box .remainning-day {
+    font-size: 25px;
     font-weight: bold;
 }
 
@@ -78,6 +83,7 @@ ul {
 #project-detail .project-detail-grid#row1 .summary-container #state-box .progress span {
     display: block;
     height: 100%;
+    max-width: 100%;
     background-color: #00bf99;
     border-radius: 1px;
     overflow: hidden;
@@ -120,6 +126,15 @@ ul {
     border-radius: 10px;
 }
 
+#project-detail .project-detail-grid#row2 .product-container .product-btn.soldout {
+    width: 50%;
+    margin: 0 15% 30px;
+    padding: 20px 10%;
+    background-color: rgba(47, 47, 47, 0.51);
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
 #project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container div {
     margin: 15px 0;
     width: 100%;
@@ -136,5 +151,44 @@ ul {
 #project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-info-title {
     font-size: 18px;
     color: black;
+    font-weight: bold;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-support {
+    display: none;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-support input{
+    width: 60px;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-support button{
+    width: 60px;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-caution {
+    display: none;
+    color:red;
+    background-color: rgba(100, 255, 255, 0.31);
+    font-size: 18px;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-list {
+    position: relative;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .need-login-cover {
+    position: absolute;
+    margin: 0 10%;
+    height: 100%;
+    width: 80%;
+    background-color: rgba(0, 0, 0, 0.51);
+    color: white;
+    border-radius: 10px;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .need-login-cover p{
+    text-align: center;
+    font-size: 25px;
     font-weight: bold;
 }

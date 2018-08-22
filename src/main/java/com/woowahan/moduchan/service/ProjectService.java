@@ -85,9 +85,4 @@ public class ProjectService {
                 .orElseThrow(() -> new CategoryNotFoundException("cid: " + projectDTO.getCid())))
                 .toDTO();
     }
-
-    public Project getProject(Long pid) {
-        // TODO: 2018. 8. 20. 커스텀 에러 생성
-        return projectRepository.findById(pid).orElseThrow(RuntimeException::new);
-    }
 }
