@@ -51,4 +51,5 @@ public class ProjectDTO {
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
     }
+
 }

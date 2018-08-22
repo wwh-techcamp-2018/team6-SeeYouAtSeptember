@@ -97,7 +97,7 @@ public class ApiProjectController {
             // TODO: 2018. 8. 21.  error에 대한 설명 추가
     })
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadEditorImage(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestPart("file") MultipartFile multipartFile,
+    public ResponseEntity<String> uploadImage(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestPart("file") MultipartFile multipartFile,
                                                     @RequestParam("previousFileUrl") String previousFileUrl) throws IOException {
         return new ResponseEntity<>(projectService.uploadImage(multipartFile, previousFileUrl), HttpStatus.OK);
     }
