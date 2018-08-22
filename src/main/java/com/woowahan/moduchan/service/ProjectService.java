@@ -40,6 +40,12 @@ public class ProjectService {
                 .collect(Collectors.toList());
     }
 
+    public ProjectDTO getProject(Long pid) {
+        return projectRepository.findById(pid)
+                .orElseThrow(() -> new ProjectNotFoundException("pid " + pid))
+                .toDTO();
+    }
+
     @Transactional
     public void createProject(ProjectDTO projectDTO, UserDTO writer) {
         Project newProject = Project.from(

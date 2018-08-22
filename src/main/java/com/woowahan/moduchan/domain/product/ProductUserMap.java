@@ -36,4 +36,8 @@ public class ProductUserMap extends BaseTimeEntity {
     public void delete() {
         this.deleted = true;
     }
+
+    public Long getQuantity() {
+        return quantity;
+    }
 }

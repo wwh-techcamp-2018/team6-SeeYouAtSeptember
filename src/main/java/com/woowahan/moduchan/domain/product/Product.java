@@ -25,18 +25,17 @@ public class Product {
 
     private String title;
     private Long price;
-    private Long supplyQuantity;
+    private Long quantitySupplied;
 
     @Lob
     private String description;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "product")
-    private List<ProductUserMap> productUserMaps;
-
     @ManyToOne
     @JoinColumn
     private Project project;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "product")
+    private List<ProductUserMap> productUserMaps;
 
     @NotNull
     private boolean deleted = false;
@@ -45,7 +44,7 @@ public class Product {
         return new ProductBuilder()
                 .title(productDTO.getTitle())
                 .price(productDTO.getPrice())
-                .supplyQuantity(productDTO.getSupplyQuantity())
+                .quantitySupplied(productDTO.getQuantitySupplied())
                 .description(productDTO.getDescription())
                 .project(project)
                 .deleted(false)
@@ -65,7 +64,17 @@ public class Product {
     }
 
     public ProductDTO toDTO() {
-        return new ProductDTO(id, title, price, supplyQuantity, description);
+        return new ProductDTO(id, title, price, quantitySupplied, description, getSupporterCount(), getQuantityConsumed());
+    }
+
+    private int getSupporterCount() {
+        return productUserMaps.size();
+    }
+
+    private Long getQuantityConsumed() {
+        return productUserMaps.stream()
+                .map(productUserMap -> productUserMap.getQuantity())
+                .reduce(0L, (x, y) -> x + y);
     }
 
     public boolean update(ProductDTO productDTO) {
@@ -85,7 +94,7 @@ public class Product {
     private void updateAll(ProductDTO productDTO) {
         this.title = productDTO.getTitle();
         this.price = productDTO.getPrice();
-        this.supplyQuantity = productDTO.getSupplyQuantity();
+        this.quantitySupplied = productDTO.getQuantitySupplied();
         this.description = productDTO.getDescription();
     }
 

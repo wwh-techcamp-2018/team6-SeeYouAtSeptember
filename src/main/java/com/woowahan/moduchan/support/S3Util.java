@@ -19,11 +19,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 public class S3Util {
-    private final AmazonS3Client amazonS3Client;
-
     public final static String DIR_NAME = "static";
     public final static String SLASH = "/";
     public final static String DOT = ".";
+
+    private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;

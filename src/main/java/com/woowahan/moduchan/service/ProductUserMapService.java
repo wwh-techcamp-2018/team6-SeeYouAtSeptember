@@ -26,19 +26,20 @@ public class ProductUserMapService {
     @Autowired
     private NormalUserRepository normalUserRepository;
 
-    public void donateProduct(UserDTO loginUser, ProductUserMapDTO productUserMapDTO) {
+    public void donateProduct(UserDTO loginUserDTO, ProductUserMapDTO productUserMapDTO) {
         productUserMapRepository.save(
                 new ProductUserMap(productRepository.findById(productUserMapDTO.getPid())
                         .orElseThrow(() -> new ProductNotFoundException("pid: " + productUserMapDTO.getPid())),
-                        normalUserRepository.findById(productUserMapDTO.getUid())
+                        normalUserRepository.findById(loginUserDTO.getUid())
                                 .orElseThrow(() -> new UserNotFoundException("uid: " + productUserMapDTO.getUid()))
                         , productUserMapDTO.getQuantity(), false));
     }
 
+
     @Transactional
-    public void cancelDonateProduct(UserDTO userDTO, Long pid) {
+    public void cancelDonateProduct(UserDTO loginUserDTO, Long pid) {
         // TODO: 2018. 8. 19. 해당 productUserMap에 값이 없을 때 custom exception 발생
-        productUserMapRepository.findById(new ProductUserPK(userDTO.getUid(), pid))
-                .orElseThrow(RuntimeException::new).delete();
+        productUserMapRepository.findById(new ProductUserPK(loginUserDTO.getUid(), pid))
+                    .orElseThrow(RuntimeException::new).delete();
     }
 }

@@ -43,6 +43,16 @@ public class ApiProjectController {
         return new ResponseEntity<>(projectService.getProjects(), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "프로젝트 조회", notes = "프로젝트의 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "조회 성공")
+            //error에 대한 설명 추가
+    })
+    @GetMapping("/{pid}")
+    public ResponseEntity<ProjectDTO> getProject(@PathVariable Long pid) {
+        return new ResponseEntity<>(projectService.getProject(pid), HttpStatus.OK);
+    }
+
     @ApiOperation(value = "프로젝트 생성", notes = "프로젝트를 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "생성 성공"),

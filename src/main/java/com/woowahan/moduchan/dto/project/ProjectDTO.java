@@ -28,6 +28,26 @@ public class ProjectDTO {
     private List<ProductDTO> products;
     private Long goalFundRaising;
 
+    public int getSupporterCount() {
+        return products.stream()
+                .map(productDTO -> productDTO.getSupporterCount())
+                .reduce(0, (x, y) -> x + y);
+    }
+
+    public Long getCurrentFundRaising() {
+        return products.stream()
+                .map(productDTO -> productDTO.getPrice() * productDTO.getQuantityConsumed())
+                .reduce(0L, (x, y) -> x + y);
+    }
+
+    public Long getDayRemainingUntilDeadline() {
+        return (endAt - createdAt) / 1000 / 60 / 60 / 24;
+    }
+
+    public int getProgress() {
+        return (int) (getCurrentFundRaising() / goalFundRaising);
+    }
+
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
     }
