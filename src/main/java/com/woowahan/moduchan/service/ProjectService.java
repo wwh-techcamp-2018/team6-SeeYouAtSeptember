@@ -40,6 +40,12 @@ public class ProjectService {
                 .collect(Collectors.toList());
     }
 
+    public ProjectDTO getProject(Long pid) {
+        return projectRepository.findById(pid)
+                .orElseThrow(() -> new ProjectNotFoundException("pid " + pid))
+                .toDTO();
+    }
+
     @Transactional
     public void createProject(ProjectDTO projectDTO, UserDTO writer, MultipartFile multipartFile) throws IOException {
         projectDTO.setThumbnailUrl(s3Util.upload(multipartFile, S3Util.DIR_NAME));
