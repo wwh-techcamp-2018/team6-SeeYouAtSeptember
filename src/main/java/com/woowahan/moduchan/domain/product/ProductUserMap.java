@@ -24,4 +24,8 @@ public class ProductUserMap extends BaseTimeEntity {
     private NormalUser normalUser;
 
     private Long quantity;
+
+    public Long getQuantity() {
+        return quantity;
+    }
 }
