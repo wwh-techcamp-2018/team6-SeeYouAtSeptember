@@ -30,7 +30,7 @@ div.projects-form .projects-form-grid#row1 {
 }
 
 div.projects-form .projects-form-grid div.projects-form.img {
-    width: 600px;
+    width: 100%;
     height: 600px;
 }
 
