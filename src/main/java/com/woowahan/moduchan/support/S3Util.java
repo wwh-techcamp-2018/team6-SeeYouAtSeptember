@@ -36,7 +36,7 @@ public class S3Util {
     }
 
     public String upload(File uploadFile, String dirName) {
-        String fileName = Paths.get(DIR_NAME, uploadFile.getName().toString()).toString();
+        String fileName = Paths.get(DIR_NAME, uploadFile.getName()).toString();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
