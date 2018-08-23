@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -99,5 +100,13 @@ public class ApiProjectController {
     public ResponseEntity<String> uploadImage(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestPart("file") MultipartFile multipartFile,
                                               @RequestParam("previousFileUrl") String previousFileUrl) throws IOException {
         return new ResponseEntity<>(projectService.uploadImage(multipartFile, previousFileUrl), HttpStatus.OK);
+    }
+
+    @GetMapping("/dropdown")
+    public ResponseEntity<List<List<ProjectDTO>>> getDropdownProjects(@ApiIgnore @LoginUser UserDTO loginUserDTO) {
+        List<List<ProjectDTO>> returnLists = new ArrayList<>();
+        returnLists.add(projectService.getOwnedProjects(loginUserDTO));
+        returnLists.add(projectService.getSupportingProjects(loginUserDTO));
+        return new ResponseEntity<>(returnLists, HttpStatus.OK);
     }
 }

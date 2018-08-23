@@ -9,6 +9,7 @@ import com.woowahan.moduchan.exception.UnAuthorizedException;
 import com.woowahan.moduchan.exception.UserNotFoundException;
 import com.woowahan.moduchan.repository.CategoryRepository;
 import com.woowahan.moduchan.repository.NormalUserRepository;
+import com.woowahan.moduchan.repository.ProductUserMapRepository;
 import com.woowahan.moduchan.repository.ProjectRepository;
 import com.woowahan.moduchan.support.S3Util;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,8 @@ public class ProjectService {
     private CategoryRepository categoryRepository;
     @Autowired
     private NormalUserRepository normalUserRepository;
+    @Autowired
+    private ProductUserMapRepository productUserMapRepository;
 
     public List<ProjectDTO> getProjects() {
         return projectRepository.findAll().stream()
@@ -87,5 +90,15 @@ public class ProjectService {
             s3Util.removeFileFromS3(S3Util.DIR_NAME + previousFileUrl.substring(previousFileUrl.lastIndexOf("/")));
         }
         return s3Util.upload(multipartFile, S3Util.DIR_NAME);
+    }
+
+    public List<ProjectDTO> getOwnedProjects(UserDTO loginUserDTO) {
+        return projectRepository.findAllByOwnerId(loginUserDTO.getUid()).stream().map(project -> project.toDTO()).collect(Collectors.toList());
+    }
+
+    public List<ProjectDTO> getSupportingProjects(UserDTO loginUserDTO) {
+        return productUserMapRepository.findAllByNormalUserId(loginUserDTO.getUid())
+                .stream().map(productUserMap -> productUserMap.getProduct().getProject()).collect(Collectors.toSet())
+                .stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
 }
