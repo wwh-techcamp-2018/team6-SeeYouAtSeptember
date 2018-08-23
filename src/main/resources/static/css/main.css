@@ -1,3 +1,6 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
 a {
     text-decoration: none;
 }
@@ -165,3 +168,4 @@ li.dropdown-item div.content > span {
     display: block;
     white-space: nowrap;
 }
+
