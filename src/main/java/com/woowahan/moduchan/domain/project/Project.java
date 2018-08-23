@@ -41,6 +41,7 @@ public class Project extends BaseTimeEntity {
     private String thumbnailUrl;
     @NotNull
     private Long goalFundRaising;
+    @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date endAt;
     private STATUS status;

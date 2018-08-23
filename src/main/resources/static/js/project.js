@@ -32,15 +32,13 @@ class ProjectForm {
     removeProductCreateFormHandler(evt) {
         const maybeRemoveProductBtn = evt.target;
         if (maybeRemoveProductBtn.id === "removeProduct") {
-
-            for (let [product, i] of this.productList.entries()) {
+            for (let [i, product] of this.productList.entries()) {
                 if (product.productTag === maybeRemoveProductBtn.parentElement) {
                     this.productList.splice(i, 1)
+                    maybeRemoveProductBtn.parentElement.remove();
                     break;
                 }
             }
-
-            maybeRemoveProductBtn.parentElement.remove();
         }
     }
 
@@ -130,7 +128,7 @@ class ProjectForm {
         const products = [];
         this.productList.forEach(product => {
             products.push(product.validProductAll());
-        })
+        });
 
         const project = {
             "title": this.title,
@@ -145,7 +143,7 @@ class ProjectForm {
         fetchManager({
             url: '/api/projects',
             method: 'POST',
-            headers: { 'content-type': 'application/json' },
+            headers: {'content-type': 'application/json'},
             body: JSON.stringify(project),
             callback: this.createProjectCallback.bind(this)
         });

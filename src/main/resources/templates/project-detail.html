@@ -60,60 +60,60 @@
                 </div>
                 {{/loginUser}}
                 {{#project.products}}
-                {{#if isRemainQuantity}}
+                {{#if quantityRemained}}
                 <div class="product-btn" data-product-id="{{pid}}">
-                {{else}}
-                <div class="product-btn soldout" data-product-id="{{pid}}">
-                {{/if}}
-                    <div class="product-info-container">
-                        <div class="product-info-title">{{title}}</div>
-                        <div class="product-info-description">
-                            {{description}}
-                        </div>
-                        <div class="product-info-price">
-                            가격<br>
-                            <strong>{{price}}원</strong>
-                        </div>
-                        <div class="product-info-delivery">
-                            배송비<br>
-                            <strong>0원</strong>
-                        </div>
-                        <div class="product-info-quantity">
-                            {{#if isRemainQuantity}}
-                            <span>제한수량 {{quantitySupplied}}개 현재 {{remainQuantity}}개 남음</span>
-                            <span style="display: none;">재고가 모두 소진되었습니다.</span>
-                            {{else}}
-                            <span style="display: none;">제한수량 {{quantitySupplied}}개 현재 {{remainQuantity}}개 남음</span>
-                            <span>재고가 모두 소진되었습니다.</span>
-                            {{/if}}
-                        </div>
-                        <div class="product-support">
-                            <input type="number" class="product-quantity" placeholder="갯수">
-                            <button class="product-support-btn">후원하기</button>
-                            <button class="product-support-cancel-btn">취소</button>
-                            <div class="product-caution caution">수량을 0개 이상 넣어주세요.</div>
+                    {{else}}
+                    <div class="product-btn soldout" data-product-id="{{pid}}">
+                        {{/if}}
+                        <div class="product-info-container">
+                            <div class="product-info-title">{{title}}</div>
+                            <div class="product-info-description">
+                                {{description}}
+                            </div>
+                            <div class="product-info-price">
+                                가격<br>
+                                <strong>{{price}}원</strong>
+                            </div>
+                            <div class="product-info-delivery">
+                                배송비<br>
+                                <strong>0원</strong>
+                            </div>
+                            <div class="product-info-quantity">
+                                {{#if quantityRemained}}
+                                <span>제한수량 {{quantitySupplied}}개 현재 {{remainQuantity}}개 남음</span>
+                                <span style="display: none;">재고가 모두 소진되었습니다.</span>
+                                {{else}}
+                                <span style="display: none;">제한수량 {{quantitySupplied}}개 현재 {{remainQuantity}}개 남음</span>
+                                <span>재고가 모두 소진되었습니다.</span>
+                                {{/if}}
+                            </div>
+                            <div class="product-support">
+                                <input type="number" class="product-quantity" placeholder="갯수">
+                                <button class="product-support-btn">후원하기</button>
+                                <button class="product-support-cancel-btn">취소</button>
+                                <div class="product-caution caution">수량을 0개 이상 넣어주세요.</div>
+                            </div>
                         </div>
                     </div>
+                    {{/project.products}}
                 </div>
-                {{/project.products}}
             </div>
         </div>
     </div>
-</div>
-{{/project}}
-{{/block}}
-{{#block "footer"}}
-<script src="/tui-editor/lib/jquery/dist/jquery.js"></script>
-<script src="/tui-editor/lib/markdown-it/dist/markdown-it.js"></script>
-<script src="/tui-editor/lib/to-mark/dist/to-mark.js"></script>
-<script src="/tui-editor/lib/tui-code-snippet/dist/tui-code-snippet.js"></script>
-<script src="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.js"></script>
-<script src="/tui-editor/lib/codemirror/lib/codemirror.js"></script>
-<script src="/tui-editor/lib/highlightjs/highlight.pack.js"></script>
-<script src="/tui-editor/lib/squire-rte/build/squire-raw.js"></script>
-<script src="/tui-editor/lib/raphael/raphael.js"></script>
-<script src="/tui-editor/lib/tui-chart/dist/tui-chart.js"></script>
-<script src="/tui-editor/dist/tui-editor-Viewer.js"></script>
-<script src="/js/common.js"></script>
-<script src="/js/project_detail.js"></script>
-{{/block}}
+    {{/project}}
+    {{/block}}
+    {{#block "footer"}}
+    <script src="/tui-editor/lib/jquery/dist/jquery.js"></script>
+    <script src="/tui-editor/lib/markdown-it/dist/markdown-it.js"></script>
+    <script src="/tui-editor/lib/to-mark/dist/to-mark.js"></script>
+    <script src="/tui-editor/lib/tui-code-snippet/dist/tui-code-snippet.js"></script>
+    <script src="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.js"></script>
+    <script src="/tui-editor/lib/codemirror/lib/codemirror.js"></script>
+    <script src="/tui-editor/lib/highlightjs/highlight.pack.js"></script>
+    <script src="/tui-editor/lib/squire-rte/build/squire-raw.js"></script>
+    <script src="/tui-editor/lib/raphael/raphael.js"></script>
+    <script src="/tui-editor/lib/tui-chart/dist/tui-chart.js"></script>
+    <script src="/tui-editor/dist/tui-editor-Viewer.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/project_detail.js"></script>
+    {{/block}}

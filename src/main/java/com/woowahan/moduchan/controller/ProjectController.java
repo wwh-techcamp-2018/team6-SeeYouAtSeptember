@@ -17,22 +17,23 @@ import java.util.stream.Collectors;
 @RequestMapping("/projects")
 public class ProjectController {
     public final String PROJECT_KEY = "project";
+    public final String CATEGORY_KEY = "categories";
 
     @Autowired
-    ProjectService projectService;
+    private ProjectService projectService;
 
     @Autowired
     private CategoryService categoryService;
 
     @GetMapping("/{pid}")
-    public String getProject(@PathVariable("pid") Long pid, Model model){
-        model.addAttribute(PROJECT_KEY,projectService.getProject(pid));
+    public String getProject(@PathVariable Long pid, Model model) {
+        model.addAttribute(PROJECT_KEY, projectService.getProject(pid));
         return "project-detail";
     }
 
     @GetMapping("/start")
     public String create(@LoginUser UserDTO loginUserDTO, Model model) {
-        model.addAttribute("categories", categoryService.getCategories().stream().
+        model.addAttribute(CATEGORY_KEY, categoryService.getCategories().stream().
                 filter(categoryDTO -> categoryDTO.getId() != 0).collect(Collectors.toList()));
         return "create_project";
     }

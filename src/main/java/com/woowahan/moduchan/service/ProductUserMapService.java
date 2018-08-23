@@ -26,13 +26,23 @@ public class ProductUserMapService {
     @Autowired
     private NormalUserRepository normalUserRepository;
 
+
     public void donateProduct(UserDTO loginUserDTO, ProductUserMapDTO productUserMapDTO) {
-        productUserMapRepository.save(
-                new ProductUserMap(productRepository.findById(productUserMapDTO.getPid())
+        // TODO: 2018. 8. 22. 리팩토링!!!!!!!!!!!!!!! 
+        ProductUserMap productUserMap = productUserMapRepository.findById(new ProductUserPK(productUserMapDTO.getPid(), loginUserDTO.getUid()))
+                .orElse(new ProductUserMap(productRepository.findById(productUserMapDTO.getPid())
                         .orElseThrow(() -> new ProductNotFoundException("pid: " + productUserMapDTO.getPid())),
                         normalUserRepository.findById(loginUserDTO.getUid())
-                                .orElseThrow(() -> new UserNotFoundException("uid: " + productUserMapDTO.getUid()))
-                        , productUserMapDTO.getQuantity(), false));
+                                .orElseThrow(() -> new UserNotFoundException("uid: " + productUserMapDTO.getUid())),
+                        0L, false));
+        if (productUserMap.isDeleted()) {
+            productUserMap.updateQuantity(productUserMapDTO);
+            productUserMapRepository.save(productUserMap);
+            return;
+        }
+        productUserMap.appendQuantity(productUserMapDTO);
+        productUserMapRepository.save(productUserMap);
+        return;
     }
 
 
@@ -40,6 +50,6 @@ public class ProductUserMapService {
     public void cancelDonateProduct(UserDTO loginUserDTO, Long pid) {
         // TODO: 2018. 8. 19. 해당 productUserMap에 값이 없을 때 custom exception 발생
         productUserMapRepository.findById(new ProductUserPK(loginUserDTO.getUid(), pid))
-                    .orElseThrow(RuntimeException::new).delete();
+                .orElseThrow(RuntimeException::new).delete();
     }
 }

@@ -64,7 +64,7 @@ public class ProjectService {
                 .orElseThrow(() -> new ProjectNotFoundException("pid: " + pid));
         if (!project.isOwner(userDTO)) {
             throw new UnAuthorizedException(String.format("pid: {} tried :{} ",
-                   pid,userDTO.getUid()));
+                    pid, userDTO.getUid()));
         }
         project.delete();
     }
@@ -75,7 +75,7 @@ public class ProjectService {
                 .orElseThrow(() -> new ProjectNotFoundException("pid: " + projectDTO.getPid()));
         if (!project.isOwner(userDTO)) {
             throw new UnAuthorizedException(String.format("project owner: {} tried :{} ",
-                    project.toDTO().getPid(),userDTO.getUid()));
+                    project.toDTO().getPid(), userDTO.getUid()));
         }
         return project.updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid())
                 .orElseThrow(() -> new CategoryNotFoundException("cid: " + projectDTO.getCid())))
