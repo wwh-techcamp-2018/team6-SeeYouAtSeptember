@@ -6,7 +6,7 @@ class Product {
 
 
     setProductTitle() {
-        this.title = this.productTag.children.product_title_input.value;
+        this.title = this.productTag.children["product-title-input"].value;
 
         if (this.title.length < 3) return false;
 
@@ -15,7 +15,7 @@ class Product {
     }
 
     setProductDescription() {
-        this.description = this.productTag.children.product_description_input.value;
+        this.description = this.productTag.children["product-description-input"].value;
 
         if (this.description.length < 3) return false;
 
@@ -24,7 +24,7 @@ class Product {
     }
 
     setPrice() {
-        this.price = this.productTag.children.product_price_input.value;
+        this.price = this.productTag.children["product-price-input"].value;
 
         if (this.price < 0){
             return false;
@@ -34,7 +34,7 @@ class Product {
     }
 
     setSupplyQuantity() {
-        this.quantitySupplied = this.productTag.children.product_supplyQuantity_input.value;
+        this.quantitySupplied = this.productTag.children["product-supplyQuantity-input"].value;
 
         if (this.quantitySupplied < 10){
             return false;
@@ -47,7 +47,8 @@ class Product {
         this.productInfoSettingFuncList = [
             this.setProductDescription.bind(this),
             this.setPrice.bind(this),
-            this.setSupplyQuantity.bind(this)
+            this.setSupplyQuantity.bind(this),
+            this.setProductTitle.bind(this)
         ];
 
         let cnt = this.productInfoSettingFuncList.length;

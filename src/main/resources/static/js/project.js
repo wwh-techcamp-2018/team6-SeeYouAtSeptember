@@ -1,15 +1,15 @@
 class ProjectForm {
     constructor() {
         this.productList = [];
-        addEventListenerToTarget($("#create_project_btn"), "click", this.createProjectBtnHandler.bind(this));
-        addEventListenerToTarget($(".projects_form.img input"), "change", this.insertImgFile.bind(this));
+        addEventListenerToTarget($("#create-project-btn"), "click", this.createProjectBtnHandler.bind(this));
+        addEventListenerToTarget($(".projects-form.img input"), "change", this.insertImgFile.bind(this));
         addEventListenerToTarget($("#addProduct"), "click", this.addProductCreateFormHandler.bind(this));
-        addEventListenerToTarget($(".products_addList"), "click", this.removeProductCreateFormHandler.bind(this));
+        addEventListenerToTarget($(".products-addList"), "click", this.removeProductCreateFormHandler.bind(this));
 
         this.focusOutProjectsInfoTargetList = [
-            $("#projects_title_input"),
-            $("#projects_goalFundRaising_input"),
-            $("#projects_endAt_input")
+            $("#projects-title-input"),
+            $("#projects-goalFundRaising-input"),
+            $("#projects-endAt-input")
         ];
 
         this.focusOutProjectsInfoTargetList.forEach(target => {
@@ -19,12 +19,12 @@ class ProjectForm {
 
     addProductCreateFormHandler() {
         if(this.productList.length > 4) return;
-        const productTag = $('.products_addList');
-        const html = ` <div class="product_addInfo">
-                            <span>물품 이름:</span><input type="text" id="product_title_input"><br>
-                            <span>물품 설명:</span><input type="text" id="product_description_input"><br>
-                            <span>물품 가격:</span><input type="number" value="0" min="0" step="100" id="product_price_input"><br>
-                            <span>물품 수량:</span><input type="number" value="10" min="10" step="1" id="product_supplyQuantity_input"><br>
+        const productTag = $('.products-addList');
+        const html = ` <div class="product-addInfo">
+                            <span>물품 이름:</span><input type="text" id="product-title-input"><br>
+                            <span>물품 설명:</span><input type="text" id="product-description-input"><br>
+                            <span>물품 가격:</span><input type="number" value="0" min="0" step="100" id="product-price-input"><br>
+                            <span>물품 수량:</span><input type="number" value="10" min="10" step="1" id="product-supplyQuantity-input"><br>
                             <button id="removeProduct">물품 빼기</button>
                         </div> `
         productTag.insertAdjacentHTML('beforeend', html);
@@ -63,7 +63,7 @@ class ProjectForm {
 
     setTitle() {
         const minTitleLength = 5;
-        this.title = $("#projects_title_input").value;
+        this.title = $("#projects-title-input").value;
         if(this.title.length >= minTitleLength){
             $("#project-title").style.visibility = "hidden";
             return true;
@@ -73,7 +73,7 @@ class ProjectForm {
     }
 
     setEndAt() {
-        this.endAt = new Date($("#projects_endAt_input").value).getTime();
+        this.endAt = new Date($("#projects-endAt-input").value).getTime();
         let currentDate = new Date();
         currentDate.setDate(currentDate.getDate() + 30);
         if(this.endAt > currentDate.getTime()){
@@ -86,8 +86,7 @@ class ProjectForm {
 
     setGoalFundRaising() {
         const minGoalFundRaising = 1000000;
-        this.goalFundRaising = $("#projects_goalFundRaising_input").value;
-        console.log(this.goalFundRaising);
+        this.goalFundRaising = $("#projects-goalFundRaising-input").value;
         
         if(this.goalFundRaising >= minGoalFundRaising){
             $("#project-goalFundRaising").style.visibility = "hidden";
@@ -108,9 +107,9 @@ class ProjectForm {
     }
 
     focusOutProjectInputHandler(evt) {
-        if (evt.target.id === "projects_title_input") this.setTitle();
-        if (evt.target.id === "projects_goalFundRaising_input") this.setGoalFundRaising();
-        if (evt.target.id === "projects_endAt_input") this.setEndAt();
+        if (evt.target.id === "projects-title-input") this.setTitle();
+        if (evt.target.id === "projects-goalFundRaising-input") this.setGoalFundRaising();
+        if (evt.target.id === "projects-endAt-input") this.setEndAt();
     }
 
     insertImgFile(evt) {
@@ -156,7 +155,7 @@ class ProjectForm {
             "goalFundRaising": this.goalFundRaising,
             "endAt": this.endAt,
             "thumbnailUrl": this.thumbnailUrl,
-            "cid": $('.categories_dropbox select').value,
+            "cid": $('.categories-dropbox select').value,
             "products": products
         };
         

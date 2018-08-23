@@ -12,15 +12,15 @@
 
 {{/block}}
 {{#block "contents"}}
-<div class="projects_form">
-    <div class="projects_form_grid" id="row1">
-        <div class="projects_form img">
+<div class="projects-form">
+    <div class="projects-form-grid" id="row1">
+        <div class="projects-form img">
             <img id="thumbnailUrl"><br>
             <input type="file">
             <span class="tb-in-txt caution" id="project-img">메인 이미지 등록을 해주세요.</span>
         </div>
-        <div class="projects_form_detail">
-            <div class="categories_dropbox">
+        <div class="projects-form-detail">
+            <div class="categories-dropbox">
                 <span>카테고리 설정:</span>
                 <select>
                     {{#categories}}
@@ -28,33 +28,33 @@
                     {{/categories}}
                 </select>
             </div>
-            <div class="projects_form detail title">
-                <span>제목 :</span><input type="text" id="projects_title_input">
+            <div class="projects-form detail title">
+                <span>제목 :</span><input type="text" id="projects-title-input">
                 <span class="tb-in-txt caution" id="project-title">제목은 최소 5자 이상으로 입력해 주세요</span>
             </div>
-            <div class="projects_form goalFundRaising">
+            <div class="projects-form goalFundRaising">
                 <span>목표 금액</span>
                 <span>KRW</span>
-                <input type="number" value="1000000" step="500000" id="projects_goalFundRaising_input"/>
+                <input type="number" value="1000000" step="500000" id="projects-goalFundRaising-input"/>
                 <span class="tb-in-txt caution" id="project-goalFundRaising">최소 금액은 최소 1,000,000원 입니다.</span>
             </div>
-            <div class="projects_form detail endAt">
-                <span>목표 날짜:</span><input type="date" id="projects_endAt_input">
+            <div class="projects-form detail endAt">
+                <span>목표 날짜:</span><input type="date" id="projects-endAt-input">
                 <span class="tb-in-txt caution" id="project-end">현재 날짜의 30일 이후로 날짜를 등록해 주세요</span>
             </div>
         </div>
     </div>
-    <div class="projects_form_grid" id="row2">
-        <div class="edit_des">
+    <div class="projects-form-grid" id="row2">
+        <div class="edit-des">
             <div id="editSection"></div>
         </div>
-        <div class="products_addList">
+        <div class="products-addList">
             <button id="addProduct">물품 추가하기</button>
 
         </div>
     </div>
     <div>
-        <button id="create_project_btn">프로젝트 시작</button>
+        <button id="create-project-btn">프로젝트 시작</button>
     </div>
 
 </div>
