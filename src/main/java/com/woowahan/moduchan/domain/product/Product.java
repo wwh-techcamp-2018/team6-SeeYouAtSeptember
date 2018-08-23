@@ -1,6 +1,5 @@
 package com.woowahan.moduchan.domain.product;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.product.ProductDTO;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,6 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Where(clause = "deleted=false")

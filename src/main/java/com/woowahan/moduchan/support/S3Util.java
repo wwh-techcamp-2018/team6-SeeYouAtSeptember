@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,7 +36,7 @@ public class S3Util {
     }
 
     public String upload(File uploadFile, String dirName) {
-        String fileName = Paths.get(DIR_NAME,uploadFile.getName().toString()).toString();
+        String fileName = Paths.get(DIR_NAME, uploadFile.getName()).toString();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
@@ -45,9 +44,9 @@ public class S3Util {
 
     private String putS3(File uploadFile, String fileName) {
         String unqiueKey = new StringBuilder(DIR_NAME).append("/")
-                                                      .append(UUID.randomUUID().toString())
-                                                      .append(getExtension(fileName))
-                                                      .toString();
+                .append(UUID.randomUUID().toString())
+                .append(getExtension(fileName))
+                .toString();
         amazonS3Client.putObject(new PutObjectRequest(bucket, unqiueKey, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
         return amazonS3Client.getUrl(bucket, unqiueKey).toString();
     }

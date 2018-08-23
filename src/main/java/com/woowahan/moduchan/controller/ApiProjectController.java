@@ -1,7 +1,6 @@
 package com.woowahan.moduchan.controller;
 
 
-import com.woowahan.moduchan.dto.product.ProductUserMapDTO;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.security.LoginUser;
@@ -98,31 +97,7 @@ public class ApiProjectController {
     })
     @PostMapping("/upload")
     public ResponseEntity<String> uploadImage(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestPart("file") MultipartFile multipartFile,
-                                                    @RequestParam("previousFileUrl") String previousFileUrl) throws IOException {
+                                              @RequestParam("previousFileUrl") String previousFileUrl) throws IOException {
         return new ResponseEntity<>(projectService.uploadImage(multipartFile, previousFileUrl), HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "후원", notes = "상품을 후원합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "후원 성공"),
-            @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
-            // TODO: 2018. 8. 21.  error에 대한 설명 추가
-    })
-    @PostMapping("/{pid}/donate")
-    public ResponseEntity<Void> donateProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProductUserMapDTO productUserMapDTO) {
-        productUserMapService.donateProduct(loginUserDTO, productUserMapDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "후원 취소", notes = "후원을 취소합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "취소 성공"),
-            @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
-            // TODO: 2018. 8. 21.  error에 대한 설명 추가
-    })
-    @DeleteMapping("/{pid}/donate")
-    public ResponseEntity<Void> cancelDonateProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @PathVariable("pid") Long pid) {
-        productUserMapService.cancelDonateProduct(loginUserDTO, pid);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

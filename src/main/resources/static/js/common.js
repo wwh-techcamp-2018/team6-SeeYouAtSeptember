@@ -33,7 +33,7 @@ function addEventListenerToTarget(target, event, handler) {
 }
 
 function eraseHTML(target) {
-    if(!target) return;
+    if (!target) return;
     target.remove();
 }
 
@@ -42,13 +42,14 @@ function removeClassName(classname, target) {
     target.classList.remove(classname);
 }
 
-function addClassName(classname, target) { 
-    if (!target) return; 
+function addClassName(classname, target) {
+    if (!target) return;
     target.classList.add(classname);
 }
-function fetchFormData(formData,url,callback){
-    fetch(url, {method : "POST", body : formData})
-       .then((response) => {
+
+function fetchFormData(formData, url, callback) {
+    fetch(url, {method: "POST", body: formData})
+        .then((response) => {
             callback(response);
-    })
+        })
 }

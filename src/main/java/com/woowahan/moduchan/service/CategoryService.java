@@ -5,7 +5,6 @@ import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.exception.CategoryNotFoundException;
 import com.woowahan.moduchan.repository.CategoryRepository;
 import com.woowahan.moduchan.repository.ProjectRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class CategoryService {
     public static final int PROJECTS_PER_PAGE = 9;

@@ -1,0 +1,194 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+ul {
+    -webkit-padding-start: 0px;
+    list-style: none;
+}
+
+/*project-detail*/
+
+#project-detail {
+    position: absolute;
+    width: 70%;
+    padding: 0% 15%;
+}
+
+#project-detail .project-detail-grid {
+    display: inline-grid;
+    width: 100%;
+    grid-template-columns: 60% 40%;
+}
+
+#project-detail .project-detail-grid#row1 .container {
+    width: 100%;
+    height: 500px;
+}
+
+#project-detail .project-detail-grid#row1 {
+    grid-template-areas: "img summary";
+}
+
+#project-detail .project-detail-grid#row2 {
+    grid-template-areas: "description product";
+}
+
+#project-detail .separator {
+    border: 2px solid #2bc2bc;
+    margin: 25px 0;
+}
+
+#project-detail .project-detail-grid .thumbnail-img {
+    max-width: 600px;
+    min-width: 300px;
+    align-self: center;
+    justify-self: center;
+}
+
+#project-detail .project-detail-grid#row1 .thumbnail-container {
+    display: grid;
+    grid-area: img;
+    top: 50%;
+    overflow: hidden;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container {
+    grid-area: summary;
+    width: 80%;
+    padding: 0 10%;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container #state-box {
+    width: 100%;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container #state-box .project-title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container #state-box .remainning-day {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container #state-box .progress {
+    margin-bottom: 35px;
+    height: 5px;
+    background-color: #e6eaed;
+    border-radius: 1px;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container #state-box .progress span {
+    display: block;
+    height: 100%;
+    max-width: 100%;
+    background-color: #00bf99;
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container #state-box p {
+    font-size: 15px;
+    margin-bottom: 35px;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container #state-box p strong {
+    font-size: 25px;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-btn {
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    background-color: #2bc2bc;
+    color: white;
+}
+
+#project-detail .project-detail-grid#row2 .container {
+    width: 100%;
+    height: auto;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-title p {
+    margin: 0 0 30px 0;
+    font-size: 25px;
+    text-align: center;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn {
+    width: 50%;
+    margin: 0 15% 30px;
+    padding: 20px 10%;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn.soldout {
+    width: 50%;
+    margin: 0 15% 30px;
+    padding: 20px 10%;
+    background-color: rgba(47, 47, 47, 0.51);
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container div {
+    margin: 15px 0;
+    width: 100%;
+    text-align: left;
+    font-size: 12px;
+    color: #565656;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container div strong {
+    font-size: 15px;
+    color: black;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-info-title {
+    font-size: 18px;
+    color: black;
+    font-weight: bold;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-support {
+    display: none;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-support input {
+    width: 60px;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-support button {
+    width: 60px;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-caution {
+    display: none;
+    color: red;
+    background-color: rgba(100, 255, 255, 0.31);
+    font-size: 18px;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .product-list {
+    position: relative;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .need-login-cover {
+    position: absolute;
+    margin: 0 10%;
+    height: 100%;
+    width: 80%;
+    background-color: rgba(0, 0, 0, 0.51);
+    color: white;
+    border-radius: 10px;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .need-login-cover p {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
