@@ -1,15 +1,19 @@
 class CategoryManager {
     constructor() {
         this.categories = {};
-        this.currentCid = 0;
+        this.currentCid = "all";
         this.ulTag = $(".categories");
         getData("/api/categories", this.categoriesCallback.bind(this));
+        getData("/api/categories/all/last/0", this.categoryProjectCallback.bind(this));
         addEventListenerToTarget(this.ulTag, "click", this.liClickHandler.bind(this));
         addEventListenerToTarget($("#more_project_btn"), "click", this.projectsMoreViewHandler.bind(this));
     }
 
     fillCategoryContentHTML(category) {
         let categoryTemplate = `<li data-category-id="{id}"><img src="{categoryImageUrl}"><p>{title}</p></li>`;
+        if (category.id === 0) {
+            category.id = "all";
+        }
         return categoryTemplate.replace(/{id}/g, category.id)
             .replace(/{categoryImageUrl}/g, category.categoryImageUrl)
             .replace(/{title}/g, category.title);
@@ -28,8 +32,6 @@ class CategoryManager {
         response.json().then(res => {
             this.insertCategoriesContentHTML(res);
             addClassName("on", this.ulTag.firstElementChild);
-        }).then(() => {
-            getData("/api/categories/" + this.currentCid + "/last/0", this.categoryProjectCallback.bind(this));
         })
     }
 
@@ -69,7 +71,6 @@ class CategoryManager {
 
     projectsMoreViewHandler(evt) {
         evt.preventDefault();
-
         this.categories[this.currentCid].projectsMoreViewApiManager(this.currentCid);
     }
 
