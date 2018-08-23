@@ -1,18 +1,86 @@
-.edit_des {
-    width: 800px;
+#thumbnailUrl{
+    width:99%;
+    height:500px;
+    border-style:dotted;
 }
 
-#thumbnailUrl {
-    width: 400px;
-    height: 400px;
+body > div.projects_form {
+    position: absolute;
+    width: 70%;
+    padding: 0% 15%;
 }
 
-.projects_form_detail {
-    margin-top: 50px;
-    margin-bottom: 50px;
+div.projects_form .projects_form_grid {
+    display: inline-grid;
+    width: 100%;
+    grid-template-columns: 60% 40%;
 }
 
-.products_addList {
-    margin-top: 50px;
-    margin-bottom: 10px;
+div.projects_form .projects_form_grid#row1 {
+    grid-template-areas: "img summary";
+}
+
+div.projects_form .projects_form_grid#row2 {
+    grid-template-areas: "description product";
+}
+
+div.projects_form .projects_form_grid#row1 {
+    width: 100%;
+    height: 600px;
+}
+
+div.projects_form .projects_form_grid div.projects_form.img {
+    width: 600px;
+    height: 600px;
+}
+
+div.projects_form .projects_form_grid#row1 div.projects_form {
+    display: grid;
+    grid-area: img;
+    top: 50%;
+    overflow: hidden;
+}
+
+div.projects_form .projects_form_grid#row1 .projects_form_detail {
+    grid-area: summary;
+    width: 80%;
+    padding: 0 10%;
+}
+
+#row2 .edit_des{
+    width:100%;
+    height:auto;
+}
+
+#row2 .products_addList{
+    width:80%;
+    padding: 0 10%;
+}
+
+span.tb-in-txt.caution {
+    color: red;
+    font-weight: bold;
+    visibility: hidden;
+}
+
+.projects_form.detail.title {
+    margin-top:10px;
+}
+
+
+.projects_form.goalFundRaising {
+    margin-top:10px;
+}
+
+.projects_form.detail.endAt{
+    margin-top:10px;
+}
+
+.product_addInfo{
+    margin-top:15px;
+}
+
+#create_project_btn{
+    margin-top:15px;
+    width:200px;
 }

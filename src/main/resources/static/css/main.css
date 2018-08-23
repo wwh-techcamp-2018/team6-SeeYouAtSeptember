@@ -1,3 +1,7 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 .header {
     font-family: 'Roboto', sans-serif;
     width: 100%;
@@ -147,3 +151,4 @@ li.dropdown-item div.content > span {
     display: block;
     white-space: nowrap;
 }
+

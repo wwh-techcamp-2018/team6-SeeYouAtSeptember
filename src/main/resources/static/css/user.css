@@ -107,8 +107,5 @@ ul {
 span.tb-in-txt.caution {
     color: red;
     font-weight: bold;
-}
-
-span.tb-in-txt.caution {
     display: none;
 }

@@ -59,11 +59,17 @@ function fetchFormData(formData, url, callback) {
 }
 
 function insertEditorImg(blob,callback){ 
-    if (blob === undefined) return;
+    if (blob === undefined){
+        alert("잘못된 형식의 이미지입니다.")
+        return;
+    } 
+    
     if (blob["type"].split("/")[0] === "image") {    
         const projectForm = new FormData();
         projectForm.append("file", blob);
         projectForm.append("previousFileUrl","");
         fetchFormData(projectForm,"/api/projects/upload",callback)
+        return;
     }
+    alert("잘못된 형식의 이미지입니다.")
 }

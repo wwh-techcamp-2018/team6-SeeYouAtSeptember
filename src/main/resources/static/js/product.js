@@ -4,7 +4,17 @@ class Product {
         this.product = {};
     }
 
-    validProductDescription() {
+
+    setProductTitle() {
+        this.title = this.productTag.children.product_title_input.value;
+
+        if (this.title.length < 3) return false;
+
+        this.product.title = this.title;
+        return true;
+    }
+
+    setProductDescription() {
         this.description = this.productTag.children.product_description_input.value;
 
         if (this.description.length < 3) return false;
@@ -13,35 +23,37 @@ class Product {
         return true;
     }
 
-    validPrice() {
+    setPrice() {
         this.price = this.productTag.children.product_price_input.value;
 
-        if (this.price < 0) return false;
-
+        if (this.price < 0){
+            return false;
+        }
         this.product.price = this.price;
         return true;
     }
 
-    validSupplyQuantity() {
+    setSupplyQuantity() {
         this.quantitySupplied = this.productTag.children.product_supplyQuantity_input.value;
 
-        if (this.quantitySupplied < 10) return false;
-
+        if (this.quantitySupplied < 10){
+            return false;
+        }
         this.product.quantitySupplied = this.quantitySupplied;
         return true;
     }
 
-    validProductAll() {
-        this.validProductList = [
-            this.validProductDescription.bind(this),
-            this.validPrice.bind(this),
-            this.validSupplyQuantity.bind(this)
+    setProductAll() {
+        this.productInfoSettingFuncList = [
+            this.setProductDescription.bind(this),
+            this.setPrice.bind(this),
+            this.setSupplyQuantity.bind(this)
         ];
 
-        let cnt = this.validProductList.length;
+        let cnt = this.productInfoSettingFuncList.length;
 
-        this.validProductList.forEach(valid => {
-            if (valid()) cnt--;
+        this.productInfoSettingFuncList.forEach(settingFunc => {
+            if (settingFunc()) cnt--;
         })
         return cnt === 0 ? this.product : null;
     }
