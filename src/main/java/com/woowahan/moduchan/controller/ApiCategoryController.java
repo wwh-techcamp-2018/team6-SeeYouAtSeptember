@@ -48,7 +48,17 @@ public class ApiCategoryController {
             //error에 대한 설명 추가
     })
     @GetMapping("/{cid}/last/{lastIndex}")
-    public ResponseEntity<List<ProjectDTO>> getCategoryPage(@PathVariable("cid") Long cid, @PathVariable("lastIndex") Long lastIndex) {
-        return new ResponseEntity<>(categoryService.getCategoryPage(cid, lastIndex), HttpStatus.OK);
+    public ResponseEntity<List<ProjectDTO>> getProjectsOfOneCategory(@PathVariable Long cid, @PathVariable Long lastIndex) {
+        return new ResponseEntity<>(categoryService.getProjectsOfOneCategory(cid, lastIndex), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "전체 카테고리 특정 페이지의 프로젝트 조회", notes = "특정 페이지의 프로젝트 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "조회 성공")
+            //error에 대한 설명 추가
+    })
+    @GetMapping("/all/last/{lastIndex}")
+    public ResponseEntity<List<ProjectDTO>> getProjectsOfAllCategory(@PathVariable Long lastIndex) {
+        return new ResponseEntity<>(categoryService.getProjectsOfAllCategory(lastIndex), HttpStatus.OK);
     }
 }
