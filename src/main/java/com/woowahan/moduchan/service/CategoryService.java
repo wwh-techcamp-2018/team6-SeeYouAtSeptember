@@ -33,14 +33,7 @@ public class CategoryService {
                 .toDTO();
     }
 
-    public List<ProjectDTO> getCategoryPage(Long cid, Long lastIndex) {
-        if (cid == 0) {
-            return getProjectsOfAllCategory(lastIndex);
-        }
-        return getProjectsOfOneCategory(cid, lastIndex);
-    }
-
-    private List<ProjectDTO> getProjectsOfAllCategory(Long lastIndex) {
+    public List<ProjectDTO> getProjectsOfAllCategory(Long lastIndex) {
         if (lastIndex == 0) {
             return projectRepository.findTop9ByOrderByIdDesc()
                     .stream().map(project -> project.toDTO()).collect(Collectors.toList());
@@ -49,7 +42,7 @@ public class CategoryService {
                 .stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
 
-    private List<ProjectDTO> getProjectsOfOneCategory(Long cid, Long lastIndex) {
+    public List<ProjectDTO> getProjectsOfOneCategory(Long cid, Long lastIndex) {
         if (lastIndex == 0) {
             return projectRepository.findTop9ByCategoryOrderByIdDesc(categoryRepository.findById(cid).orElseThrow(RuntimeException::new))
                     .stream().map(project -> project.toDTO()).collect(Collectors.toList());
