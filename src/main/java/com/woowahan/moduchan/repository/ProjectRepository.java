@@ -14,4 +14,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     public List<Project> findTop9ByIdLessThanOrderByIdDesc(Long id);
 
     public List<Project> findTop9ByCategoryAndIdLessThanOrderByIdDesc(Category category, Long id);
+
+    public List<Project> findAllByOwnerId(Long id);
 }
