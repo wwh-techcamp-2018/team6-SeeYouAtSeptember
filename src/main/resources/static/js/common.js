@@ -10,8 +10,8 @@ function isEmpty(value) {
     return value.length == 0
 }
 
-function fetchManager({ url, method, body, headers, callback }) {
-    fetch(url, { method, body, headers, credentials: "same-origin" })
+function fetchManager({url, method, body, headers, callback}) {
+    fetch(url, {method, body, headers, credentials: "same-origin"})
         .then((response) => {
             callback(response)
         })
@@ -21,7 +21,7 @@ function getData(url, callback) {
     fetchManager({
         url: url,
         method: "GET",
-        headers: { "content-type": "application/json" },
+        headers: {"content-type": "application/json"},
         callback: callback
     });
 }
@@ -46,8 +46,9 @@ function addClassName(classname, target) {
     if (!target) return;
     target.classList.add(classname);
 }
+
 function fetchFormData(formData, url, callback) {
-    fetch(url, { method: "POST", body: formData })
+    fetch(url, {method: "POST", body: formData})
         .then((response) => {
             callback(response);
         })

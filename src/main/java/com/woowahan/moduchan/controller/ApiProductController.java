@@ -18,7 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ApiProductController {
 
     @Autowired
-    ProductUserMapService productUserMapService;
+    private ProductUserMapService productUserMapService;
 
     @ApiOperation(value = "후원", notes = "상품을 후원합니다.")
     @ApiResponses(value = {
@@ -27,9 +27,9 @@ public class ApiProductController {
             //error에 대한 설명 추가
     })
     @PostMapping("")
-    public ResponseEntity<Void> donateProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProductUserMapDTO productUserMapDTO) {
+    public ResponseEntity<Void> donateProduct(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProductUserMapDTO productUserMapDTO) {
         productUserMapService.donateProduct(loginUserDTO, productUserMapDTO);
-        // TODO: 2018. 8. 22. 살 때 덮어쓰기가 아닌 append로, 공급 갯수 이상으로 구매하면 에러 
+        // TODO: 2018. 8. 22. 공급 갯수 이상으로 구매하면 에러
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -40,8 +40,7 @@ public class ApiProductController {
             //error에 대한 설명 추가
     })
     @DeleteMapping("/{pid}")
-    public ResponseEntity<Void> cancelDonateProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @PathVariable("pid") Long pid) {
-        // TODO: 2018. 8. 22. deleted flag? 
+    public ResponseEntity<Void> cancelDonateProduct(@ApiIgnore @LoginUser UserDTO loginUserDTO, @PathVariable Long pid) {
         productUserMapService.cancelDonateProduct(loginUserDTO, pid);
         return new ResponseEntity<>(HttpStatus.OK);
     }

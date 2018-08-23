@@ -23,11 +23,11 @@ class Product {
     }
 
     validSupplyQuantity() {
-        this.supplyQuantity = this.productTag.children.product_supplyQuantity_input.value;
+        this.quantitySupplied = this.productTag.children.product_supplyQuantity_input.value;
 
-        if (this.supplyQuantity < 10) return false;
+        if (this.quantitySupplied < 10) return false;
 
-        this.product.supplyQuantity = this.supplyQuantity;
+        this.product.quantitySupplied = this.quantitySupplied;
         return true;
     }
 

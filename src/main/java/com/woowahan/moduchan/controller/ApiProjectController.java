@@ -97,7 +97,7 @@ public class ApiProjectController {
     })
     @PostMapping("/upload")
     public ResponseEntity<String> uploadImage(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestPart("file") MultipartFile multipartFile,
-                                                    @RequestParam("previousFileUrl") String previousFileUrl) throws IOException {
+                                              @RequestParam("previousFileUrl") String previousFileUrl) throws IOException {
         return new ResponseEntity<>(projectService.uploadImage(multipartFile, previousFileUrl), HttpStatus.OK);
     }
 }

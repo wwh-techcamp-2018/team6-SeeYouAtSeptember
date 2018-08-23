@@ -45,7 +45,7 @@ public class ProjectDTO {
     }
 
     public int getProgress() {
-        return (int) (getCurrentFundRaising() / goalFundRaising);
+        return (int) ((float) getCurrentFundRaising() / (float) goalFundRaising * 100);
     }
 
     public void setThumbnailUrl(String thumbnailUrl) {

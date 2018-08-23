@@ -16,7 +16,7 @@ class LoginBtn {
         fetchManager({
             url: '/api/users/login',
             method: 'POST',
-            headers: { 'content-type': 'application/json' },
+            headers: {'content-type': 'application/json'},
             body: JSON.stringify(this.loginForm),
             callback: this.login
         });
@@ -91,7 +91,7 @@ class Join {
         fetchManager({
             url: '/api/users',
             method: 'POST',
-            headers: { 'content-type': 'application/json' },
+            headers: {'content-type': 'application/json'},
             body: JSON.stringify(this.joinForm),
             callback: this.join
         });
@@ -99,7 +99,7 @@ class Join {
 
     validAll() {
         this.validList = [this.validEmail.bind(this), this.validPassword.bind(this), this.validPasswordConfirm.bind(this),
-        this.validName.bind(this), this.validPhoneNo.bind(this), this.validAddress.bind(this)];
+            this.validName.bind(this), this.validPhoneNo.bind(this), this.validAddress.bind(this)];
         this.cnt = this.validList.length;
         this.validList.forEach(valid => {
             if (valid())

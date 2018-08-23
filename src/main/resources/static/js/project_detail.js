@@ -1,5 +1,5 @@
 class ProductBtns {
-    constructor(){
+    constructor() {
         this.productBtns = [...$all(".product-list .product-btn")];
 
         this.productBtns.forEach(btn => {
@@ -12,21 +12,21 @@ class ProductBtns {
         window.location.href = "/users/login"
     }
 
-    productBtnClickHandler(evt){
-        if(evt.target.textContent === "후원하기"){
+    productBtnClickHandler(evt) {
+        if (evt.target.textContent === "후원하기") {
             this.supportProduct(evt.target);
             return;
         }
-        if(evt.target.textContent === "취소"){
+        if (evt.target.textContent === "취소") {
             this.hideProductSupport(evt.target);
             return;
         }
         const target = evt.target.closest("div.product-btn");
-        if(!target.classList.contains("soldout"))
+        if (!target.classList.contains("soldout"))
             target.querySelector(".product-info-container .product-support").style.display = "block";
     }
 
-    hideProductSupport(target){
+    hideProductSupport(target) {
         target.parentElement.firstElementChild.value = "";
         target.closest("div.product-support").style.display = "none";
     }
@@ -34,7 +34,7 @@ class ProductBtns {
     validQuantity(target) {
         const numRegex = /^[0-9]{1,}/g;
         const num = target.parentElement.firstElementChild.value;
-        if(numRegex.test(num) && num > 0)
+        if (numRegex.test(num) && num > 0)
             return true;
         this.showCaution(target);
         return false;
@@ -48,12 +48,12 @@ class ProductBtns {
     }
 
     supportProduct(target) {
-        if(!this.validQuantity(target)){
+        if (!this.validQuantity(target)) {
             return;
         }
         const supportForm = {
-            "pid":target.closest("div.product-btn").dataset.productId,
-            "quantity":target.parentElement.firstElementChild.value
+            "pid": target.closest("div.product-btn").dataset.productId,
+            "quantity": target.parentElement.firstElementChild.value
         };
 
         fetchManager({
@@ -66,12 +66,13 @@ class ProductBtns {
 
         this.hideProductSupport(target);
     }
+
     supportCallback(response) {
-        if(response.status === 200){
+        if (response.status === 200) {
             window.location.reload();
             return;
         }
-        if(response.status === 401){
+        if (response.status === 401) {
             window.location.href = "/users/login";
             return;
         }
@@ -82,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     Viewer = new tui.Editor({
         el: $('#viewer-section'),
         height: '300px',
-        initialValue:$(".description-viewer").dataset.description
+        initialValue: $(".description-viewer").dataset.description
     });
 
     new ProductBtns();

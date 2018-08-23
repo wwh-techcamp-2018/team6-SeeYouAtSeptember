@@ -4,7 +4,6 @@ class CategoryManager {
         this.currentCid = 0;
         this.ulTag = $(".categories");
         getData("/api/categories", this.categoriesCallback.bind(this));
-        getData("/api/categories/" + this.currentCid + "/last/0", this.categoryProjectCallback.bind(this));
         addEventListenerToTarget(this.ulTag, "click", this.liClickHandler.bind(this));
         addEventListenerToTarget($("#more_project_btn"), "click", this.projectsMoreViewHandler.bind(this));
     }
@@ -29,6 +28,8 @@ class CategoryManager {
         response.json().then(res => {
             this.insertCategoriesContentHTML(res);
             addClassName("on", this.ulTag.firstElementChild);
+        }).then(() => {
+            getData("/api/categories/" + this.currentCid + "/last/0", this.categoryProjectCallback.bind(this));
         })
     }
 
@@ -146,7 +147,6 @@ class Category {
         getData("/api/categories/" + cid + "/last/" + $('.projects').lastElementChild.firstElementChild.dataset.projectId, this.projectsMoreViewCallback.bind(this));
     }
 }
-
 
 
 window.addEventListener("DOMContentLoaded", () => {
