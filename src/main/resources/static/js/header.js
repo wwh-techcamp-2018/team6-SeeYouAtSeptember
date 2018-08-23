@@ -6,6 +6,8 @@ function myProjectClickHandler(evt) {
     evt.preventDefault();
     const dropdownDiv = $("div.dropdown-div");
     if (dropdownDiv.classList.contains("on")) {
+        dropdownDiv.style.opacity = "0";
+        dropdownDiv.style.height = "0px";
         [...dropdownDiv.children].forEach(child => {
             closeDropdown(child);
         });
@@ -22,7 +24,8 @@ function myProjectOpenCallback(response) {
             const targets = [$(".dropdown-div .dropdown-owner"), $(".dropdown-div .dropdown-support")];
             deleteMyProjects(targets);
             addMyProjects(projectsList, targets);
-        }).then(() => {
+            this.style.opacity = "1";
+            this.style.height = "200px";
             [...this.children].forEach(child => {
                 openDropdown(child);
             });
@@ -67,7 +70,7 @@ function openDropdown(target) {
     target.style.zIndex = "1";
     target.style.height = "200px";
     [...target.children[1].children].forEach(child => {
-        child.style.height = "50px"
+        child.style.height = "40px"
     });
     $("i.fas").classList.remove("fa-caret-down")
     $("i.fas").classList.add("fa-caret-up")

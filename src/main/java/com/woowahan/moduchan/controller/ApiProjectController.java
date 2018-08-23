@@ -106,7 +106,7 @@ public class ApiProjectController {
     public ResponseEntity<List<List<ProjectDTO>>> getDropdownProjects(@ApiIgnore @LoginUser UserDTO loginUserDTO) {
         List<List<ProjectDTO>> returnLists = new ArrayList<>();
         returnLists.add(projectService.getOwnedProjects(loginUserDTO));
-        returnLists.add(projectService.getSupportedProjects(loginUserDTO));
+        returnLists.add(projectService.getSupportingProjects(loginUserDTO));
         return new ResponseEntity<>(returnLists, HttpStatus.OK);
     }
 }
