@@ -1,6 +1,15 @@
 class ProjectForm {
     constructor() {
         this.productList = [];
+        this.editor = new tui.Editor({
+            el: document.querySelector("#editSection"),
+            initialEditType: "markdown",
+            previewStyle: "vertical",
+            hooks: {
+                'addImageBlobHook': insertEditorImg
+            },
+            height: "300px"
+        })
         addEventListenerToTarget($("#create_project_btn"), "click", this.createProjectBtnHandler.bind(this));
         addEventListenerToTarget($(".projects_form.img input"), "change", this.insertImgFile.bind(this));
         addEventListenerToTarget($("#addProduct"), "click", this.addProductCreateFormHandler.bind(this));
@@ -108,13 +117,9 @@ class ProjectForm {
         return projectForm;
     }
 
-    imageUploadCallback(response) {
-        response.text().then(img => {
+    imageUploadCallback(img) {
             this.thumbnailUrl = img
             $("#thumbnailUrl").src = this.thumbnailUrl;
-        }).catch(() => {
-            alert("잘못된 형식의 이미지입니다.")
-        })
     }
 
     createProjectBtnHandler(evt) {
@@ -132,7 +137,7 @@ class ProjectForm {
 
         const project = {
             "title": this.title,
-            "description": editor.getHtml(),
+            "description": this.editor.getHtml(),
             "goalFundRaising": this.goalFundRaising,
             "cid": $('.categories_dropbox select').value,
             "endAt": this.endAt.getTime(),
@@ -159,10 +164,6 @@ class ProjectForm {
 
 document.addEventListener("DOMContentLoaded", () => {
     new ProjectForm();
-    editor = new tui.Editor({
-        el: document.querySelector("#editSection"),
-        initialEditType: "markdown",
-        previewStyle: "vertical",
-        height: "300px"
-    });
+  
 });
+

@@ -50,6 +50,20 @@ function addClassName(classname, target) {
 function fetchFormData(formData, url, callback) {
     fetch(url, {method: "POST", body: formData})
         .then((response) => {
-            callback(response);
+            response.text().then(img=> {
+                callback(img);
+            })  
+        }).catch(() => {
+            alert("잘못된 형식의 이미지입니다.")
         })
+}
+
+function insertEditorImg(blob,callback){ 
+    if (blob === undefined) return;
+    if (blob["type"].split("/")[0] === "image") {    
+        const projectForm = new FormData();
+        projectForm.append("file", blob);
+        projectForm.append("previousFileUrl","");
+        fetchFormData(projectForm,"/api/projects/upload",callback)
+    }
 }
