@@ -1,0 +1,119 @@
+{{> base}}
+{{#block "header"}}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" type="text/css" href="/css/project-detail.css">
+<link rel="stylesheet" href="/tui-editor/lib/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="/tui-editor/lib/highlightjs/styles/github.css">
+<link rel="stylesheet" href="/tui-editor/dist/tui-editor.css">
+<link rel="stylesheet" href="/tui-editor/dist/tui-editor-contents.css">
+<link rel="stylesheet" href="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.css">
+<link rel="stylesheet" href="/tui-editor/lib/tui-chart/dist/tui-chart.css">
+{{/block}}
+{{#block "contents"}}
+{{#project}}
+<div id="project-detail">
+    <div class="project-detail-grid" id="row1">
+        <div class="thumbnail-container container">
+            <img class="thumbnail-img" src="{{thumbnailUrl}}">
+        </div>
+        <div class="summary-container container">
+            <div id="state-box">
+                <p class="project-title">{{title}}</p>
+                <p class="remainning-day">{{dayRemainingUntilDeadline}}일 남음</p>
+                <div class="progress">
+                    <span style="width:{{progress}}%"></span>
+                </div>
+                <p class="achievement-rate"><strong>{{progress}}%</strong> 달성</p>
+                <p class="total-fundraising"><strong>{{currentFundRaising}}원</strong> 후원</p>
+                <p class="total-supporter"><strong>{{supporterCount}}</strong>명의 후원</p>
+            </div>
+            <button class="support-btn">후원하기</button>
+        </div>
+    </div>
+    <div class="separator"></div>
+    <div class="project-detail-grid" id="row2">
+        <div class="description-container container">
+            <div class="description-viewer" data-description="{{description}}">
+                <div id="viewer-section"></div>
+            </div>
+        </div>
+        <div class="product-container container">
+            <div class="product-title">
+                <p>후원목록</p>
+            </div>
+            <div class="product-list">
+                {{^loginUser}}
+                <div class="need-login-cover">
+                    <p>로</p>
+                    <p>그</p>
+                    <p>인</p>
+                    <p>이</p>
+                    <p>필</p>
+                    <p>요</p>
+                    <p>한</p>
+                    <p>서</p>
+                    <p>비</p>
+                    <p>스</p>
+                    <p>입</p>
+                    <p>니</p>
+                    <p>다</p>
+                </div>
+                {{/loginUser}}
+                {{#project.products}}
+                {{#if isRemainQuantity}}
+                <div class="product-btn" data-product-id="{{pid}}">
+                {{else}}
+                <div class="product-btn soldout" data-product-id="{{pid}}">
+                {{/if}}
+                    <div class="product-info-container">
+                        <div class="product-info-title">{{title}}</div>
+                        <div class="product-info-description">
+                            {{description}}
+                        </div>
+                        <div class="product-info-price">
+                            가격<br>
+                            <strong>{{price}}원</strong>
+                        </div>
+                        <div class="product-info-delivery">
+                            배송비<br>
+                            <strong>0원</strong>
+                        </div>
+                        <div class="product-info-quantity">
+                            {{#if isRemainQuantity}}
+                            <span>제한수량 {{quantitySupplied}}개 현재 {{remainQuantity}}개 남음</span>
+                            <span style="display: none;">재고가 모두 소진되었습니다.</span>
+                            {{else}}
+                            <span style="display: none;">제한수량 {{quantitySupplied}}개 현재 {{remainQuantity}}개 남음</span>
+                            <span>재고가 모두 소진되었습니다.</span>
+                            {{/if}}
+                        </div>
+                        <div class="product-support">
+                            <input type="number" class="product-quantity" placeholder="갯수">
+                            <button class="product-support-btn">후원하기</button>
+                            <button class="product-support-cancel-btn">취소</button>
+                            <div class="product-caution caution">수량을 0개 이상 넣어주세요.</div>
+                        </div>
+                    </div>
+                </div>
+                {{/project.products}}
+            </div>
+        </div>
+    </div>
+</div>
+{{/project}}
+{{/block}}
+{{#block "footer"}}
+<script src="/tui-editor/lib/jquery/dist/jquery.js"></script>
+<script src="/tui-editor/lib/markdown-it/dist/markdown-it.js"></script>
+<script src="/tui-editor/lib/to-mark/dist/to-mark.js"></script>
+<script src="/tui-editor/lib/tui-code-snippet/dist/tui-code-snippet.js"></script>
+<script src="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.js"></script>
+<script src="/tui-editor/lib/codemirror/lib/codemirror.js"></script>
+<script src="/tui-editor/lib/highlightjs/highlight.pack.js"></script>
+<script src="/tui-editor/lib/squire-rte/build/squire-raw.js"></script>
+<script src="/tui-editor/lib/raphael/raphael.js"></script>
+<script src="/tui-editor/lib/tui-chart/dist/tui-chart.js"></script>
+<script src="/tui-editor/dist/tui-editor-Viewer.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/project_detail.js"></script>
+{{/block}}

@@ -17,4 +17,12 @@ public class ProductDTO {
     private String description;
     private int supporterCount;
     private Long quantityConsumed;
+
+    public Long getRemainQuantity(){
+        return quantitySupplied - quantityConsumed;
+    }
+
+    public boolean isIsRemainQuantity(){
+        return quantitySupplied > quantityConsumed;
+    }
 }

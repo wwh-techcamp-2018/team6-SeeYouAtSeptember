@@ -81,7 +81,7 @@ class Category {
 
     fillProjectContentHTML(project) {
         let projectTemplate = `
-        <a href="/products/{id}">
+        <a href="/projects/{id}">
             <li data-project-id="{id}">
                 <div class="project-img">
                     <img src="{thumbnailUrl}"/>
