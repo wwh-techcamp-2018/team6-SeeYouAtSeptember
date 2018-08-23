@@ -42,6 +42,10 @@ public class ProductUserMap extends BaseTimeEntity {
         return quantity;
     }
 
+    public Product getProduct() {
+        return this.product;
+    }
+
     public ProductUserMap updateQuantity(ProductUserMapDTO productUserMapDTO) {
         this.quantity = productUserMapDTO.getQuantity();
         deleted = false;

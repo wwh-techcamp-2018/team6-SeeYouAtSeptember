@@ -1,6 +1,9 @@
 class ProductBtns {
     constructor() {
-        this.productBtns = [...$all(".product-list .product-btn")];
+        this.SUPPORT_BTN_TEXT = "후원하기"
+        this.CANCEL_BTN_TEXT = "취소"
+
+        this.productBtns = $all(".product-list .product-btn");
 
         this.productBtns.forEach(btn => {
             addEventListenerToTarget(btn, "click", this.productBtnClickHandler.bind(this));
@@ -13,11 +16,11 @@ class ProductBtns {
     }
 
     productBtnClickHandler(evt) {
-        if (evt.target.textContent === "후원하기") {
+        if (evt.target.textContent === this.SUPPORT_BTN_TEXT) {
             this.supportProduct(evt.target);
             return;
         }
-        if (evt.target.textContent === "취소") {
+        if (evt.target.textContent === this.CANCEL_BTN_TEXT) {
             this.hideProductSupport(evt.target);
             return;
         }
@@ -36,15 +39,16 @@ class ProductBtns {
         const num = target.parentElement.firstElementChild.value;
         if (numRegex.test(num) && num > 0)
             return true;
-        this.showCaution(target);
+        this.showCaution(target, 2000);
         return false;
     }
 
-    showCaution(target) {
-        target.parentElement.querySelector(".caution").style.display = "block";
+    showCaution(target, milleSec) {
+        const cautionElement = target.parentElement.querySelector(".caution");
+        cautionElement.style.display = "block";
         setTimeout(function () {
-            this.parentElement.querySelector(".caution").style.display = "none";
-        }.bind(target), 2000)
+            cautionElement.style.display = "none";
+        }, milleSec)
     }
 
     supportProduct(target) {
@@ -79,6 +83,12 @@ class ProductBtns {
     }
 }
 
+function fillProgressBar() {
+    let widthValue = $("#state-box .achievement-rate").textContent.replace(/[^0-9]/g, '');
+    widthValue = widthValue > 100 ? "100%" : widthValue + "%";
+    $("#state-box #progress-inner-bar").style.width = widthValue;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     Viewer = new tui.Editor({
         el: $('#viewer-section'),
@@ -87,4 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     new ProductBtns();
+
+    fillProgressBar();
 });
