@@ -34,7 +34,7 @@ public class ProjectController {
     @GetMapping("/start")
     public String create(@LoginUser UserDTO loginUserDTO, Model model) {
         model.addAttribute(CATEGORY_KEY, categoryService.getCategories().stream().
-                filter(categoryDTO -> categoryDTO.getId() != 0).collect(Collectors.toList()));
+                filter(categoryDTO -> categoryDTO.getId() != 1).collect(Collectors.toList()));
         return "create_project";
     }
 }

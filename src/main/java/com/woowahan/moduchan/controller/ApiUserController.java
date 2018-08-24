@@ -103,4 +103,16 @@ public class ApiUserController {
         session.setAttribute(SessionUtil.LOGIN_USER, loginUserDTO);
         return new ResponseEntity<>(loginUserDTO, HttpStatus.OK);
     }
+
+    @ApiOperation(value = "로그아웃", notes = "로그아웃합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "로그아웃 성공"),
+            @ApiResponse(code = 401, message = "로그인 되지 않은 사용자의 접근")
+            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
+    })
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@ApiIgnore HttpSession session, @LoginUser UserDTO loginUserDTO) {
+        session.removeAttribute(SessionUtil.LOGIN_USER);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
