@@ -26,7 +26,7 @@ class Product {
     setPrice() {
         this.price = this.productTag.children["product-price-input"].value;
 
-        if (this.price < 0){
+        if (this.price < 0) {
             return false;
         }
         this.product.price = this.price;
@@ -36,7 +36,7 @@ class Product {
     setSupplyQuantity() {
         this.quantitySupplied = this.productTag.children["product-supplyQuantity-input"].value;
 
-        if (this.quantitySupplied < 10){
+        if (this.quantitySupplied < 10) {
             return false;
         }
         this.product.quantitySupplied = this.quantitySupplied;

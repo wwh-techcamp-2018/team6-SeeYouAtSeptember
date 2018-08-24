@@ -11,7 +11,7 @@ class CategoryManager {
 
     fillCategoryContentHTML(category) {
         let categoryTemplate = `<li data-category-id="{id}"><img src="{categoryImageUrl}"><p>{title}</p></li>`;
-        if (category.id === 0) {
+        if (category.id === 1) {
             category.id = "all";
         }
         return categoryTemplate.replace(/{id}/g, category.id)
@@ -155,7 +155,7 @@ class Category {
 }
 
 function toggleStickyHeader() {
-    if(window.pageYOffset > headerHeight) {
+    if (window.pageYOffset > headerHeight) {
         addClassName("sticky", header);
         $("#category-content").style.marginTop = "208px";
     } else {

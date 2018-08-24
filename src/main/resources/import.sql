@@ -20,7 +20,7 @@ insert into normal_user (email, name, deleted, address, phone_no) values ('aweyl
 insert into normal_user (email, name, deleted, address, phone_no) values ('ddroverj@mit.edu', 'Drover', false, '53575 Talmadge Terrace', '448-130-7169');
 insert into normal_user (email, name, deleted, address, phone_no, password) values ('a', 'test', false, '53575 Talmadge Terrace', '448-130-7169', '$2a$10$wcN5tM.qDTynm/yNS/8KC.rTGAMMQq4QhURkkvBzR1mXElb2kcjmq');
 
-insert into category (id, title, category_image_url) VALUES (0,'전체보기','http://mblogthumb4.phinf.naver.net/MjAxODAyMDJfMTU4/MDAxNTE3NTU4MDY3MzYz.MdN1Fhk0nXF_vCYaaY1Yq4VNMBSp7KpLvIwej0hnb6Mg.abiXgkBdUBqcstJAmT_2WNhArzakKokep_wwrqZNywwg.PNG.smartbaedal/%EB%B0%B0%EB%8B%AC%EC%9D%B4.png?type=w800');
+insert into category (title, category_image_url) VALUES ('전체보기','http://mblogthumb4.phinf.naver.net/MjAxODAyMDJfMTU4/MDAxNTE3NTU4MDY3MzYz.MdN1Fhk0nXF_vCYaaY1Yq4VNMBSp7KpLvIwej0hnb6Mg.abiXgkBdUBqcstJAmT_2WNhArzakKokep_wwrqZNywwg.PNG.smartbaedal/%EB%B0%B0%EB%8B%AC%EC%9D%B4.png?type=w800');
 insert into category (title, category_image_url) VALUES ('고기반찬','http://cfile235.uf.daum.net/image/124E57244BB155377FE901');
 insert into category (title, category_image_url) VALUES ('아이반찬','https://t1.daumcdn.net/cfile/tistory/145FE64D4DCD283E3A');
 insert into category (title, category_image_url) VALUES ('국,찌개','http://www.hansalim.or.kr/wp-content/uploads/2013/05/%EC%98%A4%EC%A7%95%EC%96%B4%EA%B5%AD_%EC%99%84%EC%84%B131.jpg');
