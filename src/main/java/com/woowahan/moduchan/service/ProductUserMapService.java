@@ -1,9 +1,12 @@
 package com.woowahan.moduchan.service;
 
+import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.product.ProductUserMap;
 import com.woowahan.moduchan.domain.product.ProductUserPK;
+import com.woowahan.moduchan.dto.product.ProductDTO;
 import com.woowahan.moduchan.dto.product.ProductUserMapDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.exception.NotEnoughQuantityException;
 import com.woowahan.moduchan.exception.ProductNotFoundException;
 import com.woowahan.moduchan.exception.UserNotFoundException;
 import com.woowahan.moduchan.repository.NormalUserRepository;
@@ -28,7 +31,11 @@ public class ProductUserMapService {
 
 
     public void donateProduct(UserDTO loginUserDTO, ProductUserMapDTO productUserMapDTO) {
-        // TODO: 2018. 8. 22. 리팩토링!!!!!!!!!!!!!!! 
+        // TODO: 2018. 8. 22. 리팩토링!!!!!!!!!!!!!!!
+        ProductDTO productDTO = productRepository.findById(productUserMapDTO.getPid()).orElseThrow(ProductNotFoundException::new).toDTO();
+        if(productDTO.getQuantitySupplied() < productDTO.getQuantityConsumed() + productUserMapDTO.getQuantity()) {
+            throw new NotEnoughQuantityException();
+        }
         ProductUserMap productUserMap = productUserMapRepository.findById(new ProductUserPK(productUserMapDTO.getPid(), loginUserDTO.getUid()))
                 .orElse(new ProductUserMap(productRepository.findById(productUserMapDTO.getPid())
                         .orElseThrow(() -> new ProductNotFoundException("pid: " + productUserMapDTO.getPid())),

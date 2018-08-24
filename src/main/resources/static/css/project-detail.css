@@ -153,6 +153,7 @@ ul {
     background-color: white;
     border: 1px solid lightgray;
     border-radius: 10px;
+    position: relative;
 }
 
 #project-detail .project-detail-grid#row2 .product-container .product-btn.soldout {
@@ -204,6 +205,25 @@ ul {
 
 #project-detail .project-detail-grid#row2 .product-container .product-list {
     position: relative;
+}
+
+#project-detail .project-detail-grid#row2 .product-container .not-engough-quantity-caution{
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0.51);
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: -20px -38px;
+    border-radius: 10px;
+    display: none;
+}
+
+#project-detail .not-engough-quantity-caution .caution-str {
+    text-align: center;
+    margin-top: 35%;
+    font-size: 30px;
+    color: black;
+    background-color: red;
 }
 
 #project-detail .project-detail-grid#row2 .product-container .need-login-cover {
