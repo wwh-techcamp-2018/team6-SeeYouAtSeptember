@@ -1,6 +1,4 @@
-{{> base}}
-
-{{#block "header"}}
+{{#partial "header"}}
 <link rel="stylesheet" href="/css/category.css"/>
 <link rel="stylesheet" href="/css/create_project.css"/>
 <link rel="stylesheet" href="/tui-editor/lib/codemirror/lib/codemirror.css">
@@ -10,8 +8,8 @@
 <link rel="stylesheet" href="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.css">
 <link rel="stylesheet" href="/tui-editor/lib/tui-chart/dist/tui-chart.css">
 
-{{/block}}
-{{#block "contents"}}
+{{/partial}}
+{{#partial "contents"}}
 <div class="projects_form">
     <div class="projects_form img">
         <img id="thumbnailUrl"><br>
@@ -50,9 +48,9 @@
     </div>
 </div>
 
-{{/block}}
+{{/partial}}
 
-{{#block "footer"}}
+{{#partial "footer"}}
 <script src="/tui-editor/lib/jquery/dist/jquery.js"></script>
 <script src="/tui-editor/lib/markdown-it/dist/markdown-it.js"></script>
 <script src="/tui-editor/lib/to-mark/dist/to-mark.js"></script>
@@ -68,4 +66,6 @@
 <script src="/js/product.js"></script>
 <script src="/js/project.js"></script>
 
-{{/block}}
+{{/partial}}
+
+{{> base}}

@@ -1,18 +1,15 @@
-{{> base}}
-
-{{#block "header"}}
+{{#partial "header"}}
 <link rel="stylesheet" href="/css/category.css"/>
-{{/block}}
+{{/partial}}
 
-{{#block "contents"}}
-<div id="category-content">
-    <ul class="categories">
-    </ul>
-    <button id="more_project_btn">더보기</button>
-</div>
-{{/block}}
+{{#partial "contents"}}
+<ul class="categories"></ul>
+<div id="category-content"></div>
+<button id="more-project-btn">더보기</button>
+{{/partial}}
 
-{{#block "footer"}}
-<script src="/js/common.js"></script>
+{{#partial "footer"}}
 <script src="/js/category.js"></script>
-{{/block}}
+{{/partial}}
+
+{{> base}}

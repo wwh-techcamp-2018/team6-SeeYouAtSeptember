@@ -1,9 +1,8 @@
-{{> base}}
-{{#block "header"}}
+{{#partial "header"}}
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
 <link rel="stylesheet" type="text/css" href="/css/project-detail.css">
-{{/block}}
-{{#block "contents"}}
+{{/partial}}
+{{#partial "contents"}}
 <div id="project-detail">
     <div class="project-detail-grid" id="row1">
         <div class="thumbnail-container container">
@@ -87,8 +86,10 @@
         </div>
     </div>
 </div>
-{{/block}}
-{{#block "footer"}}
+{{/partial}}
+{{#partial "footer"}}
 <!--<script src="/js/common.js"></script>-->
 <!--<script src="/js/user.js"></script>-->
-{{/block}}
+{{/partial}}
+
+{{> base}}
