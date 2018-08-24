@@ -1,0 +1,164 @@
+cssPrefix = 'tui-colorpicker-'
+
+containerWidth = 152px;
+
+box()
+    width: arguments
+    height: arguments
+    border: 1px solid #ccc;
+
+no-mp()
+    margin: 0px;
+    padding: 0px;
+
+inlineBlock()
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+
+clearfix()
+    zoom: 1;
+    &:after
+        content: '';
+        display: block;
+        clear: both;
+
++prefix-classes(cssPrefix)
+    // Common
+    .clearfix
+        zoom: 1;
+
+    .clearfix:after
+        content: '';
+        display: block;
+        clear: both;
+
+    .vml
+        behavior: url(#default#VML);
+        display: block;
+
+    .container
+        width: containerWidth;
+
+    // Palette
+    .palette-container
+        width: containerWidth;
+
+    .palette-container ul
+        width: containerWidth;
+        no-mp();
+
+    .palette-container li
+        bow(16px)
+        float:left;
+        margin: 0;
+        padding: 0 3px 3px 0;
+        list-style: none;
+
+    .palette-button
+        display: block;
+        border: none;
+        overflow: hidden;
+        outline: none;
+        no-mp();
+        box(16px);
+        cursor: pointer;
+
+    .palette-button.selected
+        border: 2px solid #000;
+
+    .palette-button.color-transparent
+        barckground-repeat: repeat;
+        background-repeat: no-repeat;
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAABfGlDQ1BJQ0MgUHJvZmlsZQAAKJFjYGAqSSwoyGFhYGDIzSspCnJ3UoiIjFJgv8PAzcDDIMRgxSCemFxc4BgQ4MOAE3y7xsAIoi/rgsxK8/x506a1fP4WNq+ZclYlOrj1gQF3SmpxMgMDIweQnZxSnJwLZOcA2TrJBUUlQPYMIFu3vKQAxD4BZIsUAR0IZN8BsdMh7A8gdhKYzcQCVhMS5AxkSwDZAkkQtgaInQ5hW4DYyRmJKUC2B8guiBvAgNPDRcHcwFLXkYC7SQa5OaUwO0ChxZOaFxoMcgcQyzB4MLgwKDCYMxgwWDLoMjiWpFaUgBQ65xdUFmWmZ5QoOAJDNlXBOT+3oLQktUhHwTMvWU9HwcjA0ACkDhRnEKM/B4FNZxQ7jxDLX8jAYKnMwMDcgxBLmsbAsH0PA4PEKYSYyjwGBn5rBoZt5woSixLhDmf8xkKIX5xmbARh8zgxMLDe+///sxoDA/skBoa/E////73o//+/i4H2A+PsQA4AJHdp4IxrEg8AAAGbaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA1LjQuMCI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPGV4aWY6UGl4ZWxYRGltZW5zaW9uPjEzPC9leGlmOlBpeGVsWERpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjE0PC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CghrN1AAAABzSURBVCgVldKxEYAgDAXQD5VOpLuwgi4jlrTMqF00oOd5Aia/CcV/F4oYOgNlrLjvVyCEVJchBjEC25538PeaWTzRMBLxvIL7UZwFwL06qoA6aoAy+gFfJABvJAQPUoCMlICRRd8BzgHzJL4ok9aJ67l4AK9AxVKhHryUAAAAAElFTkSuQmCC');
+
+    .palette-hex
+        font-family: monospace;
+        inlineBlock();
+        width: 60px;
+        vertical-align: middle;
+
+    .palette-preview
+        inlineBlock();
+        box(12px);
+        border: 1px solid #ccc;
+        vertical-align: middle;
+        overflow: hidden;
+
+    .palette-toggle-slider
+        inlineBlock();
+        vertical-align: middle;
+        float: right;
+
+    // Slider View
+    .slider-container
+        margin: 5px 0 0 0;
+        height: containerWidth - 30;
+        clearfix()
+
+    .slider-left
+        float: left;
+        width: containerWidth - 32;
+        height: containerWidth - 32;
+
+    .slider-right
+        float: right;
+        width: 32px;
+        height: containerWidth - 32;
+
+    .svg
+        display: block;
+    
+    // general
+    .slider-handle
+        position: absolute;
+        overflow: visible;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        z-index: 2;
+        opacity: 0.9;
+
+    // slider part
+    // SVG
+    .svg-slider
+        box(containerWidth - 32);
+        overflow: hidden;
+
+    // VML
+    .vml-slider
+        position: relative;
+        box(containerWidth - 32);
+        overflow: hidden;
+
+    .vml-slider-bg
+        position: absolute;
+        margin: -1px 0 0 -1px;
+        top: 0;
+        left: 0;
+        width: containerWidth - 30;
+        height: containerWidth - 30;
+
+    // huebar part
+    // SVG
+    .svg-huebar
+        float: right;
+        width: 18px;
+        height: containerWidth - 32;
+        border: 1px solid #ccc;
+        overflow: visible;
+
+    // VML
+    .vml-huebar
+        width: 32px;
+        position: relative;
+    
+    .vml-huebar-bg
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 18px;
+        height: containerWidth - 31;
+
+

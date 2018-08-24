@@ -1,0 +1,141 @@
+a {
+    text-decoration: none;
+    color: inherit
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(8, 12.5%);
+    height: 125px;
+    width: 900px;
+    margin: 35px auto;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    margin: 0;
+    padding:0 30px;
+    z-index: 1;
+    background: white;
+}
+
+.categories li {
+    height: 100%;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.categories li img {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    cursor: pointer;
+    border: 2px solid #25d4ce00;
+}
+
+.categories li p {
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.categories li.on {
+    color: #25d4ce;
+}
+
+.categories li.on img {
+    border: 2px solid #25d4ceff;
+}
+
+#category-content {
+    width: 960px;
+    position: static;
+}
+
+.projects {
+    display: grid;
+    grid-column-gap: 5%;
+    grid-row-gap: 50px;
+    grid-template-columns: repeat(3, 30%);
+}
+
+.projects li .project-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 3px;
+    border-color: lightgray;
+}
+
+.projects li {
+    width: 100%;
+}
+
+.projects li .project-info-list {
+    width: 300px;
+    height: 100px;
+}
+
+.project-div .progress {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 5px; /* Can be anything */
+    position: relative;
+    background: #e6eaed;
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+    border-radius: 1px;
+}
+
+.project-div .progress span {
+    display: block;
+    height: 100%;
+    background-color: #00bf99;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-div div h4 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.project-div .day-remaining {
+    float: right;
+}
+
+
+.project-div .current-fund-raising {
+    float: right;
+}
+
+.project-div .title div {
+    font-size: 14px;
+    color: #90949c;
+}
+
+.project-div span {
+    color: #90949c;
+}
+
+#more-project-btn {
+    height: 40px;
+    width: 100%;
+    margin: 40px 0;
+    position: static;
+    cursor: pointer;
+    font-family: "Noto Sans KR Bold", "Nanum Gothic", sans-serif;
+    background: #2ac1bc;
+    color: #fff;
+}
