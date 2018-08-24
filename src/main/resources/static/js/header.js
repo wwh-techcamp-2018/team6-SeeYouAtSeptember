@@ -5,18 +5,63 @@ document.addEventListener("DOMContentLoaded", () => {
 function myProjectClickHandler(evt) {
     evt.preventDefault();
     const dropdownDiv = $("div.dropdown-div");
-    const dropdownUl = [...$all("div.dropdown-div ul.dropdown-ul")];
     if (dropdownDiv.classList.contains("on")) {
+        dropdownDiv.style.opacity = "0";
+        dropdownDiv.style.height = "0px";
         [...dropdownDiv.children].forEach(child => {
             closeDropdown(child);
         });
         dropdownDiv.classList.remove("on");
         return;
     }
-    [...dropdownDiv.children].forEach(child => {
-        openDropdown(child);
-    });
-    dropdownDiv.classList.add("on");
+    getData("/api/projects/dropdown", myProjectOpenCallback.bind(dropdownDiv));
+
+}
+
+function myProjectOpenCallback(response) {
+    if (response.status === 200) {
+        response.json().then(projectsList => {
+            const targets = [$(".dropdown-div .dropdown-owner"), $(".dropdown-div .dropdown-support")];
+            deleteMyProjects(targets);
+            addMyProjects(projectsList, targets);
+            this.style.opacity = "1";
+            this.style.height = "200px";
+            [...this.children].forEach(child => {
+                openDropdown(child);
+            });
+            this.classList.add("on");
+        })
+    }
+}
+
+function deleteMyProjects(targets) {
+    targets.forEach(target => {
+        [...target.children].forEach(child => {
+            target.removeChild(child);
+        })
+    })
+}
+
+function addMyProjects(projectsList, targets) {
+    projectsList.forEach((projects, index) => {
+        projects.forEach(project => {
+            targets[index].insertAdjacentHTML('afterbegin', getDropdownProjectHTML(project))
+        })
+    })
+}
+
+function getDropdownProjectHTML(project) {
+    return `
+        <li class="dropdown-item card">
+        <a href="/projects/${project.pid}">
+            <div class="progress" style="width:${project.progress}%;"></div>
+            <div class="content">
+                <span class="project-title">${project.title}</span>
+                <span class="project-info"><span>${project.dayRemainingUntilDeadline}일 남음</span><span style="float:right">${project.progress}%</span></span>
+            </div>
+            </a>
+        </li>
+    `
 }
 
 function openDropdown(target) {
@@ -25,7 +70,7 @@ function openDropdown(target) {
     target.style.zIndex = "1";
     target.style.height = "200px";
     [...target.children[1].children].forEach(child => {
-        child.style.height = "50px"
+        child.style.height = "40px"
     });
     $("i.fas").classList.remove("fa-caret-down")
     $("i.fas").classList.add("fa-caret-up")

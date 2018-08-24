@@ -8,9 +8,14 @@ ul {
 }
 
 /* login */
-#login .login-box {
+#login {
+    position: absolute;
     width: 500px;
-    margin: 50px auto;
+    margin: 50px 230px;
+}
+
+#login .login-box {
+    width: 100%;
 }
 
 #login .login-box .h2-tlt {
@@ -57,9 +62,14 @@ ul {
 }
 
 /* join */
-#join .join-box {
+#join {
+    position: absolute;
     margin: 50px auto;
-    width: 980px;
+    width: 960px;
+}
+
+#join .join-box {
+    width: 100%;
 }
 
 #join .join-box .h2-tlt {
@@ -107,8 +117,5 @@ ul {
 span.tb-in-txt.caution {
     color: red;
     font-weight: bold;
-}
-
-span.tb-in-txt.caution {
     display: none;
 }

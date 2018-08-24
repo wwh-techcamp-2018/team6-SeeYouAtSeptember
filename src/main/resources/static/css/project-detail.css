@@ -1,7 +1,3 @@
-* {
-    font-family: 'Roboto', sans-serif;
-}
-
 ul {
     -webkit-padding-start: 0px;
     list-style: none;
@@ -12,6 +8,17 @@ ul {
 #project-detail {
     position: absolute;
     width: inherit;
+}
+
+#project-detail .project-title-wrapper {
+    width: 100%;
+    height: 80px;
+}
+
+#project-detail .project-title-wrapper .project-title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
 }
 
 #project-detail .project-detail-grid {
@@ -39,8 +46,9 @@ ul {
 }
 
 #project-detail .project-detail-grid .thumbnail-img {
-    max-width: 600px;
-    min-width: 300px;
+    position: relative;
+    width: 100%;
+    top: -50px;
     align-self: center;
     justify-self: center;
 }
@@ -68,7 +76,7 @@ ul {
 }
 
 #project-detail .project-detail-grid#row1 .summary-container #state-box .remainning-day {
-    font-size: 25px;
+    font-size: 30px;
     font-weight: bold;
 }
 
@@ -79,22 +87,24 @@ ul {
     border-radius: 1px;
 }
 
-#project-detail .project-detail-grid#row1 .summary-container #state-box .progress span {
+#project-detail .project-detail-grid#row1 .summary-container #state-box #progress-inner-bar {
     display: block;
     height: 100%;
     max-width: 100%;
+    width: 0%;
     background-color: #00bf99;
     border-radius: 1px;
     overflow: hidden;
+    transition: all 2s;
 }
 
 #project-detail .project-detail-grid#row1 .summary-container #state-box p {
     font-size: 15px;
-    margin-bottom: 35px;
+    margin: 0 0 40px 0;
 }
 
 #project-detail .project-detail-grid#row1 .summary-container #state-box p strong {
-    font-size: 25px;
+    font-size: 30px;
 }
 
 #project-detail .project-detail-grid#row1 .summary-container .support-btn {
@@ -134,7 +144,7 @@ ul {
     border-radius: 10px;
 }
 
-#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container div {
+#project-detail .project-detail-grid#row2 .product-btn .product-info-container div {
     margin: 15px 0;
     width: 100%;
     text-align: left;
@@ -142,30 +152,30 @@ ul {
     color: #565656;
 }
 
-#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container div strong {
+#project-detail .project-detail-grid#row2 .product-btn .product-info-container div strong {
     font-size: 15px;
     color: black;
 }
 
-#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-info-title {
+#project-detail .project-detail-grid#row2 .product-btn .product-info-title {
     font-size: 18px;
     color: black;
     font-weight: bold;
 }
 
-#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-support {
+#project-detail .project-detail-grid#row2 .product-btn .product-support {
     display: none;
 }
 
-#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-support input {
+#project-detail .project-detail-grid#row2 .product-btn .product-support input {
     width: 60px;
 }
 
-#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-support button {
+#project-detail .project-detail-grid#row2 .product-btn .product-support button {
     width: 60px;
 }
 
-#project-detail .project-detail-grid#row2 .product-container .product-btn .product-info-container .product-caution {
+#project-detail .project-detail-grid#row2 .product-btn .product-caution {
     display: none;
     color: red;
     background-color: rgba(100, 255, 255, 0.31);

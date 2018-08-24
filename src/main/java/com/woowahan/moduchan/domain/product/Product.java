@@ -49,6 +49,10 @@ public class Product {
                 .build();
     }
 
+    public Project getProject() {
+        return this.project;
+    }
+
     public void delete() {
         if (productUserMaps.stream().filter(productUserMap -> !productUserMap.isDeleted()).count() != 0) {
             // TODO: 2018. 8. 22. 후원자가 존재하는데 삭제한 경우, 에러를 반환한다. 

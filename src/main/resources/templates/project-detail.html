@@ -11,22 +11,26 @@
 {{#partial "contents"}}
 {{#project}}
 <div id="project-detail">
+    <div class="project-title-wrapper">
+        <p class="project-title">{{title}}</p>
+    </div>
     <div class="project-detail-grid" id="row1">
         <div class="thumbnail-container container">
             <img class="thumbnail-img" src="{{thumbnailUrl}}">
         </div>
         <div class="summary-container container">
             <div id="state-box">
-                <p class="project-title">{{title}}</p>
+                <!--<p class="project-title">{{title}}</p>-->
                 <p class="remainning-day">{{dayRemainingUntilDeadline}}일 남음</p>
                 <div class="progress">
-                    <span style="width:{{progress}}%"></span>
+                    <span id="progress-inner-bar"></span>
                 </div>
-                <p class="achievement-rate"><strong>{{progress}}%</strong> 달성</p>
-                <p class="total-fundraising"><strong>{{currentFundRaising}}원</strong> 후원</p>
-                <p class="total-supporter"><strong>{{supporterCount}}</strong>명의 후원</p>
+                <p class="achievement-rate"><strong>{{numberFormat progress}}%</strong> 달성</p>
+                <p class="goal-fundraising"><strong>{{numberFormat goalFundRaising}}원</strong> 목표액 중</p>
+                <p class="total-fundraising"><strong>{{numberFormat currentFundRaising}}원</strong> 후원</p>
+                <p class="total-supporter"><strong>{{numberFormat supporterCount}}</strong>명의 후원</p>
             </div>
-            <button class="support-btn">후원하기</button>
+            <button class="support-btn"><i class="fas fa-share-alt"></i> 공유하기</button>
         </div>
     </div>
     <div class="separator"></div>
@@ -71,7 +75,7 @@
                             </div>
                             <div class="product-info-price">
                                 가격<br>
-                                <strong>{{price}}원</strong>
+                                <strong>{{numberFormat price}}원</strong>
                             </div>
                             <div class="product-info-delivery">
                                 배송비<br>
@@ -79,10 +83,10 @@
                             </div>
                             <div class="product-info-quantity">
                                 {{#if quantityRemained}}
-                                <span>제한수량 {{quantitySupplied}}개 현재 {{remainQuantity}}개 남음</span>
+                                <span>제한수량 {{numberFormat quantitySupplied}}개 현재 {{numberFormat remainQuantity}}개 남음</span>
                                 <span style="display: none;">재고가 모두 소진되었습니다.</span>
                                 {{else}}
-                                <span style="display: none;">제한수량 {{quantitySupplied}}개 현재 {{remainQuantity}}개 남음</span>
+                                <span style="display: none;">제한수량 {{numberFormat quantitySupplied}}개 현재 {{numberFormat remainQuantity}}개 남음</span>
                                 <span>재고가 모두 소진되었습니다.</span>
                                 {{/if}}
                             </div>
