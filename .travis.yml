@@ -5,7 +5,6 @@ jdk:
 
 branches:
   only:
-  - develop
   - master
 
 script:

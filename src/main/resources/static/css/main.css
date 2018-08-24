@@ -58,6 +58,7 @@ a {
     overflow: hidden;
 
     background-image: url("http://image.thebanchan.co.kr/upload/C00001/dspl/banner/90/922/180800000007922.jpg");
+    background-repeat: no-repeat;
     /* background-size: cover;
     background-position: center center; */
 }
