@@ -1,21 +1,27 @@
 * {
     font-family: 'Roboto', sans-serif;
 }
+
 a {
     text-decoration: none;
 }
 
+#main-container {
+    width: 960px;
+    margin: 0 auto;
+}
+
 .header {
     font-family: 'Roboto', sans-serif;
-    width: 100%;
+    width: inherit;
     height: 95px;
     display: inline-grid;
-    grid-template-columns: 10% 15% 30% 35% 10%;
-    grid-template-areas: ". logo project account .";
+    grid-template-columns: 20% 50% 30%;
+    grid-template-areas: "logo project account";
 }
 
 .header span {
-    margin: 0 5px;
+    margin: 0 10px;
     color: black;
     cursor: pointer;
     transition-property: color;
@@ -30,7 +36,7 @@ a {
 
 .logo {
     grid-area: logo;
-    justify-self: center;
+    justify-self: left;
     align-self: center;
 }
 
@@ -51,7 +57,7 @@ a {
     height: 450px;
     overflow: hidden;
 
-    background-image: url(https://tumblbug-assets.imgix.net/heroes/toybox01.jpg?w=1800&h=600&fit=crop&q=60);
+    background-image: url("http://image.thebanchan.co.kr/upload/C00001/dspl/banner/90/922/180800000007922.jpg");
     /* background-size: cover;
     background-position: center center; */
 }
@@ -65,10 +71,10 @@ div.dropdown-wrapper {
     float: left;
     font-family: 'Roboto', sans-serif;
     top: 65px;
-    width: 100%;
+    width: 960px;
     display: inline-grid;
-    grid-template-columns: 55% 35% 10%;
-    grid-template-areas: ". dropdown .";
+    grid-template-columns: 50% 50%;
+    grid-template-areas: ". dropdown";
 }
 
 div.dropdown-div {
@@ -118,7 +124,7 @@ div.dropdown-wrapper span.dropdown-title {
 div.dropdown-div ul {
     -webkit-padding-start: 0px;
     list-style: none;
-    height: 90%;
+    height: 160px;
     overflow: scroll;
     margin: 0px;
 }

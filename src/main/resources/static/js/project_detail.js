@@ -86,7 +86,9 @@ class ProductBtns {
 function fillProgressBar() {
     let widthValue = $("#state-box .achievement-rate").textContent.replace(/[^0-9]/g, '');
     widthValue = widthValue > 100 ? "100%" : widthValue + "%";
+    setTimeout(() => {
     $("#state-box #progress-inner-bar").style.width = widthValue;
+    }, 500)
 }
 
 document.addEventListener("DOMContentLoaded", () => {
