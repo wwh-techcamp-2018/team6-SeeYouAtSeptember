@@ -1,5 +1,4 @@
-{{> base}}
-{{#block "header"}}
+{{#partial "header"}}
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
 <link rel="stylesheet" type="text/css" href="/css/project-detail.css">
 <link rel="stylesheet" href="/tui-editor/lib/codemirror/lib/codemirror.css">
@@ -8,8 +7,8 @@
 <link rel="stylesheet" href="/tui-editor/dist/tui-editor-contents.css">
 <link rel="stylesheet" href="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.css">
 <link rel="stylesheet" href="/tui-editor/lib/tui-chart/dist/tui-chart.css">
-{{/block}}
-{{#block "contents"}}
+{{/partial}}
+{{#partial "contents"}}
 {{#project}}
 <div id="project-detail">
     <div class="project-title-wrapper">
@@ -104,20 +103,22 @@
             </div>
         </div>
     </div>
-    {{/project}}
-    {{/block}}
-    {{#block "footer"}}
-    <script src="/tui-editor/lib/jquery/dist/jquery.js"></script>
-    <script src="/tui-editor/lib/markdown-it/dist/markdown-it.js"></script>
-    <script src="/tui-editor/lib/to-mark/dist/to-mark.js"></script>
-    <script src="/tui-editor/lib/tui-code-snippet/dist/tui-code-snippet.js"></script>
-    <script src="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.js"></script>
-    <script src="/tui-editor/lib/codemirror/lib/codemirror.js"></script>
-    <script src="/tui-editor/lib/highlightjs/highlight.pack.js"></script>
-    <script src="/tui-editor/lib/squire-rte/build/squire-raw.js"></script>
-    <script src="/tui-editor/lib/raphael/raphael.js"></script>
-    <script src="/tui-editor/lib/tui-chart/dist/tui-chart.js"></script>
-    <script src="/tui-editor/dist/tui-editor-Viewer.js"></script>
-    <script src="/js/common.js"></script>
-    <script src="/js/project_detail.js"></script>
-    {{/block}}
+{{/project}}
+{{/partial}}
+{{#partial "footer"}}
+<script src="/tui-editor/lib/jquery/dist/jquery.js"></script>
+<script src="/tui-editor/lib/markdown-it/dist/markdown-it.js"></script>
+<script src="/tui-editor/lib/to-mark/dist/to-mark.js"></script>
+<script src="/tui-editor/lib/tui-code-snippet/dist/tui-code-snippet.js"></script>
+<script src="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.js"></script>
+<script src="/tui-editor/lib/codemirror/lib/codemirror.js"></script>
+<script src="/tui-editor/lib/highlightjs/highlight.pack.js"></script>
+<script src="/tui-editor/lib/squire-rte/build/squire-raw.js"></script>
+<script src="/tui-editor/lib/raphael/raphael.js"></script>
+<script src="/tui-editor/lib/tui-chart/dist/tui-chart.js"></script>
+<script src="/tui-editor/dist/tui-editor-Viewer.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/project_detail.js"></script>
+{{/partial}}
+
+{{> base}}

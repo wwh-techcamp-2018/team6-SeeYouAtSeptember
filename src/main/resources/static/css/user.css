@@ -11,7 +11,7 @@ ul {
 #login {
     position: absolute;
     width: 500px;
-    margin: 50px auto;
+    margin: 50px 230px;
 }
 
 #login .login-box {
@@ -65,7 +65,7 @@ ul {
 #join {
     position: absolute;
     margin: 50px auto;
-    width: 980px;
+    width: 960px;
 }
 
 #join .join-box {

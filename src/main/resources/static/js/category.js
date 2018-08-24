@@ -6,7 +6,7 @@ class CategoryManager {
         getData("/api/categories", this.categoriesCallback.bind(this));
         getData("/api/categories/all/last/0", this.categoryProjectCallback.bind(this));
         addEventListenerToTarget(this.ulTag, "click", this.liClickHandler.bind(this));
-        addEventListenerToTarget($("#more_project_btn"), "click", this.projectsMoreViewHandler.bind(this));
+        addEventListenerToTarget($("#more-project-btn"), "click", this.projectsMoreViewHandler.bind(this));
     }
 
     fillCategoryContentHTML(category) {
@@ -93,18 +93,21 @@ class Category {
                     <h4>
                        {title}
                     </h4>
-                    <div>
+                    <span>
                         {owner}
-                    </div>
+                    </span>
+                    <span class="current-fund-raising">
+                        {currentFundRaising}원
+                    </span>
                     </div >
                     <div class="progress">
-                     <span style="width: 25%"></span>
+                     <span style="width: {progressPercentage}%"></span>
                     </div>
                     <span>
-                        {fundraisingAmount}
+                        {progress}%
                     </span>
-                    <span class="remain_day">
-                        {period}일 남음
+                    <span class="day-remaining">
+                        {dayRemaining}일 남음
                     </span>
                 </div>
             </li>
@@ -114,8 +117,10 @@ class Category {
             .replace(/{thumbnailUrl}/g, project.thumbnailUrl)
             .replace(/{title}/g, project.title)
             .replace(/{owner}/g, project.owner)
-            .replace(/{period}/g, project.period)
-            .replace(/{fundraisingAmount}/g, project.fundraisingAmount);
+            .replace(/{currentFundRaising}/g, project.currentFundRaising.toLocaleString('ko-KR'))
+            .replace(/{progressPercentage}/g, project.progress <= 100 ? project.progress : 100)
+            .replace(/{progress}/g, project.progress.toLocaleString('ko-KR'))
+            .replace(/{dayRemaining}/g, project.dayRemainingUntilDeadline);
     }
 
     insertProjectsContentHTML(projects) {
@@ -149,7 +154,23 @@ class Category {
     }
 }
 
+function toggleStickyHeader() {
+    if(window.pageYOffset > headerHeight) {
+        addClassName("sticky", header);
+        $("#category-content").style.marginTop = "208px";
+    } else {
+        removeClassName("sticky", header);
+        $("#category-content").style.marginTop = "0px";
+    }
+}
+
+function initStickyHeader() {
+    header = $(".categories");
+    headerHeight = header.offsetTop;
+    window.addEventListener("scroll", toggleStickyHeader);
+}
 
 window.addEventListener("DOMContentLoaded", () => {
     new CategoryManager();
+    initStickyHeader();
 })
