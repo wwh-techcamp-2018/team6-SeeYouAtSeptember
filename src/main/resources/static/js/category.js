@@ -155,7 +155,7 @@ class Category {
 }
 
 function toggleStickyHeader() {
-    if(window.pageYOffset > headerHeight) {
+    if (window.pageYOffset > headerHeight) {
         addClassName("sticky", header);
         $("#category-content").style.marginTop = "208px";
     } else {

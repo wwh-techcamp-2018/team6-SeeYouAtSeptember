@@ -9,7 +9,7 @@ function myProjectClickHandler(evt) {
     if (dropdownDiv.classList.contains("on")) {
         dropdownDiv.style.opacity = "0";
         dropdownDiv.style.height = "0px";
-
+        [...dropdownDiv.children].forEach(child => {
             closeDropdown(child);
         });
         dropdownDiv.classList.remove("on");
@@ -93,7 +93,7 @@ function logoutHandler() {
     fetchManager({
         url: "/api/users/logout",
         method: "POST",
-        headers: {"content-type": "application/json"},
-        callback: response => { if(response.status === 200) window.location.reload(); }
+        headers: { "content-type": "application/json" },
+        callback: response => { if (response.status === 200) window.location.reload(); }
     });
 }

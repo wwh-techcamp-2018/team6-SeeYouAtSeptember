@@ -18,7 +18,7 @@ class ProjectForm {
     }
 
     addProductCreateFormHandler() {
-        if(this.productList.length > 4) return;
+        if (this.productList.length > 4) return;
         const productTag = $('.products-addList');
         const html = ` <div class="product-addInfo">
                             <span>물품 이름:</span><input type="text" id="product-title-input"><br>
@@ -53,8 +53,8 @@ class ProjectForm {
         ];
 
         this.cnt = this.projectInfoSettingFuncList.length;
-        this.projectInfoSettingFuncList.forEach((settingFunc,i) => {
-            if (settingFunc()){ 
+        this.projectInfoSettingFuncList.forEach((settingFunc, i) => {
+            if (settingFunc()) {
                 this.cnt--;
             }
         });
@@ -64,7 +64,7 @@ class ProjectForm {
     setTitle() {
         const minTitleLength = 5;
         this.title = $("#projects-title-input").value;
-        if(this.title.length >= minTitleLength){
+        if (this.title.length >= minTitleLength) {
             $("#project-title").style.visibility = "hidden";
             return true;
         }
@@ -76,7 +76,7 @@ class ProjectForm {
         this.endAt = new Date($("#projects-endAt-input").value).getTime();
         let currentDate = new Date();
         currentDate.setDate(currentDate.getDate() + 30);
-        if(this.endAt > currentDate.getTime()){
+        if (this.endAt > currentDate.getTime()) {
             $("#project-end").style.visibility = "hidden";
             return true;
         }
@@ -87,8 +87,8 @@ class ProjectForm {
     setGoalFundRaising() {
         const minGoalFundRaising = 1000000;
         this.goalFundRaising = $("#projects-goalFundRaising-input").value;
-        
-        if(this.goalFundRaising >= minGoalFundRaising){
+
+        if (this.goalFundRaising >= minGoalFundRaising) {
             $("#project-goalFundRaising").style.visibility = "hidden";
             return true;
         }
@@ -98,7 +98,7 @@ class ProjectForm {
 
     setThumbnailUrl() {
         this.thumbnailUrl = $("#thumbnailUrl").src;
-        if(this.thumbnailUrl !== ""){
+        if (this.thumbnailUrl !== "") {
             $("#project-img").style.visibility = "hidden";
             return true;
         }
@@ -134,21 +134,21 @@ class ProjectForm {
     }
 
     imageUploadCallback(img) {
-            $("#thumbnailUrl").src = img;
+        $("#thumbnailUrl").src = img;
     }
 
     createProjectBtnHandler(evt) {
         evt.preventDefault();
 
         if (!this.setProjectInfoAll()) return;
-        
+
         const products = [];
-        for(const product of this.productList){
+        for (const product of this.productList) {
             let productInfo = product.setProductAll();
-            if(productInfo === null){return;}
+            if (productInfo === null) { return; }
             products.push(productInfo);
         }
-        
+
         const project = {
             "title": this.title,
             "description": editor.getHtml(),
@@ -158,8 +158,8 @@ class ProjectForm {
             "cid": $('.categories-dropbox select').value,
             "products": products
         };
-        
-        if(!this.checkMinProductsPrice(project["products"])){
+
+        if (!this.checkMinProductsPrice(project["products"])) {
             alert("상품 총 합의 가격이 목표금액보다 작습니다.");
             return;
         }
@@ -167,7 +167,7 @@ class ProjectForm {
         fetchManager({
             url: '/api/projects',
             method: 'POST',
-            headers: {'content-type': 'application/json'},
+            headers: { 'content-type': 'application/json' },
             body: JSON.stringify(project),
             callback: this.createProjectCallback.bind(this)
         });
@@ -178,11 +178,11 @@ class ProjectForm {
             location.href = "/categories"
         }
     }
-    
-    checkMinProductsPrice(products){
+
+    checkMinProductsPrice(products) {
         let minPrice = 0;
-        products.forEach(product=>{
-            minPrice += product["price"]*product["quantitySupplied"]  
+        products.forEach(product => {
+            minPrice += product["price"] * product["quantitySupplied"]
         })
         return minPrice >= this.goalFundRaising
     }

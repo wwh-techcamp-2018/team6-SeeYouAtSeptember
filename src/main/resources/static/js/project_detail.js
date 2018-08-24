@@ -63,7 +63,7 @@ class ProductBtns {
         fetchManager({
             url: '/api/products',
             method: 'POST',
-            headers: {'content-type': 'application/json'},
+            headers: { 'content-type': 'application/json' },
             body: JSON.stringify(supportForm),
             callback: this.supportCallback.bind(target)
         });
@@ -87,7 +87,7 @@ function fillProgressBar() {
     let widthValue = $("#state-box .achievement-rate").textContent.replace(/[^0-9]/g, '');
     widthValue = widthValue > 100 ? "100%" : widthValue + "%";
     setTimeout(() => {
-    $("#state-box #progress-inner-bar").style.width = widthValue;
+        $("#state-box #progress-inner-bar").style.width = widthValue;
     }, 500)
 }
 
