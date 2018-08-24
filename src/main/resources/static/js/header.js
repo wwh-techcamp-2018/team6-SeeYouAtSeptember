@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    addEventListenerToTarget($("#my-project-btn"), "click", myProjectClickHandler)
+    addEventListenerToTarget($("#my-project-btn"), "click", myProjectClickHandler);
+    addEventListenerToTarget($("#logout"), "click", logoutHandler);
 });
 
 function myProjectClickHandler(evt) {
@@ -8,7 +9,7 @@ function myProjectClickHandler(evt) {
     if (dropdownDiv.classList.contains("on")) {
         dropdownDiv.style.opacity = "0";
         dropdownDiv.style.height = "0px";
-        [...dropdownDiv.children].forEach(child => {
+
             closeDropdown(child);
         });
         dropdownDiv.classList.remove("on");
@@ -86,4 +87,13 @@ function closeDropdown(target) {
     });
     $("i.fas").classList.remove("fa-caret-up")
     $("i.fas").classList.add("fa-caret-down")
+}
+
+function logoutHandler() {
+    fetchManager({
+        url: "/api/users/logout",
+        method: "POST",
+        headers: {"content-type": "application/json"},
+        callback: response => { if(response.status === 200) window.location.reload(); }
+    });
 }
