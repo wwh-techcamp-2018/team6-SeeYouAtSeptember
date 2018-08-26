@@ -26,7 +26,7 @@ public class ProductUserMapService {
     @Autowired
     private NormalUserRepository normalUserRepository;
 
-
+    @Transactional
     public ProductUserMapDTO donateProduct(UserDTO loginUserDTO, ProductUserMapDTO productUserMapDTO) {
         // TODO: 2018. 8. 22. 리팩토링!!!!!!!!!!!!!!! 
         ProductUserMap productUserMap = productUserMapRepository.findById(new ProductUserPK(productUserMapDTO.getPid(), loginUserDTO.getUid()))
@@ -35,6 +35,9 @@ public class ProductUserMapService {
                         normalUserRepository.findById(loginUserDTO.getUid())
                                 .orElseThrow(() -> new UserNotFoundException("uid: " + productUserMapDTO.getUid())),
                         0L, false));
+
+        productUserMap.getProduct().getProject().UpdateCurrentFundRaising(productUserMap.getProduct().getPrice()*productUserMapDTO.getQuantity());
+
         if (productUserMap.isDeleted()) {
             productUserMap.updateQuantity(productUserMapDTO);
             return productUserMapRepository.save(productUserMap).toDTO();

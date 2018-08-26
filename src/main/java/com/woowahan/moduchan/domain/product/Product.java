@@ -4,6 +4,7 @@ import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.product.ProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Where(clause = "deleted=false")
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
