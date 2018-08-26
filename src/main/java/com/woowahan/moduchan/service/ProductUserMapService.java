@@ -27,7 +27,7 @@ public class ProductUserMapService {
     private NormalUserRepository normalUserRepository;
 
 
-    public void donateProduct(UserDTO loginUserDTO, ProductUserMapDTO productUserMapDTO) {
+    public ProductUserMapDTO donateProduct(UserDTO loginUserDTO, ProductUserMapDTO productUserMapDTO) {
         // TODO: 2018. 8. 22. 리팩토링!!!!!!!!!!!!!!! 
         ProductUserMap productUserMap = productUserMapRepository.findById(new ProductUserPK(productUserMapDTO.getPid(), loginUserDTO.getUid()))
                 .orElse(new ProductUserMap(productRepository.findById(productUserMapDTO.getPid())
@@ -37,12 +37,10 @@ public class ProductUserMapService {
                         0L, false));
         if (productUserMap.isDeleted()) {
             productUserMap.updateQuantity(productUserMapDTO);
-            productUserMapRepository.save(productUserMap);
-            return;
+            return productUserMapRepository.save(productUserMap).toDTO();
         }
         productUserMap.appendQuantity(productUserMapDTO);
-        productUserMapRepository.save(productUserMap);
-        return;
+        return productUserMapRepository.save(productUserMap).toDTO();
     }
 
 

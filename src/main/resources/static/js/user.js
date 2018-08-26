@@ -182,11 +182,11 @@ class Join {
 
 class AddressAPI{
         constructor(){
-            addEventListenerToTarget($("#address-search-btn"), "click", this.loadDaum.bind(this));
+            addEventListenerToTarget($("#address-search-btn"), "click", this.loadAddressAPI.bind(this));
             addEventListenerToTarget($("#btnCloseLayer"),"click", this.closeDaumPostcode.bind(this));
         }
 
-    loadDaum (evt) {
+    loadAddressAPI (evt) {
         evt.preventDefault();
         const elementLayer = $('#layer');
         const currentThis = this;

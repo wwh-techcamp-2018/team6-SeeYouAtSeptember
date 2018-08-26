@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/products")
 public class ApiProductController {
@@ -27,10 +29,9 @@ public class ApiProductController {
             //error에 대한 설명 추가
     })
     @PostMapping("")
-    public ResponseEntity<Void> donateProduct(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProductUserMapDTO productUserMapDTO) {
-        productUserMapService.donateProduct(loginUserDTO, productUserMapDTO);
+    public ResponseEntity<ProductUserMapDTO> donateProduct(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProductUserMapDTO productUserMapDTO) {
         // TODO: 2018. 8. 22. 공급 갯수 이상으로 구매하면 에러
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(productUserMapService.donateProduct(loginUserDTO, productUserMapDTO),HttpStatus.OK);
     }
 
     @ApiOperation(value = "후원 취소", notes = "후원을 취소합니다.")
