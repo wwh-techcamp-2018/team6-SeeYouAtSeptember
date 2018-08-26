@@ -29,7 +29,6 @@ public class ApiProductController {
     @PostMapping("")
     public ResponseEntity<Void> donateProduct(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProductUserMapDTO productUserMapDTO) {
         productUserMapService.donateProduct(loginUserDTO, productUserMapDTO);
-        // TODO: 2018. 8. 22. 공급 갯수 이상으로 구매하면 에러
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

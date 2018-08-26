@@ -24,28 +24,28 @@ public class ApiUserController {
     @Autowired
     private UserService userService;
 
-    // TODO: 2018. 8. 14. getAllUsers: normalUser + adminUser가 필요하지 않을까?
-    // TODO: 2018. 8. 15. UserApi가 언제 호출되는지, 호출의 권한에 대하여 논의해볼 필요가 있습니다.
+//    // TODO: 2018. 8. 14. getAllUsers: normalUser + adminUser가 필요하지 않을까?
+//    // TODO: 2018. 8. 15. UserApi가 언제 호출되는지, 호출의 권한에 대하여 논의해볼 필요가 있습니다.
+//
+//    @ApiOperation(value = "일반 유저 전체 조회", notes = "모든 일반 유저의 정보를 조회합니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "조회 성공")
+//            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
+//    })
+//    @GetMapping("")
+//    public ResponseEntity<List<UserDTO>> getNormalUsers(@LoginUser UserDTO userDTO) {
+//        return new ResponseEntity<>(userService.getNomalUsers(), HttpStatus.OK);
+//    }
 
-    @ApiOperation(value = "일반 유저 전체 조회", notes = "모든 일반 유저의 정보를 조회합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "조회 성공")
-            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
-    })
-    @GetMapping("")
-    public ResponseEntity<List<UserDTO>> getNormalUsers() {
-        return new ResponseEntity<>(userService.getNomalUsers(), HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "일반 유저 조회", notes = "특정 일반 유저의 정보를 조회합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "조회 성공")
-            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
-    })
-    @GetMapping("/{uid}")
-    public ResponseEntity<UserDTO> getNormalUser(@PathVariable Long uid) {
-        return new ResponseEntity<>(userService.getNormalUser(uid), HttpStatus.OK);
-    }
+//    @ApiOperation(value = "일반 유저 조회", notes = "특정 일반 유저의 정보를 조회합니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "조회 성공")
+//            // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
+//    })
+//    @GetMapping("/{uid}")
+//    public ResponseEntity<UserDTO> getNormalUser(@LoginUser UserDTO userDTO, @PathVariable Long uid) {
+//        return new ResponseEntity<>(userService.getNormalUser(uid), HttpStatus.OK);
+//    }
 
     @ApiOperation(value = "일반 유저 생성", notes = "일반 유저를 생성합니다.")
     @ApiResponses(value = {

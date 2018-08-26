@@ -16,9 +16,9 @@
     </div>
     <div class="project-detail-grid" id="row1">
         <div class="thumbnail-container container">
-						<div class="thumbnail-centered">
-								<img class="thumbnail-img" src="{{thumbnailUrl}}">
-						</div>
+            <div class="thumbnail-centered">
+                <img class="thumbnail-img" src="{{thumbnailUrl}}">
+            </div>
         </div>
         <div class="summary-container container">
             <div id="state-box">
@@ -70,6 +70,11 @@
                     {{else}}
                     <div class="product-btn soldout" data-product-id="{{pid}}">
                         {{/if}}
+                        <div class="not-engough-quantity-caution">
+                            <p class="caution-str">
+                                제품이 부족합니다.
+                            </p>
+                        </div>
                         <div class="product-info-container">
                             <div class="product-info-title">{{title}}</div>
                             <div class="product-info-description">
@@ -105,6 +110,7 @@
             </div>
         </div>
     </div>
+</div>
 {{/project}}
 {{/partial}}
 {{#partial "footer"}}
@@ -123,4 +129,8 @@
 <script src="/js/project_detail.js"></script>
 {{/partial}}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3454a981f343d3f1af4ba76c64df8bf076c74c10
 {{> base}}
