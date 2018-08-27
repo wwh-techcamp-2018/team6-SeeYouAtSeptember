@@ -172,43 +172,58 @@ function initStickyHeader() {
     window.addEventListener("scroll", toggleStickyHeader);
 }
 
+class CategoryWebSocket {
+    constructor() {
+        const sock = new SockJS("/ws")
+        const client = Stomp.over(sock);
+
+        client.connect({}, function () {
+            client.subscribe('/subscribe/project', this.updateProjectCallback.bind(this));
+        }.bind(this));
+    }
+
+    updateProjectCallback(project) {
+        const projectBody = JSON.parse(project.body);
+        const updateProject = [...$("ul.projects").children].filter(project => project.firstElementChild.dataset.projectId === projectBody.pid.toString());
+        if(updateProject.length > 0){
+            const currentFund = $at(updateProject[0],"span.current-fund-raising");
+            const progressSpan = $at(updateProject[0],"span.progress-span");
+            const progressBar = $at(updateProject[0],"div.progress span");
+            this.highlightTarget(updateProject[0])
+            this.rotateAndUpdateTarget(currentFund, projectBody.currentFundRaising.toLocaleString('ko-KR') + "원");
+            this.rotateAndUpdateTarget(progressSpan, projectBody.progress.toLocaleString('ko-KR') + "%");
+            this.refillProgressBar(progressBar, projectBody.progress);
+        }
+    }
+
+    highlightTarget(target) {
+        target.style.boxShadow = "0 0 20px";
+        setTimeout(() => {
+            target.style.boxShadow = "0 0 0px";
+        }, 500);
+    }
+
+    rotateAndUpdateTarget(target, updateValue) {
+        target.style.transform = "rotateX(90deg)";
+        setTimeout(() => {
+            target.textContent = updateValue;
+            target.style.transform = "rotateX(0deg)";
+        }, 500)
+    }
+
+    refillProgressBar(progress, progressValue) {
+        progress.classList.remove("transition");
+        progress.style.width = "0%";
+        setTimeout(()=>{
+            progress.classList.add("transition");
+            progress.style.width = (progressValue > 100? 100 : progressValue) + "%";
+        }, 500);
+    }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     new CategoryManager();
     initStickyHeader();
 
-    const sock = new SockJS("/ws")
-    const client = Stomp.over(sock);
-
-    client.connect({}, function () {
-        client.subscribe('/subscribe/project', function (project) {
-            const projectBody = JSON.parse(project.body);
-            console.log(projectBody.currentFundRaising);
-            const updateProject = [...$("ul.projects").children].filter(project => project.firstElementChild.dataset.projectId === projectBody.pid.toString());
-            console.log(updateProject);
-            if(updateProject.length > 0){
-                const currentFund = $at(updateProject[0],"span.current-fund-raising");
-                const progressSpan = $at(updateProject[0],"span.progress-span");
-                const progressBar = $at(updateProject[0],"div.progress span");
-                updateProject[0].style.boxShadow = "0 0 20px";
-                setTimeout(() => {
-                    updateProject[0].style.boxShadow = "0 0 0px";
-                }, 500);
-                currentFund.style.transform = "rotateX(90deg)";
-                progressSpan.style.transform = "rotateX(90deg)";
-                setTimeout(() => {
-                    currentFund.textContent = projectBody.currentFundRaising.toLocaleString('ko-KR') + "원";
-                    progressSpan.textContent = projectBody.progress.toLocaleString('ko-KR') + "%";
-                    currentFund.style.transform = "rotateX(0deg)";
-                    progressSpan.style.transform = "rotateX(0deg)";
-                }, 500)
-                progressBar.classList.remove("transition");
-                progressBar.style.width = "0%";
-                setTimeout(()=>{
-                    progressBar.classList.add("transition");
-                    progressBar.style.width = (projectBody.progress > 100? 100 : projectBody.progress) + "%";
-                }, 500);
-
-            }
-        });
-    });
+    new CategoryWebSocket();
 })
