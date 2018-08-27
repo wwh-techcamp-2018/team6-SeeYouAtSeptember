@@ -55,39 +55,61 @@ class ProductBtns {
         if (!this.validQuantity(target)) {
             return;
         }
+        const productPrice = target.parentElement.parentElement.getElementsByClassName("product-info-price").item(0).
+                             lastElementChild.textContent.replace(/[^0-9]/g, '');
+        const quantity = target.parentElement.firstElementChild.value;
+        const name = target.parentElement.parentElement.getElementsByClassName("product-info-title").item(0).textContent;
+
         const supportForm = {
             "pid": target.closest("div.product-btn").dataset.productId,
-            "quantity": target.parentElement.firstElementChild.value
+            "quantity": quantity,
+            "purchasePrice": productPrice*quantity,
+            "name": name
         };
 
         fetchManager({
-            url: '/api/products',
+            url: '/api/orders',
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(supportForm),
-            callback: this.supportCallback.bind(target)
+            callback: this.supportCallback.bind(this)
         });
-
         this.hideProductSupport(target);
     }
 
     supportCallback(response) {
-        if (response.status === 200) {
-            window.location.reload();
-            return;
-        }
-        if (response.status === 400) {
-            const cautionDiv = this.closest(".product-btn").querySelector(".not-engough-quantity-caution");
-            cautionDiv.style.display = "block";
-            setTimeout(() => {
-                cautionDiv.style.display = "none";
-                window.location.reload();
-            }, 2000);
-        }
-        if (response.status === 401) {
+       if (response.status === 401) {
             window.location.href = "/users/login";
             return;
         }
+
+        if (response.status === 200) {
+            response.json().then(result=>{
+              this.requestImport(result);        
+            })
+        }
+    }
+
+    requestImport(result){
+         IMP.request_pay({ 
+            pg: "html5_inicis",
+            name: result.name,
+            merchant_uid: result.id,
+            amount: 100,
+            buyer_email: result.uid
+        }, function (rsp) { 
+            if (rsp.success) {
+                fetchManager({
+                    url: '/api/products',
+                    method: 'POST',
+                    headers: { 'content-type': 'application/json' },
+                    body: rsp.merchant_uid,
+                    callback: successCallback
+                });
+            } else {
+                alert("결제가 실패하였습니다.");           
+            }
+        })
     }
 }
 
@@ -105,8 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         height: '300px',
         initialValue: $(".description-viewer").dataset.description
     });
-
+    IMP.init('imp68124833'); 
     new ProductBtns();
-
     fillProgressBar(500);
 });
