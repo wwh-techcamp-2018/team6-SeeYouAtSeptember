@@ -78,7 +78,7 @@ class ProductBtns {
     }
 
     supportCallback(response) {
-        if (response.status === 401) {
+       if (response.status === 401) {
             window.location.href = "/users/login";
             return;
         }
@@ -113,12 +113,12 @@ class ProductBtns {
     }
 }
 
-function fillProgressBar() {
+function fillProgressBar(milleSec) {
     let widthValue = $("#state-box .achievement-rate").textContent.replace(/[^0-9]/g, '');
     widthValue = widthValue > 100 ? "100%" : widthValue + "%";
-    setTimeout(() => {
+    setTimeout(()=>{
         $("#state-box #progress-inner-bar").style.width = widthValue;
-    }, 500)
+    }, milleSec)
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -129,5 +129,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     IMP.init('imp68124833'); 
     new ProductBtns();
-    fillProgressBar();
+    fillProgressBar(500);
 });
