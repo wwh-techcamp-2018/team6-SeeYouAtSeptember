@@ -9,6 +9,8 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     public List<Project> findTop9ByOrderByIdDesc();
 
+    public List<Project> findTop3ByOrderByCurrentFundRaisingDesc();
+
     public List<Project> findTop9ByCategoryOrderByIdDesc(Category category);
 
     public List<Project> findTop9ByIdLessThanOrderByIdDesc(Long id);

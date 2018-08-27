@@ -1,5 +1,44 @@
 {{#partial "contents"}}
-<div class="promotion">
+<link rel="stylesheet" href="/css/index.css"/>
+<div class="promotion"></div>
+<div>
+    <div class="project-order-text">
+        <p>가장 인기있는 반찬</p>
+        <h4>실시간 모금 랭킹 TOP 3</h4>
+    </div>
+    <ul class="projects">
+        {{#ProjectsOrderByCurrentFund}}
+        <a href="/projects/{{id}}">
+            <li data-project-id="{{id}}">
+                <div class="project-img">
+                    <img src="{{thumbnailUrl}}"/>
+                </div>
+                <div class="project-div">
+                    <div class="title">
+                        <h4>
+                            {{title}}
+                        </h4>
+                        <span>
+                            {{owner}}
+                        </span>
+                        <span class="current-fund-raising">
+                            {{currentFundRaising}}원
+                        </span>
+                    </div >
+                    <div class="progress">
+                        <span style="width: {{progressPercentage}}%"></span>
+                    </div>
+                    <span>
+                            {{progress}}%
+                        </span>
+                    <span class="day-remaining">
+                            {{dayRemainingUntilDeadline}}일 남음
+                        </span>
+                </div>
+            </li>
+        </a>
+        {{/ProjectsOrderByCurrentFund}}
+    </ul>
 </div>
 {{/partial}}
 
