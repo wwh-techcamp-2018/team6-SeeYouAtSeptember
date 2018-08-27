@@ -1,6 +1,8 @@
 package com.woowahan.moduchan.controller;
 
+import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.event.ProjectUpdateEventPublisher;
 import com.woowahan.moduchan.exception.UnAuthenticatedException;
 import com.woowahan.moduchan.security.LoginUser;
 import com.woowahan.moduchan.service.UserService;

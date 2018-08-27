@@ -3,9 +3,12 @@ package com.woowahan.moduchan.service;
 import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.product.ProductUserMap;
 import com.woowahan.moduchan.domain.product.ProductUserPK;
+import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.product.ProductDTO;
 import com.woowahan.moduchan.dto.product.ProductUserMapDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.event.ProjectUpdateEvent;
+import com.woowahan.moduchan.event.ProjectUpdateEventPublisher;
 import com.woowahan.moduchan.exception.NotEnoughQuantityException;
 import com.woowahan.moduchan.exception.ProductNotFoundException;
 import com.woowahan.moduchan.exception.UserNotFoundException;
@@ -14,6 +17,7 @@ import com.woowahan.moduchan.repository.ProductRepository;
 import com.woowahan.moduchan.repository.ProductUserMapRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +33,11 @@ public class ProductUserMapService {
     @Autowired
     private NormalUserRepository normalUserRepository;
 
+    @Autowired
+    private ProjectUpdateEventPublisher projectUpdateEventPublisher;
 
-    public void donateProduct(UserDTO loginUserDTO, ProductUserMapDTO productUserMapDTO) {
+    @Transactional
+    public ProductUserMapDTO donateProduct(UserDTO loginUserDTO, ProductUserMapDTO productUserMapDTO) {
         // TODO: 2018. 8. 22. 리팩토링!!!!!!!!!!!!!!!
         ProductDTO productDTO = productRepository.findById(productUserMapDTO.getPid()).orElseThrow(ProductNotFoundException::new).toDTO();
         if(productDTO.getQuantitySupplied() < productDTO.getQuantityConsumed() + productUserMapDTO.getQuantity()) {
@@ -42,14 +49,15 @@ public class ProductUserMapService {
                         normalUserRepository.findById(loginUserDTO.getUid())
                                 .orElseThrow(() -> new UserNotFoundException("uid: " + productUserMapDTO.getUid())),
                         0L, false));
+
+        productUserMap.getProduct().getProject().UpdateCurrentFundRaising(productUserMap.getProduct().getPrice()*productUserMapDTO.getQuantity());
+        projectUpdateEventPublisher.publishEvent(productUserMap.getProduct().getProject());
         if (productUserMap.isDeleted()) {
             productUserMap.updateQuantity(productUserMapDTO);
-            productUserMapRepository.save(productUserMap);
-            return;
+            return productUserMapRepository.save(productUserMap).toDTO();
         }
         productUserMap.appendQuantity(productUserMapDTO);
-        productUserMapRepository.save(productUserMap);
-        return;
+        return productUserMapRepository.save(productUserMap).toDTO();
     }
 
 

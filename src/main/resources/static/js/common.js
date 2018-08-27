@@ -2,6 +2,10 @@ function $(selector) {
     return document.querySelector(selector);
 }
 
+function $at(target, selector) {
+    return target.querySelector(selector);
+}
+
 function $all(selector) {
     return document.querySelectorAll(selector);
 }

@@ -12,6 +12,7 @@ import com.woowahan.moduchan.support.S3Util;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Where;
 
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Entity
 @Where(clause = "deleted=false")
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -60,6 +62,9 @@ public class Project extends BaseTimeEntity {
     @NotNull
     private boolean deleted;
 
+    @Column(columnDefinition = "bigint default 0")
+    private Long currentFundRaising;
+
     public static Project from(ProjectDTO projectDTO, Category category, NormalUser owner) {
         return new ProjectBuilder()
                 .title(projectDTO.getTitle())
@@ -72,6 +77,7 @@ public class Project extends BaseTimeEntity {
                 .owner(owner)
                 .category(category)
                 .products(new ArrayList<>())
+                .currentFundRaising(0L)
                 .build();
     }
 
@@ -112,7 +118,8 @@ public class Project extends BaseTimeEntity {
                 status,
                 owner.toDTO().getName(),
                 products.stream().map(product -> product.toDTO()).collect(Collectors.toList()),
-                goalFundRaising
+                goalFundRaising,
+                currentFundRaising
         );
     }
 
@@ -134,6 +141,11 @@ public class Project extends BaseTimeEntity {
                 });
         productDTOs.forEach(productDTO -> addProduct(productDTO));
     }
+
+    public void UpdateCurrentFundRaising(Long currentFundRaising) {
+        this.currentFundRaising += currentFundRaising;
+    }
+
 
     public enum STATUS {
         DRAFT,

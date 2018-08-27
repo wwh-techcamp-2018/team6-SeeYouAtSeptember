@@ -56,4 +56,8 @@ public class ProductUserMap extends BaseTimeEntity {
         this.quantity += productUserMapDTO.getQuantity();
         return this;
     }
+
+    public ProductUserMapDTO toDTO(){
+        return new ProductUserMapDTO(product.toDTO().getPid(),normalUser.toDTO().getUid());
+    }
 }

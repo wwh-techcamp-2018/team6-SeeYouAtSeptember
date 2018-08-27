@@ -27,6 +27,7 @@ public class ProjectDTO {
     private String owner;
     private List<ProductDTO> products;
     private Long goalFundRaising;
+    private Long currentFundRaising;
 
     public int getSupporterCount() {
         return products.stream()
@@ -34,18 +35,12 @@ public class ProjectDTO {
                 .reduce(0, (x, y) -> x + y);
     }
 
-    public Long getCurrentFundRaising() {
-        return products.stream()
-                .map(productDTO -> productDTO.getPrice() * productDTO.getQuantityConsumed())
-                .reduce(0L, (x, y) -> x + y);
-    }
-
     public Long getDayRemainingUntilDeadline() {
         return (endAt - createdAt) / 1000 / 60 / 60 / 24;
     }
 
     public int getProgress() {
-        return (int) ((float) getCurrentFundRaising() / goalFundRaising * 100);
+        return (int) ((float) currentFundRaising / goalFundRaising * 100);
     }
 
     public void setThumbnailUrl(String thumbnailUrl) {

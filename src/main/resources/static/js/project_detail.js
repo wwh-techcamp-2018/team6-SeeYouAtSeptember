@@ -55,6 +55,7 @@ class ProductBtns {
         if (!this.validQuantity(target)) {
             return;
         }
+
         const supportForm = {
             "pid": target.closest("div.product-btn").dataset.productId,
             "quantity": target.parentElement.firstElementChild.value
@@ -65,30 +66,40 @@ class ProductBtns {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(supportForm),
-            callback: this.supportCallback.bind(target)
+            callback: this.supportCallback.bind(this)
         });
 
         this.hideProductSupport(target);
     }
 
     supportCallback(response) {
-        if (response.status === 200) {
-            window.location.reload();
-            return;
-        }
-        if (response.status === 400) {
-            const cautionDiv = this.closest(".product-btn").querySelector(".not-engough-quantity-caution");
-            cautionDiv.style.display = "block";
-            setTimeout(() => {
-                cautionDiv.style.display = "none";
-                window.location.reload();
-            }, 2000);
-        }
         if (response.status === 401) {
             window.location.href = "/users/login";
             return;
         }
+
+        if (response.status === 200) {
+            response.json().then(result=>{
+              this.requestImport(result.pid+result.uid);        
+            })
+        }
     }
+
+    requestImport(merchant_uid){
+         IMP.request_pay({ 
+            pg: "html5_inicis",
+            name:"테스트 상품",
+            merchant_uid: merchant_uid,
+            amount: 100
+        }, function (rsp) { 
+            if (rsp.success) {
+                window.location.reload();
+            } else {
+                alert("결제가 실패하였습니다.");           
+            }
+        })
+    }
+
 }
 
 function fillProgressBar(milleSec) {
@@ -105,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
         height: '300px',
         initialValue: $(".description-viewer").dataset.description
     });
-
+    IMP.init('imp68124833'); 
     new ProductBtns();
 
     fillProgressBar(500);

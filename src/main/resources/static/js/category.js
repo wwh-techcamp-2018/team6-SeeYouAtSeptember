@@ -103,12 +103,14 @@ class Category {
                     <div class="progress">
                      <span style="width: {progressPercentage}%"></span>
                     </div>
-                    <span>
-                        {progress}%
-                    </span>
-                    <span class="day-remaining">
-                        {dayRemaining}일 남음
-                    </span>
+                    <div>
+                        <span class="progress-span">
+                            {progress}%
+                        </span>
+                        <span class="day-remaining">
+                            {dayRemaining}일 남음
+                        </span>
+                    </div>
                 </div>
             </li>
         </a>
@@ -173,4 +175,40 @@ function initStickyHeader() {
 window.addEventListener("DOMContentLoaded", () => {
     new CategoryManager();
     initStickyHeader();
+
+    const sock = new SockJS("/ws")
+    const client = Stomp.over(sock);
+
+    client.connect({}, function () {
+        client.subscribe('/subscribe/project', function (project) {
+            const projectBody = JSON.parse(project.body);
+            console.log(projectBody.currentFundRaising);
+            const updateProject = [...$("ul.projects").children].filter(project => project.firstElementChild.dataset.projectId === projectBody.pid.toString());
+            console.log(updateProject);
+            if(updateProject.length > 0){
+                const currentFund = $at(updateProject[0],"span.current-fund-raising");
+                const progressSpan = $at(updateProject[0],"span.progress-span");
+                const progressBar = $at(updateProject[0],"div.progress span");
+                updateProject[0].style.boxShadow = "0 0 20px";
+                setTimeout(() => {
+                    updateProject[0].style.boxShadow = "0 0 0px";
+                }, 500);
+                currentFund.style.transform = "rotateX(90deg)";
+                progressSpan.style.transform = "rotateX(90deg)";
+                setTimeout(() => {
+                    currentFund.textContent = projectBody.currentFundRaising.toLocaleString('ko-KR') + "원";
+                    progressSpan.textContent = projectBody.progress.toLocaleString('ko-KR') + "%";
+                    currentFund.style.transform = "rotateX(0deg)";
+                    progressSpan.style.transform = "rotateX(0deg)";
+                }, 500)
+                progressBar.classList.remove("transition");
+                progressBar.style.width = "0%";
+                setTimeout(()=>{
+                    progressBar.classList.add("transition");
+                    progressBar.style.width = (projectBody.progress > 100? 100 : projectBody.progress) + "%";
+                }, 500);
+
+            }
+        });
+    });
 })
