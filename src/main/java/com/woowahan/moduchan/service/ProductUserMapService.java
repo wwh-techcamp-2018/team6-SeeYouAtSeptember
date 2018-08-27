@@ -4,6 +4,7 @@ import com.woowahan.moduchan.domain.order.OrderHistory;
 import com.woowahan.moduchan.domain.product.ProductUserMap;
 import com.woowahan.moduchan.domain.product.ProductUserPK;
 import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.exception.OrderNotFoundException;
 import com.woowahan.moduchan.exception.ProductNotFoundException;
 import com.woowahan.moduchan.exception.UserNotFoundException;
 import com.woowahan.moduchan.repository.NormalUserRepository;
@@ -31,14 +32,14 @@ public class ProductUserMapService {
     private OrderRepository orderRepository;
 
     @Transactional
-    public void donateProduct(UserDTO loginUserDTO, String oid) {
+    public void donateProduct(UserDTO userDTO,String oid) {
         // TODO: 2018. 8. 22. 리팩토링!!!!!!!!!!!!!!!
-        OrderHistory orderHistory = orderRepository.findById(oid).orElseThrow(RuntimeException::new).changeSuccessOrderStatus();
+        OrderHistory orderHistory = orderRepository.findByIdAndUid(oid,userDTO.getUid()).orElseThrow(OrderNotFoundException::new).changeOrderStatusSuccess();
 
-        ProductUserMap productUserMap = productUserMapRepository.findById(new ProductUserPK(orderHistory.getPid(), loginUserDTO.getUid()))
+        ProductUserMap productUserMap = productUserMapRepository.findById(new ProductUserPK(orderHistory.getPid(), orderHistory.getUid()))
                 .orElse(new ProductUserMap(productRepository.findById(orderHistory.getPid())
                         .orElseThrow(() -> new ProductNotFoundException("pid: " + orderHistory.getPid())),
-                        normalUserRepository.findById(loginUserDTO.getUid())
+                        normalUserRepository.findById(orderHistory.getUid())
                                 .orElseThrow(() -> new UserNotFoundException("uid: " + orderHistory.getUid())),
                         0L, false));
 

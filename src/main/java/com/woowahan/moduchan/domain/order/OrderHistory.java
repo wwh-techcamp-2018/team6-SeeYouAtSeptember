@@ -44,7 +44,7 @@ public class OrderHistory extends BaseTimeEntity {
         return new OrderHistoryDTO(id,pid,uid,name,purchasePrice,quantity);
     }
 
-    public OrderHistory changeSuccessOrderStatus() {
+    public OrderHistory changeOrderStatusSuccess() {
         this.status = STATUS.SUCCESS;
         return this;
     }

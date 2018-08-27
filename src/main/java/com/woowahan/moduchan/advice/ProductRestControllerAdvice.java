@@ -2,6 +2,7 @@ package com.woowahan.moduchan.advice;
 
 
 import com.woowahan.moduchan.exception.NotEnoughQuantityException;
+import com.woowahan.moduchan.exception.OrderNotFoundException;
 import com.woowahan.moduchan.exception.ProductNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,4 +24,11 @@ public class ProductRestControllerAdvice {
         log.debug("[NotEnoughQuantityException] {}", exception.getMessage());
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<Void> notFoundOrder(OrderNotFoundException exception) {
+        log.debug("[OrderNotFoundException] {}", exception.getMessage());
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
+
 }
