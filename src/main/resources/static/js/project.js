@@ -1,7 +1,7 @@
 class ProjectForm {
     constructor() {
         this.productList = [];
-        this.vanilla = null;
+        this.cropper = null;
         this.fileInput = $("#file-input");
         this.modal = $("#myModal");
         addEventListenerToTarget($("#create-project-btn"), "click", this.createProjectBtnHandler.bind(this));
@@ -36,16 +36,16 @@ class ProjectForm {
         this.modal.style.display = "block";
         var el = $(".modal-body");
         if(el.classList.contains("croppie-container")) {
-            this.vanilla.bind({url:window.URL.createObjectURL(input.target.files[0])});
+            this.cropper.bind({url:window.URL.createObjectURL(input.target.files[0])});
             return;
         }
-        this.vanilla = new Croppie(el, {
+        this.cropper = new Croppie(el, {
             viewport: { width: 288, height: 288 },
             boundary: { width: 500, height: 500 },
             showZoomer: true,
             enableOrientation: true
         });
-        this.vanilla.bind({url:window.URL.createObjectURL(input.target.files[0])});
+        this.cropper.bind({url:window.URL.createObjectURL(input.target.files[0])});
     }
 
     closeButtonHandler(evt) {
@@ -59,7 +59,7 @@ class ProjectForm {
     }
 
     cropButtonHandler() {
-        this.vanilla.result('blob').then(this.insertImgFile.bind(this));
+        this.cropper.result('blob').then(this.insertImgFile.bind(this));
     }
 
     addProductCreateFormHandler() {
