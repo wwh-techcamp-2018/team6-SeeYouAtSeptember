@@ -1,6 +1,7 @@
 {{#partial "header"}}
 <link rel="stylesheet" href="/css/category.css"/>
 <link rel="stylesheet" href="/css/create_project.css"/>
+<link rel="stylesheet" href="/css/croppie.css"/>
 <link rel="stylesheet" href="/tui-editor/lib/codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="/tui-editor/lib/highlightjs/styles/github.css">
 <link rel="stylesheet" href="/tui-editor/dist/tui-editor.css">
@@ -12,9 +13,22 @@
 {{#partial "contents"}}
 <div class="projects-form">
     <div class="projects-form-grid" id="row1">
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button class="close">Close</button>
+                    <button id="crop-btn">Crop</button>
+                </div>
+            </div>
+        </div>
         <div class="projects-form img">
             <img id="thumbnailUrl"><br>
-            <input type="file">
+            <input type="file" id="file-input" accept="image/*" style="display:none">
             <span class="tb-in-txt caution" id="project-img">메인 이미지 등록을 해주세요.</span>
         </div>
         <div class="projects-form-detail">
@@ -74,6 +88,7 @@
 <script src="/js/common.js"></script>
 <script src="/js/product.js"></script>
 <script src="/js/project.js"></script>
+<script src="/js/croppie.js"></script>
 
 {{/partial}}
 

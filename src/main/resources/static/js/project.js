@@ -1,10 +1,17 @@
 class ProjectForm {
     constructor() {
         this.productList = [];
+        this.vanilla = null;
+        this.fileInput = $("#file-input");
+        this.modal = $("#myModal");
         addEventListenerToTarget($("#create-project-btn"), "click", this.createProjectBtnHandler.bind(this));
-        addEventListenerToTarget($(".projects-form.img input"), "change", this.insertImgFile.bind(this));
         addEventListenerToTarget($("#addProduct"), "click", this.addProductCreateFormHandler.bind(this));
         addEventListenerToTarget($(".products-addList"), "click", this.removeProductCreateFormHandler.bind(this));
+        addEventListenerToTarget($("#crop-btn"),"click", this.cropButtonHandler.bind(this));
+        addEventListenerToTarget($("#thumbnailUrl"),"click",this.uploadFileHandler.bind(this));
+        $all(".close").forEach(closeObject => closeObject.addEventListener("click",this.closeButtonHandler.bind(this)));
+        addEventListenerToTarget(this.fileInput,"click",this.fileClickHandler.bind(this));
+        addEventListenerToTarget(this.fileInput,"change",this.fileChangeHandler.bind(this));
 
         this.focusOutProjectsInfoTargetList = [
             $("#projects-title-input"),
@@ -15,6 +22,44 @@ class ProjectForm {
         this.focusOutProjectsInfoTargetList.forEach(target => {
             addEventListenerToTarget(target, "focusout", this.focusOutProjectInputHandler.bind(this));
         });
+    }
+
+    uploadFileHandler() {
+        this.fileInput.click();
+    }
+
+    fileClickHandler(evt) {
+        evt.target.value = null;
+    }
+
+    fileChangeHandler(input) {
+        this.modal.style.display = "block";
+        var el = $(".modal-body");
+        if(el.classList.contains("croppie-container")) {
+            this.vanilla.bind({url:window.URL.createObjectURL(input.target.files[0])});
+            return;
+        }
+        this.vanilla = new Croppie(el, {
+            viewport: { width: 288, height: 288 },
+            boundary: { width: 500, height: 500 },
+            showZoomer: true,
+            enableOrientation: true
+        });
+        this.vanilla.bind({url:window.URL.createObjectURL(input.target.files[0])});
+    }
+
+    closeButtonHandler(evt) {
+        this.fileInput.value="";
+        const result = confirm("사진 크기를 조정해야 사용할 수 있습니다.\n창을 닫겠습니까?");
+        if(result) {
+            this.modal.style.display = "none";
+        } else {
+            evt.target.blur();
+        }
+    }
+
+    cropButtonHandler() {
+        this.vanilla.result('blob').then(this.insertImgFile.bind(this));
     }
 
     addProductCreateFormHandler() {
@@ -112,14 +157,15 @@ class ProjectForm {
         if (evt.target.id === "projects-endAt-input") this.setEndAt();
     }
 
-    insertImgFile(evt) {
-        const maybeImg = evt.target.files[0];
+    insertImgFile(blob) {
 
-        if (maybeImg === undefined) return;
+        if (blob === undefined) return;
 
-        if (maybeImg["type"].split("/")[0] === "image") {
-            fetchFormData(this.setFormData(maybeImg), "/api/projects/upload", this.imageUploadCallback.bind(this));
+        if (blob["type"].split("/")[0] === "image") {
+            var file = new File([blob], window.URL.createObjectURL(blob), {type: blob["type"], lastModified: Date.now()});
+            fetchFormData(this.setFormData(file), "/api/projects/upload", this.imageUploadCallback.bind(this));
         }
+        this.modal.style.display = "none";
     }
 
     setFormData(maybeImg) {
@@ -135,6 +181,7 @@ class ProjectForm {
 
     imageUploadCallback(img) {
         $("#thumbnailUrl").src = img;
+        this.thumbnailUrl = $("#thumbnailUrl").src;
     }
 
     createProjectBtnHandler(evt) {
