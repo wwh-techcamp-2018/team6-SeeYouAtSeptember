@@ -55,20 +55,25 @@ class ProductBtns {
         if (!this.validQuantity(target)) {
             return;
         }
+        const productPrice = target.parentElement.parentElement.getElementsByClassName("product-info-price").item(0).
+                             lastElementChild.textContent.replace(/[^0-9]/g, '');
+        const quantity = target.parentElement.firstElementChild.value;
+        const name = target.parentElement.parentElement.getElementsByClassName("product-info-title").item(0).textContent;
 
         const supportForm = {
             "pid": target.closest("div.product-btn").dataset.productId,
-            "quantity": target.parentElement.firstElementChild.value
+            "quantity": quantity,
+            "purchasePrice": productPrice*quantity,
+            "name": name
         };
 
         fetchManager({
-            url: '/api/products',
+            url: '/api/orders',
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(supportForm),
             callback: this.supportCallback.bind(this)
         });
-
         this.hideProductSupport(target);
     }
 
@@ -80,26 +85,32 @@ class ProductBtns {
 
         if (response.status === 200) {
             response.json().then(result=>{
-              this.requestImport(result.pid+result.uid);        
+              this.requestImport(result);        
             })
         }
     }
 
-    requestImport(merchant_uid){
+    requestImport(result){
          IMP.request_pay({ 
             pg: "html5_inicis",
-            name:"테스트 상품",
-            merchant_uid: merchant_uid,
-            amount: 100
+            name: result.name,
+            merchant_uid: result.id,
+            amount: 100,
+            buyer_email: result.uid
         }, function (rsp) { 
             if (rsp.success) {
-                window.location.reload();
+                fetchManager({
+                    url: '/api/products',
+                    method: 'POST',
+                    headers: { 'content-type': 'application/json' },
+                    body: rsp.merchant_uid,
+                    callback: successCallback
+                });
             } else {
                 alert("결제가 실패하였습니다.");           
             }
         })
     }
-
 }
 
 function fillProgressBar() {

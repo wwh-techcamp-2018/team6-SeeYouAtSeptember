@@ -1,20 +1,19 @@
 package com.woowahan.moduchan.controller;
 
-import com.woowahan.moduchan.dto.product.ProductUserMapDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.security.LoginUser;
 import com.woowahan.moduchan.service.ProductUserMapService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.UUID;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/products")
 public class ApiProductController {
@@ -29,9 +28,10 @@ public class ApiProductController {
             //error에 대한 설명 추가
     })
     @PostMapping("")
-    public ResponseEntity<ProductUserMapDTO> donateProduct(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProductUserMapDTO productUserMapDTO) {
+    public ResponseEntity<Void> donateProduct(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody String oid) {
         // TODO: 2018. 8. 22. 공급 갯수 이상으로 구매하면 에러
-        return new ResponseEntity<>(productUserMapService.donateProduct(loginUserDTO, productUserMapDTO),HttpStatus.OK);
+        productUserMapService.donateProduct(loginUserDTO, oid);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "후원 취소", notes = "후원을 취소합니다.")

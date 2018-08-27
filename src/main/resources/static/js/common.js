@@ -73,3 +73,10 @@ function insertEditorImg(blob, callback) {
     }
     alert("잘못된 형식의 이미지입니다.")
 }
+
+function successCallback(response){
+    if (response.status === 200) {
+       window.location.reload();
+       return;
+    }
+}
