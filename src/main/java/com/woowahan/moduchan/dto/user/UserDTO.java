@@ -7,8 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Null;
+import javax.validation.constraints.*;
 
 @Getter
 @ToString
@@ -16,24 +15,32 @@ import javax.validation.constraints.Null;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
+    private final static String EMAIL_REGEX = "^[_0-9a-zA-Z-]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)*$";
+    private final static String PASSWORD_REGEX = "^(?=.*?[a-zA-Z])(?=.*?[0-9]).{8,12}$";
+    private final static String PHONE_NO_REGEX = "^01[0|1|6-9]-[0-9]{3,4}-[0-9]{4}$";
+
     @ApiModelProperty(hidden = true)
     @Null(groups = {LoginValid.class, JoinValid.class})
     private Long uid;
 
     @ApiModelProperty(example = "example@gmail.com", position = 1)
     @NotEmpty(groups = {LoginValid.class, JoinValid.class})
+    @Pattern(regexp = EMAIL_REGEX, message = "email형식이 올바르지 않습니다.", groups = JoinValid.class)
     private String email;
 
     @ApiModelProperty(example = "password", position = 2)
     @NotEmpty(groups = {LoginValid.class, JoinValid.class})
+    @Pattern(regexp = PASSWORD_REGEX, message = "password형식이 올바르지 않습니다.", groups = JoinValid.class)
     private String password;
 
     @ApiModelProperty(example = "name", position = 3)
     @NotEmpty(groups = JoinValid.class)
+    @Size(max = 20, message = "20자 이하의 이름을 입력해 주세요.", groups = JoinValid.class)
     private String name;
 
     @ApiModelProperty(example = "010-0000-0000", position = 4)
     @NotEmpty(groups = JoinValid.class)
+    @Pattern(regexp = PHONE_NO_REGEX, message = "전화번호형식이 올바르지 않습니다.", groups = JoinValid.class)
     private String phoneNo;
 
     @NotEmpty(groups = JoinValid.class)
