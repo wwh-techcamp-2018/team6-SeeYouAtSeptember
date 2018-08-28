@@ -101,7 +101,6 @@ ul {
     width: 100%;
     height: auto;
     border-radius: 3px;
-    border-color: lightgray;
 }
 
 .projects li {
@@ -193,12 +192,19 @@ ul {
 }
 
 #more-project-btn {
-    height: 40px;
     width: 100%;
+    height: 40px;
     margin: 40px 0;
     position: static;
     cursor: pointer;
-    font-family: "Noto Sans KR Bold", "Nanum Gothic", sans-serif;
     background: #2ac1bc;
     color: #fff;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+#more-project-btn:hover {
+    background: #17aba6;
 }
