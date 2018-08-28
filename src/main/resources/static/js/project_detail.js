@@ -7,12 +7,12 @@ class ProductBtns {
 
         this.productBtns.forEach(btn => {
             addEventListenerToTarget(btn, "click", this.productBtnClickHandler.bind(this));
-        })
-        addEventListenerToTarget($(".need-login-cover"), "click", this.needLoginCoverClickHandler)
+        });
+        addEventListenerToTarget($(".need-login-cover"), "click", this.needLoginCoverClickHandler);
     }
 
     needLoginCoverClickHandler() {
-        window.location.href = "/users/login"
+        window.location.href = "/users/login";
     }
 
     productBtnClickHandler(evt) {
@@ -104,9 +104,15 @@ class ProductBtns {
 
 function fillProgressBar(milleSec) {
     let widthValue = $("#state-box .achievement-rate").textContent.replace(/[^0-9]/g, '');
+    const baedalImg = $("#state-box .baedal-img");
     widthValue = widthValue > 100 ? "100%" : widthValue + "%";
     setTimeout(()=>{
         $("#state-box #progress-inner-bar").style.width = widthValue;
+        baedalImg.style.marginLeft = widthValue;
+        baedalImg.style.transform = "rotate(-30deg)";
+        setTimeout(() => {
+            baedalImg.style.transform = "rotate(0deg)";
+        },1500)
     }, milleSec)
 }
 

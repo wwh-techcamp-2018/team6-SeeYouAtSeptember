@@ -105,10 +105,11 @@ ul {
     height: 5px;
     background-color: #e6eaed;
     border-radius: 1px;
+    position: relative;
 }
 
 #project-detail .project-detail-grid#row1 .summary-container #state-box #progress-inner-bar {
-    display: block;
+    display: inline-block;
     height: 100%;
     max-width: 100%;
     width: 0%;
@@ -116,6 +117,19 @@ ul {
     border-radius: 1px;
     overflow: hidden;
     transition: all 2s;
+}
+
+#project-detail  #state-box .progress .baedal-img{
+    position: absolute;
+    display: inline-block;
+    width: 50px;
+    top:-40px;
+    float: left;
+    margin-left: 0%;
+    left: -5px;
+    transform: rotate(0deg);
+    transition-property: margin-left, transform;
+    transition-duration: 2s, 1s;
 }
 
 #project-detail .project-detail-grid#row1 .summary-container #state-box p {
@@ -231,9 +245,8 @@ ul {
     margin: 0 10%;
     height: 100%;
     width: 80%;
-    background-color: rgba(0, 0, 0, 0.51);
-    color: white;
-    border-radius: 10px;
+    opacity: 1;
+    z-index: 1;
 }
 
 #project-detail .project-detail-grid#row2 .product-container .need-login-cover p {
