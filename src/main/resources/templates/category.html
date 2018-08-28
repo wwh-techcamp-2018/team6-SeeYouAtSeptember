@@ -4,12 +4,15 @@
 
 {{#partial "contents"}}
 <ul class="categories"></ul>
-<img class="sticky-scissors" src="https://cdn.iconscout.com/public/images/icon/free/png-512/scissor-3bcc410ae6358830-512x512.png" alt="">
+<img class="sticky-scissors"
+     src="https://cdn.iconscout.com/public/images/icon/free/png-512/scissor-3bcc410ae6358830-512x512.png" alt="">
 <div id="category-content"></div>
 <button id="more-project-btn">더보기</button>
 {{/partial}}
 
 {{#partial "footer"}}
+<script src="/js/sockjs.min.js"></script>
+<script src="/js/stomp.min.js"></script>
 <script src="/js/category.js"></script>
 {{/partial}}
 

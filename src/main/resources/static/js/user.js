@@ -16,7 +16,7 @@ class LoginBtn {
         fetchManager({
             url: '/api/users/login',
             method: 'POST',
-            headers: { 'content-type': 'application/json' },
+            headers: {'content-type': 'application/json'},
             body: JSON.stringify(this.loginForm),
             callback: this.login
         });
@@ -89,7 +89,7 @@ class Join {
         fetchManager({
             url: '/api/users',
             method: 'POST',
-            headers: { 'content-type': 'application/json' },
+            headers: {'content-type': 'application/json'},
             body: JSON.stringify(this.joinForm),
             callback: this.join
         });
@@ -97,7 +97,7 @@ class Join {
 
     validAll() {
         this.validList = [this.validEmail.bind(this), this.validPassword.bind(this), this.validPasswordConfirm.bind(this),
-        this.validName.bind(this), this.validPhoneNo.bind(this), this.validAddress.bind(this)];
+            this.validName.bind(this), this.validPhoneNo.bind(this), this.validAddress.bind(this)];
         this.cnt = this.validList.length;
         this.validList.forEach(valid => {
             if (valid())
@@ -161,7 +161,7 @@ class Join {
 
     validAddress() {
         this.address = $("#postcode").value + $("#address").value;
-        
+
         if (this.address !== addressAPI.address) {
             $("#address-caution").style.display = "inline-block";
             return false;
@@ -180,64 +180,64 @@ class Join {
 
 }
 
-class AddressAPI{
-        constructor(){
-            addEventListenerToTarget($("#address-search-btn"), "click", this.loadAddressAPI.bind(this));
-            addEventListenerToTarget($("#btnCloseLayer"),"click", this.closeDaumPostcode.bind(this));
-        }
+class AddressAPI {
+    constructor() {
+        addEventListenerToTarget($("#address-search-btn"), "click", this.loadAddressAPI.bind(this));
+        addEventListenerToTarget($("#btnCloseLayer"), "click", this.closeDaumPostcode.bind(this));
+    }
 
-    loadAddressAPI (evt) {
+    loadAddressAPI(evt) {
         evt.preventDefault();
         const elementLayer = $('#layer');
         const currentThis = this;
-        daum.postcode.load(function(){
-          new daum.Postcode({
-            oncomplete: function(data) {
-              let fullAddr = '';
-              let extraAddr = '';
-              if (data.userSelectedType === 'R') {
-                fullAddr = data.roadAddress;
-              } else {
-                fullAddr = data.jibunAddress;
-              }
+        daum.postcode.load(function () {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    let fullAddr = '';
+                    let extraAddr = '';
+                    if (data.userSelectedType === 'R') {
+                        fullAddr = data.roadAddress;
+                    } else {
+                        fullAddr = data.jibunAddress;
+                    }
 
-              if(data.userSelectedType === 'R'){
-                if(data.bname !== ''){
-                  extraAddr += data.bname;
-                }
-                if(data.buildingName !== ''){
-                  extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
-              }
+                    if (data.userSelectedType === 'R') {
+                        if (data.bname !== '') {
+                            extraAddr += data.bname;
+                        }
+                        if (data.buildingName !== '') {
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+                    }
 
-              currentThis.address= data.zonecode + fullAddr;
-              $("#postcode").value = data.zonecode;
-              $("#address").value =  fullAddr;
-        
-              elementLayer.style.display = 'none';
-            }
-          }).embed(elementLayer,currentThis);
+                    currentThis.address = data.zonecode + fullAddr;
+                    $("#postcode").value = data.zonecode;
+                    $("#address").value = fullAddr;
+
+                    elementLayer.style.display = 'none';
+                }
+            }).embed(elementLayer, currentThis);
         })
         elementLayer.style.display = 'block';
-        
-        this.initLayerPosition(elementLayer);
-      }
 
-      initLayerPosition(elementLayer){
+        this.initLayerPosition(elementLayer);
+    }
+
+    initLayerPosition(elementLayer) {
         const width = 500;
         const height = 400;
         const borderWidth = 2;
         elementLayer.style.width = width + 'px';
         elementLayer.style.height = height + 'px';
         elementLayer.style.border = borderWidth + 'px solid';
-        elementLayer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';
-        elementLayer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
-      }
+        elementLayer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width) / 2 - borderWidth) + 'px';
+        elementLayer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height) / 2 - borderWidth) + 'px';
+    }
 
-      closeDaumPostcode(){
-        $("#layer").style.display='none';
-      }
+    closeDaumPostcode() {
+        $("#layer").style.display = 'none';
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
