@@ -15,7 +15,7 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory){
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         return SessionUtil.getLoginUserFromWebRequest(webRequest);
     }
 }

@@ -19,7 +19,8 @@ public class ApiCategoryAcceptanceTest extends ApiAcceptanceTest {
         ResponseEntity<List<CategoryDTO>> response = template().exchange("/api/categories",
                 HttpMethod.GET,
                 createHttpEntity(),
-                new ParameterizedTypeReference<List<CategoryDTO>>(){});
+                new ParameterizedTypeReference<List<CategoryDTO>>() {
+                });
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<CategoryDTO> categoryDTOs = response.getBody();
         assertThat(categoryDTOs.size()).isEqualTo(8);
@@ -27,7 +28,7 @@ public class ApiCategoryAcceptanceTest extends ApiAcceptanceTest {
 
     @Test
     public void getCategory_성공() {
-        ResponseEntity<CategoryDTO> response = template().getForEntity("/api/categories/2",CategoryDTO.class);
+        ResponseEntity<CategoryDTO> response = template().getForEntity("/api/categories/2", CategoryDTO.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().getTitle()).isEqualTo("밑반찬");
         assertThat(response.getBody().getId()).isEqualTo(2L);
@@ -35,7 +36,7 @@ public class ApiCategoryAcceptanceTest extends ApiAcceptanceTest {
 
     @Test
     public void getCategory_없는카테고리() {
-        ResponseEntity<String> response = template().getForEntity("/api/categories/10",String.class);
+        ResponseEntity<String> response = template().getForEntity("/api/categories/10", String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().contains("category not found")).isTrue();
     }
@@ -45,7 +46,8 @@ public class ApiCategoryAcceptanceTest extends ApiAcceptanceTest {
         ResponseEntity<List<CategoryDTO>> response = template().exchange("/api/categories/2/last/0",
                 HttpMethod.GET,
                 createHttpEntity(),
-                new ParameterizedTypeReference<List<CategoryDTO>>(){});
+                new ParameterizedTypeReference<List<CategoryDTO>>() {
+                });
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().size()).isEqualTo(9);
         assertThat(response.getBody().stream().filter(categoryDTO -> categoryDTO.getTitle().equals("[집밥의완성] 별미노각생채 190g")).count()).isEqualTo(1);

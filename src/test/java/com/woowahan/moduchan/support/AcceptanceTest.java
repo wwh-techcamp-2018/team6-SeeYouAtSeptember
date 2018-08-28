@@ -9,10 +9,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = "spring.profiles.active=local"
-)
-public abstract class AcceptanceTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class AcceptanceTest {
     private static final String DEFAULT_LOGIN_USER = "a";
 
     @Autowired

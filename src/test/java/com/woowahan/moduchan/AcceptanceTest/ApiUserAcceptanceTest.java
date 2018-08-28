@@ -17,9 +17,9 @@ public class ApiUserAcceptanceTest extends ApiAcceptanceTest {
 
     @Before
     public void setUp() throws Exception {
-        loginUserDTO = new UserDTO(null,"a", "a",null,null,null);
-        joinUserDTO = new UserDTO(null,"test@naver.com","qwe123!!",
-                "테스트","01012341234","올림픽로 295");
+        loginUserDTO = new UserDTO(null, "a", "a", null, null, null);
+        joinUserDTO = new UserDTO(null, "test@naver.com", "qwe123!!",
+                "테스트", "01012341234", "올림픽로 295");
     }
 
     @Test
@@ -60,13 +60,13 @@ public class ApiUserAcceptanceTest extends ApiAcceptanceTest {
 
     @Test
     public void 로그아웃_성공() {
-        ResponseEntity<Void> response = templateWithNormalUser().postForEntity("/api/users/logout",null,Void.class);
+        ResponseEntity<Void> response = templateWithNormalUser().postForEntity("/api/users/logout", null, Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
     public void 로그아웃_실패() {
-        ResponseEntity<Void> response = template().postForEntity("/api/users/logout",null,Void.class);
+        ResponseEntity<Void> response = template().postForEntity("/api/users/logout", null, Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 }

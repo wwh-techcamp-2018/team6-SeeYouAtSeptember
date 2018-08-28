@@ -16,9 +16,9 @@ public class ApiUserControllerTest extends ApiAcceptanceTest {
 
     @Before
     public void setUp() throws Exception {
-        loginUserDTO = new UserDTO(null,"a", "a",null,null,null);
-        joinUserDTO = new UserDTO(null,"chldbtjd@naver.com","qwe123@@",
-                "최유성","01035442272","강남강남가아아아남");
+        loginUserDTO = new UserDTO(null, "a", "a", null, null, null);
+        joinUserDTO = new UserDTO(null, "chldbtjd@naver.com", "qwe123@@",
+                "최유성", "01035442272", "강남강남가아아아남");
 
     }
 
