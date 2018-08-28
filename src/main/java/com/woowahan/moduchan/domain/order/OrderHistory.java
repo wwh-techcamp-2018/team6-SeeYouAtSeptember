@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.UUID;
 
@@ -19,7 +21,9 @@ import java.util.UUID;
 public class OrderHistory extends BaseTimeEntity {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String merchantUid;
     private String name;
     private Long pid;
     private Long uid;
@@ -28,7 +32,7 @@ public class OrderHistory extends BaseTimeEntity {
     private STATUS status;
 
     public static OrderHistory from(OrderHistoryDTO orderHistoryDTO, Long uid) {
-        return new OrderHistoryBuilder().id(UUID.randomUUID().toString())
+        return new OrderHistoryBuilder().merchantUid(UUID.randomUUID().toString())
                 .pid(orderHistoryDTO.getPid())
                 .uid(uid)
                 .purchasePrice(orderHistoryDTO.getPurchasePrice())
@@ -39,7 +43,7 @@ public class OrderHistory extends BaseTimeEntity {
     }
 
     public OrderHistoryDTO toDTO() {
-        return new OrderHistoryDTO(id, pid, uid, name, purchasePrice, quantity);
+        return new OrderHistoryDTO(id, merchantUid,pid, uid, name, purchasePrice, quantity);
     }
 
     public OrderHistory changeOrderStatusSuccess() {

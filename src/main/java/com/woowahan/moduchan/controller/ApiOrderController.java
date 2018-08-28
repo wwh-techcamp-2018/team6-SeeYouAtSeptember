@@ -1,5 +1,6 @@
 package com.woowahan.moduchan.controller;
 
+import java.util.List;
 import com.woowahan.moduchan.dto.order.OrderHistoryDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.security.LoginUser;
@@ -20,8 +21,8 @@ public class ApiOrderController {
     private OrderService orderService;
 
     @PostMapping("")
-    public ResponseEntity<OrderHistoryDTO> createOrder(@LoginUser UserDTO loginUser, @RequestBody OrderHistoryDTO orderHistoryDTO) {
-        return new ResponseEntity<>(orderService.createOrder(orderHistoryDTO, loginUser), HttpStatus.OK);
+    public ResponseEntity<OrderHistoryDTO> createOrder(@LoginUser UserDTO loginUser, @RequestBody List<OrderHistoryDTO> orderHistoryDTOList) {
+        return new ResponseEntity<>(orderService.createOrder(orderHistoryDTOList, loginUser), HttpStatus.OK);
     }
 
 }
