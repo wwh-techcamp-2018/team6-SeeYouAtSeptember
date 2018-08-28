@@ -120,7 +120,7 @@ class ProductBtns {
     }
 
     setSupportForm(liElement) {
-        const quantity = $at(liElement, ".amount input").innerText;
+        const quantity = $at(liElement, ".amount input").value;
         const productPrice = liElement.dataset.productPrice;
 
         const supportForm = {
@@ -188,7 +188,7 @@ class ProductBtns {
         IMP.request_pay({
             pg: "html5_inicis",
             name: result.name,
-            merchant_uid: result.id,
+            merchant_uid: result.merchantUid,
             amount: 100,
             buyer_email: result.uid
         }, function (rsp) {
