@@ -8,7 +8,7 @@ class Product {
     setProductTitle() {
         this.title = this.productTag.children["product-title-input"].value;
 
-        if (this.title.length < 3) return false;
+        if (this.title.trim().length < 1 || this.title.trim().length > 30) return false;
 
         this.product.title = this.title;
         return true;
@@ -17,7 +17,7 @@ class Product {
     setProductDescription() {
         this.description = this.productTag.children["product-description-input"].value;
 
-        if (this.description.length < 3) return false;
+        if (this.description.trim().length < 1 || this.description.trim().length > 100) return false;
 
         this.product.description = this.description;
         return true;
@@ -26,7 +26,7 @@ class Product {
     setPrice() {
         this.price = this.productTag.children["product-price-input"].value;
 
-        if (this.price < 0) {
+        if (this.price < 1000) {
             return false;
         }
         this.product.price = this.price;
@@ -36,7 +36,7 @@ class Product {
     setSupplyQuantity() {
         this.quantitySupplied = this.productTag.children["product-supplyQuantity-input"].value;
 
-        if (this.quantitySupplied < 10) {
+        if (this.quantitySupplied < 1) {
             return false;
         }
         this.product.quantitySupplied = this.quantitySupplied;

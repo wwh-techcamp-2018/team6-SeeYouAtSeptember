@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class ApiProjectController {
             // TODO: 2018. 8. 21.  error에 대한 설명 추가
     })
     @PostMapping(value = "")
-    public ResponseEntity<Void> createProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProjectDTO projectDTO) {
+    public ResponseEntity<Void> createProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @Valid @RequestBody ProjectDTO projectDTO) {
         projectService.createProject(projectDTO, loginUserDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
