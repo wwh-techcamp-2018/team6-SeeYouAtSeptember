@@ -53,7 +53,6 @@
     float: right;
 }
 
-
 .project-div .current-fund-raising {
     float: right;
 }
@@ -68,19 +67,19 @@
 }
 
 .projects {
-   -webkit-padding-start: 0px;
+    -webkit-padding-start: 0px;
     list-style: none;
- }
-
-.projects  a {
-      text-decoration: none;
-      color: inherit
 }
 
-.project-order-text{
-    text-align : center;
+.projects a {
+    text-decoration: none;
+    color: inherit
+}
+
+.project-order-text {
+    text-align: center;
 }
 
 .project-order-text p {
-    color:#999;
+    color: #999;
 }

@@ -7,11 +7,11 @@ class ProjectForm {
         addEventListenerToTarget($("#create-project-btn"), "click", this.createProjectBtnHandler.bind(this));
         addEventListenerToTarget($("#addProduct"), "click", this.addProductCreateFormHandler.bind(this));
         addEventListenerToTarget($(".products-addList"), "click", this.removeProductCreateFormHandler.bind(this));
-        addEventListenerToTarget($("#crop-btn"),"click", this.cropButtonHandler.bind(this));
-        addEventListenerToTarget($("#thumbnailUrl"),"click",this.uploadFileHandler.bind(this));
-        $all(".close").forEach(closeObject => closeObject.addEventListener("click",this.closeButtonHandler.bind(this)));
-        addEventListenerToTarget(this.fileInput,"click",this.fileClickHandler.bind(this));
-        addEventListenerToTarget(this.fileInput,"change",this.fileChangeHandler.bind(this));
+        addEventListenerToTarget($("#crop-btn"), "click", this.cropButtonHandler.bind(this));
+        addEventListenerToTarget($("#thumbnailUrl"), "click", this.uploadFileHandler.bind(this));
+        $all(".close").forEach(closeObject => closeObject.addEventListener("click", this.closeButtonHandler.bind(this)));
+        addEventListenerToTarget(this.fileInput, "click", this.fileClickHandler.bind(this));
+        addEventListenerToTarget(this.fileInput, "change", this.fileChangeHandler.bind(this));
 
         this.focusOutProjectsInfoTargetList = [
             $("#projects-title-input"),
@@ -35,23 +35,23 @@ class ProjectForm {
     fileChangeHandler(input) {
         this.modal.style.display = "block";
         var el = $(".modal-body");
-        if(el.classList.contains("croppie-container")) {
-            this.cropper.bind({url:window.URL.createObjectURL(input.target.files[0])});
+        if (el.classList.contains("croppie-container")) {
+            this.cropper.bind({url: window.URL.createObjectURL(input.target.files[0])});
             return;
         }
         this.cropper = new Croppie(el, {
-            viewport: { width: 288, height: 288 },
-            boundary: { width: 500, height: 500 },
+            viewport: {width: 288, height: 288},
+            boundary: {width: 500, height: 500},
             showZoomer: true,
             enableOrientation: true
         });
-        this.cropper.bind({url:window.URL.createObjectURL(input.target.files[0])});
+        this.cropper.bind({url: window.URL.createObjectURL(input.target.files[0])});
     }
 
     closeButtonHandler(evt) {
-        this.fileInput.value="";
+        this.fileInput.value = "";
         const result = confirm("사진 크기를 조정해야 사용할 수 있습니다.\n창을 닫겠습니까?");
-        if(result) {
+        if (result) {
             this.modal.style.display = "none";
         } else {
             evt.target.blur();
@@ -162,7 +162,10 @@ class ProjectForm {
         if (blob === undefined) return;
 
         if (blob["type"].split("/")[0] === "image") {
-            var file = new File([blob], window.URL.createObjectURL(blob), {type: blob["type"], lastModified: Date.now()});
+            var file = new File([blob], window.URL.createObjectURL(blob), {
+                type: blob["type"],
+                lastModified: Date.now()
+            });
             fetchFormData(this.setFormData(file), "/api/projects/upload", this.imageUploadCallback.bind(this));
         }
         this.modal.style.display = "none";
@@ -192,7 +195,9 @@ class ProjectForm {
         const products = [];
         for (const product of this.productList) {
             let productInfo = product.setProductAll();
-            if (productInfo === null) { return; }
+            if (productInfo === null) {
+                return;
+            }
             products.push(productInfo);
         }
 
@@ -214,7 +219,7 @@ class ProjectForm {
         fetchManager({
             url: '/api/projects',
             method: 'POST',
-            headers: { 'content-type': 'application/json' },
+            headers: {'content-type': 'application/json'},
             body: JSON.stringify(project),
             callback: this.createProjectCallback.bind(this)
         });
