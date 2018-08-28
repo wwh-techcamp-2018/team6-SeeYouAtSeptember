@@ -98,7 +98,7 @@ public class ProjectService {
 
     public List<ProjectDTO> getSupportingProjects(UserDTO loginUserDTO) {
         return productUserMapRepository.findAllByNormalUserId(loginUserDTO.getUid())
-                .stream().map(productUserMap -> productUserMap.getProduct().getProject()).collect(Collectors.toSet())
+                .stream().map(productUserMap -> productUserMap.getProject()).collect(Collectors.toSet())
                 .stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
 

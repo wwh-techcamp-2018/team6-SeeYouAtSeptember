@@ -9,10 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderHistoryDTO {
-    private String id;
+    private Long id;
+    private String merchantUid;
     private Long pid;
     private Long uid;
     private String name;
     private Long purchasePrice;
     private Long quantity;
+
+
 }

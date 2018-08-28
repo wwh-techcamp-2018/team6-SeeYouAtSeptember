@@ -1,5 +1,6 @@
 package com.woowahan.moduchan.domain.product;
 
+import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.support.BaseTimeEntity;
 import lombok.AllArgsConstructor;
@@ -41,8 +42,8 @@ public class ProductUserMap extends BaseTimeEntity {
         return quantity;
     }
 
-    public Product getProduct() {
-        return this.product;
+    public Project getProject() {
+        return this.product.getProject();
     }
 
     public ProductUserMap updateQuantity(Long quantity) {

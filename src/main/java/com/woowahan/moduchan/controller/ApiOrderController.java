@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/orders")
 public class ApiOrderController {
@@ -20,8 +22,8 @@ public class ApiOrderController {
     private OrderService orderService;
 
     @PostMapping("")
-    public ResponseEntity<OrderHistoryDTO> createOrder(@LoginUser UserDTO loginUser, @RequestBody OrderHistoryDTO orderHistoryDTO) {
-        return new ResponseEntity<>(orderService.createOrder(orderHistoryDTO, loginUser), HttpStatus.OK);
+    public ResponseEntity<OrderHistoryDTO> createOrder(@LoginUser UserDTO loginUser, @RequestBody List<OrderHistoryDTO> orderHistoryDTOList) {
+        return new ResponseEntity<>(orderService.createOrder(orderHistoryDTOList, loginUser), HttpStatus.OK);
     }
 
 }
