@@ -30,6 +30,7 @@ insert into normal_user (email, name, deleted, address, phone_no) values ('zvert
 insert into normal_user (email, name, deleted, address, phone_no) values ('bgrigoriant@bandcamp.com', '의정부 바삭바삭한 요리를 좋아하는 장씨 아주머니', false, '01370 Crowley Lane', '710-720-0141')
 insert into normal_user (email, name, deleted, address, phone_no, password) values ('a', '6조의 충실한 맛집 테스트 계정', false, '53575 Talmadge Terrace', '448-130-7169', '$2a$10$wcN5tM.qDTynm/yNS/8KC.rTGAMMQq4QhURkkvBzR1mXElb2kcjmq');
 
+
 insert into category (title, category_image_url) VALUES ('전체보기','https://s3.ap-northeast-2.amazonaws.com/moduchan-img/static/%E1%84%87%E1%85%A2%E1%84%83%E1%85%A1%E1%86%AF%E1%84%8B%E1%85%B5.png');
 insert into category (title, category_image_url) VALUES ('밑반찬','https://s3.ap-northeast-2.amazonaws.com/moduchan-img/static/%E1%84%86%E1%85%B5%E1%87%80%E1%84%87%E1%85%A1%E1%86%AB%E1%84%8E%E1%85%A1%E1%86%AB.png');
 insert into category (title, category_image_url) VALUES ('국,찌개','https://s3.ap-northeast-2.amazonaws.com/moduchan-img/static/%E1%84%80%E1%85%AE%E1%86%A8.png');

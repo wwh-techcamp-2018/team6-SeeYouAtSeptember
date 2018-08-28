@@ -1,8 +1,10 @@
 package com.woowahan.moduchan.service;
 
 import com.woowahan.moduchan.domain.order.OrderHistory;
+import com.woowahan.moduchan.domain.product.Product;
 import com.woowahan.moduchan.domain.product.ProductUserMap;
 import com.woowahan.moduchan.domain.product.ProductUserPK;
+import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.event.ProjectUpdateEventPublisher;
 import com.woowahan.moduchan.exception.OrderNotFoundException;
@@ -16,6 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
@@ -37,30 +43,47 @@ public class ProductUserMapService {
 
     @Transactional
     public void donateProduct(UserDTO userDTO, String oid) {
-        // TODO: 2018. 8. 22. 리팩토링!!!!!!!!!!!!!!!
-        OrderHistory orderHistory = orderRepository.findByIdAndUid(oid, userDTO.getUid()).orElseThrow(OrderNotFoundException::new).changeOrderStatusSuccess();
+        List<OrderHistory> orderHistories = orderRepository.findByMerchantUidAndUid(oid, userDTO.getUid())
+                .orElseThrow(OrderNotFoundException::new)
+                .stream().map(orderHistory -> orderHistory.changeOrderStatusSuccess())
+                .collect(Collectors.toList());
 
-        ProductUserMap productUserMap = productUserMapRepository.findById(new ProductUserPK(orderHistory.getPid(), orderHistory.getUid()))
-                .orElse(new ProductUserMap(productRepository.findById(orderHistory.getPid())
-                        .orElseThrow(() -> new ProductNotFoundException("pid: " + orderHistory.getPid())),
-                        normalUserRepository.findById(orderHistory.getUid())
-                                .orElseThrow(() -> new UserNotFoundException("uid: " + orderHistory.getUid())),
-                        0L, false));
-        productUserMap.getProduct().getProject().UpdateCurrentFundRaising(orderHistory.getPurchasePrice());
-        projectUpdateEventPublisher.publishEvent(productUserMap.getProduct().getProject());
-        if (productUserMap.isDeleted()) {
-            productUserMap.updateQuantity(orderHistory.getQuantity());
-            productUserMapRepository.save(productUserMap);
-        }
-        productUserMap.appendQuantity(orderHistory.getQuantity());
-        productUserMapRepository.save(productUserMap);
+        List<ProductUserMap> productUserMaps = orderHistories.stream()
+                .map(orderHistory -> productUserMapRepository
+                        .findById(new ProductUserPK(orderHistory.getPid(), orderHistory.getUid()))
+                        .orElse(createProductUserMap(orderHistory))).collect(Collectors.toList());
+
+        IntStream.range(0, productUserMaps.size())
+                .forEach(idx -> updateProductUserMap(productUserMaps.get(idx), orderHistories.get(idx)));
+
+        projectUpdateEventPublisher.publishEvent(productUserMaps.get(0).getProject());
     }
-
 
     @Transactional
     public void cancelDonateProduct(UserDTO loginUserDTO, Long pid) {
         // TODO: 2018. 8. 19. 해당 productUserMap에 값이 없을 때 custom exception 발생
         productUserMapRepository.findById(new ProductUserPK(loginUserDTO.getUid(), pid))
                 .orElseThrow(RuntimeException::new).delete();
+    }
+
+    private void updateProductUserMap(ProductUserMap productUserMap, OrderHistory orderHistory) {
+        productUserMap.getProject().updateCurrentFundRaising(orderHistory.getPurchasePrice());
+
+        if (productUserMap.isDeleted()) {
+            productUserMap.updateQuantity(orderHistory.getQuantity());
+            productUserMapRepository.save(productUserMap).getProject();
+        }
+        productUserMap.appendQuantity(orderHistory.getQuantity());
+        productUserMapRepository.save(productUserMap).getProject();
+    }
+
+    private ProductUserMap createProductUserMap(OrderHistory orderHistory) {
+        Product product = productRepository.findById(orderHistory.getPid())
+                .orElseThrow(() -> new ProductNotFoundException());
+
+        NormalUser normalUser = normalUserRepository.findById(orderHistory.getUid())
+                .orElseThrow(() -> new UserNotFoundException());
+
+        return new ProductUserMap(product, normalUser, 0L, false);
     }
 }

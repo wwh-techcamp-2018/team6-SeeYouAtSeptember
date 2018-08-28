@@ -8,8 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -19,7 +20,9 @@ import java.util.UUID;
 public class OrderHistory extends BaseTimeEntity {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String merchantUid;
     private String name;
     private Long pid;
     private Long uid;
@@ -27,8 +30,8 @@ public class OrderHistory extends BaseTimeEntity {
     private Long quantity;
     private STATUS status;
 
-    public static OrderHistory from(OrderHistoryDTO orderHistoryDTO, Long uid) {
-        return new OrderHistoryBuilder().id(UUID.randomUUID().toString())
+    public static OrderHistory from(OrderHistoryDTO orderHistoryDTO, Long uid, String merchantUid) {
+        return new OrderHistoryBuilder().merchantUid(merchantUid)
                 .pid(orderHistoryDTO.getPid())
                 .uid(uid)
                 .purchasePrice(orderHistoryDTO.getPurchasePrice())
@@ -38,8 +41,11 @@ public class OrderHistory extends BaseTimeEntity {
                 .build();
     }
 
-    public OrderHistoryDTO toDTO() {
-        return new OrderHistoryDTO(id, pid, uid, name, purchasePrice, quantity);
+    public OrderHistoryDTO toDTO(int size, Long purchasePrice) {
+        if (size == 1) {
+            return new OrderHistoryDTO(id, merchantUid, pid, uid, name, purchasePrice, quantity);
+        }
+        return new OrderHistoryDTO(id, merchantUid, pid, uid, String.format("%s 외 %d개의 물품", name, size), purchasePrice, quantity);
     }
 
     public OrderHistory changeOrderStatusSuccess() {

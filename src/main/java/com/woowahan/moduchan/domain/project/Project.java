@@ -142,7 +142,7 @@ public class Project extends BaseTimeEntity {
         productDTOs.forEach(productDTO -> addProduct(productDTO));
     }
 
-    public void UpdateCurrentFundRaising(Long delta) {
+    public void updateCurrentFundRaising(Long delta) {
         this.currentFundRaising += delta;
     }
 

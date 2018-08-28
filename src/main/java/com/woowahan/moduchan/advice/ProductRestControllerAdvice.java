@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ProductRestControllerAdvice {
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Void> productNotFound(ProductNotFoundException exception) {
+    public ResponseEntity<String> productNotFound(ProductNotFoundException exception) {
         log.debug("[ProductNotFoundException] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotEnoughQuantityException.class)
-    public ResponseEntity<Void> notEnoughQuantity(NotEnoughQuantityException exception) {
+    public ResponseEntity<String> notEnoughQuantity(NotEnoughQuantityException exception) {
         log.debug("[NotEnoughQuantityException] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
-    public ResponseEntity<Void> notFoundOrder(OrderNotFoundException exception) {
+    public ResponseEntity<String> notFoundOrder(OrderNotFoundException exception) {
         log.debug("[OrderNotFoundException] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
