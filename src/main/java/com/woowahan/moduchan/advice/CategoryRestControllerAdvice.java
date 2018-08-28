@@ -13,6 +13,6 @@ public class CategoryRestControllerAdvice {
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<String> categoryNotFound(CategoryNotFoundException exception) {
         log.debug("[CategoryNotFoundException] {}", exception.getMessage());
-        return new ResponseEntity("category not found", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

@@ -15,26 +15,26 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class UserRestControllerAdvice {
 
     @ExceptionHandler(UnAuthorizedException.class)
-    public ResponseEntity<Void> unAuthorized(UnAuthorizedException exception) {
+    public ResponseEntity<String> unAuthorized(UnAuthorizedException exception) {
         log.debug("[UnAuthorizedException] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.FORBIDDEN);
+        return new ResponseEntity(exception.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Void> userNotFound(UserNotFoundException exception) {
+    public ResponseEntity<String> userNotFound(UserNotFoundException exception) {
         log.debug("[UserNotFoundException] {}", exception.getMessage());
-        return new ResponseEntity( HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<Void> emailAlreadyExists(EmailAlreadyExistsException exception) {
+    public ResponseEntity<String> emailAlreadyExists(EmailAlreadyExistsException exception) {
         log.debug("[EmailAlreadyExistsException] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(PasswordNotMatchedException.class)
-    public ResponseEntity<Void> passwordNotMatched(PasswordNotMatchedException exception) {
+    public ResponseEntity<String> passwordNotMatched(PasswordNotMatchedException exception) {
         log.debug("[PasswordNotMatched] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
