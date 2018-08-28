@@ -1,6 +1,5 @@
 package com.woowahan.moduchan.domain.order;
 
-import java.util.List;
 import com.woowahan.moduchan.dto.order.OrderHistoryDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -32,7 +30,7 @@ public class OrderHistory extends BaseTimeEntity {
     private Long quantity;
     private STATUS status;
 
-    public static OrderHistory from(OrderHistoryDTO orderHistoryDTO, Long uid,String merchantUid) {
+    public static OrderHistory from(OrderHistoryDTO orderHistoryDTO, Long uid, String merchantUid) {
         return new OrderHistoryBuilder().merchantUid(merchantUid)
                 .pid(orderHistoryDTO.getPid())
                 .uid(uid)
@@ -43,11 +41,11 @@ public class OrderHistory extends BaseTimeEntity {
                 .build();
     }
 
-    public OrderHistoryDTO toDTO(int size,Long purchasePrice) {
-        if(size == 1) {
+    public OrderHistoryDTO toDTO(int size, Long purchasePrice) {
+        if (size == 1) {
             return new OrderHistoryDTO(id, merchantUid, pid, uid, name, purchasePrice, quantity);
         }
-        return new OrderHistoryDTO(id,merchantUid,pid,uid,String.format("%s 외 %d개의 물품",name,size),purchasePrice,quantity);
+        return new OrderHistoryDTO(id, merchantUid, pid, uid, String.format("%s 외 %d개의 물품", name, size), purchasePrice, quantity);
     }
 
     public OrderHistory changeOrderStatusSuccess() {

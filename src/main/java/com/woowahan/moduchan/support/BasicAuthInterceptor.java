@@ -1,6 +1,5 @@
 package com.woowahan.moduchan.support;
 
-import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +31,7 @@ public class BasicAuthInterceptor extends HandlerInterceptorAdapter {
         log.debug("username : {}", values[0]);
         log.debug("password : {}", values[1]);
 
-        UserDTO loginUserDTO = new UserDTO(null,values[0], values[1],null,null,null);
+        UserDTO loginUserDTO = new UserDTO(null, values[0], values[1], null, null, null);
         log.debug("login user dto : {}", loginUserDTO);
         UserDTO userDTO = userService.login(loginUserDTO);
         log.debug("Login Success : {}", userDTO);

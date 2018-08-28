@@ -28,7 +28,7 @@ public class OrderService {
         List<OrderHistory> orderHistories = orderHistoryDTOList.stream().map(orderHistoryDTO -> orderRepository.
                 save(OrderHistory.from(orderHistoryDTO, userDTO.getUid(), merchantUid))).collect(Collectors.toList());
 
-        return orderHistories.get(0).toDTO(orderHistories.size(),orderHistories.stream()
-                .map(orderHistory -> orderHistory.getPurchasePrice()).reduce(0L,(x,y)->x+y));
+        return orderHistories.get(0).toDTO(orderHistories.size(), orderHistories.stream()
+                .map(orderHistory -> orderHistory.getPurchasePrice()).reduce(0L, (x, y) -> x + y));
     }
 }
