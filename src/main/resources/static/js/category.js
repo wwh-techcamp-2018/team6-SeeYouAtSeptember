@@ -96,6 +96,7 @@ class Category {
                     <span>
                         {owner}
                     </span>
+                    </br>
                     <span class="current-fund-raising">
                         {currentFundRaising}원
                     </span>
@@ -103,12 +104,14 @@ class Category {
                     <div class="progress">
                      <span style="width: {progressPercentage}%"></span>
                     </div>
-                    <span>
-                        {progress}%
-                    </span>
-                    <span class="day-remaining">
-                        {dayRemaining}일 남음
-                    </span>
+                    <div>
+                        <span class="progress-span">
+                            {progress}%
+                        </span>
+                        <span class="day-remaining">
+                            {dayRemaining}일 남음
+                        </span>
+                    </div>
                 </div>
             </li>
         </a>
@@ -157,20 +160,79 @@ class Category {
 function toggleStickyHeader() {
     if (window.pageYOffset > headerHeight) {
         addClassName("sticky", header);
-        $("#category-content").style.marginTop = "208px";
+        $("#category-content").style.paddingTop = "155px";
+        $(".sticky-scissors").style.left = header.offsetLeft - 35;
+        $(".sticky-scissors").style.display = "inline";
     } else {
         removeClassName("sticky", header);
-        $("#category-content").style.marginTop = "0px";
+        $("#category-content").style.paddingTop = "0px";
+        $(".sticky-scissors").style.display = "none";
     }
+}
+
+function rearrangeStickyScissors() {
+    $(".sticky-scissors").style.left = header.offsetLeft - 35;
 }
 
 function initStickyHeader() {
     header = $(".categories");
     headerHeight = header.offsetTop;
     window.addEventListener("scroll", toggleStickyHeader);
+    window.addEventListener("resize", rearrangeStickyScissors);
+}
+
+class CategoryWebSocket {
+    constructor() {
+        const sock = new SockJS("/ws")
+        const client = Stomp.over(sock);
+
+        client.connect({}, function () {
+            client.subscribe('/subscribe/project', this.updateProjectCallback.bind(this));
+        }.bind(this));
+    }
+
+    updateProjectCallback(project) {
+        const projectBody = JSON.parse(project.body);
+        const updateProject = [...$("ul.projects").children].filter(project => project.firstElementChild.dataset.projectId === projectBody.pid.toString());
+        if (updateProject.length > 0) {
+            const currentFund = $at(updateProject[0], "span.current-fund-raising");
+            const progressSpan = $at(updateProject[0], "span.progress-span");
+            const progressBar = $at(updateProject[0], "div.progress span");
+            this.highlightTarget(updateProject[0])
+            this.rotateAndUpdateTarget(currentFund, projectBody.currentFundRaising.toLocaleString('ko-KR') + "원");
+            this.rotateAndUpdateTarget(progressSpan, projectBody.progress.toLocaleString('ko-KR') + "%");
+            this.refillProgressBar(progressBar, projectBody.progress);
+        }
+    }
+
+    highlightTarget(target) {
+        target.style.boxShadow = "0 0 20px";
+        setTimeout(() => {
+            target.style.boxShadow = "0 0 0px";
+        }, 500);
+    }
+
+    rotateAndUpdateTarget(target, updateValue) {
+        target.style.transform = "rotateX(90deg)";
+        setTimeout(() => {
+            target.textContent = updateValue;
+            target.style.transform = "rotateX(0deg)";
+        }, 500)
+    }
+
+    refillProgressBar(progress, progressValue) {
+        progress.classList.remove("transition");
+        progress.style.width = "0%";
+        setTimeout(() => {
+            progress.classList.add("transition");
+            progress.style.width = (progressValue > 100 ? 100 : progressValue) + "%";
+        }, 500);
+    }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
     new CategoryManager();
     initStickyHeader();
+
+    new CategoryWebSocket();
 })

@@ -1,6 +1,6 @@
 a {
     text-decoration: none;
-    color: inherit
+    color: inherit;
 }
 
 ul {
@@ -13,21 +13,31 @@ ul {
     display: grid;
     grid-template-columns: repeat(8, 12.5%);
     height: 125px;
-    width: 900px;
-    margin: 35px auto;
+    width: 960px;
+    margin: 15px auto;
 }
 
 .sticky {
     position: fixed;
     top: 0;
     margin: 0;
-    padding:0 30px;
     z-index: 1;
     background: white;
+    border-bottom: 2px dashed black;
+}
+
+.sticky-scissors {
+    display: none;
+    position: fixed;
+    width: 50;
+    top: 101;
+    transform: rotate(90deg);
+    z-index: 2;
 }
 
 .categories li {
-    height: 100%;
+    height: 115px;
+    padding-top: 10px;
     font-size: 15px;
     font-weight: bold;
     text-align: center;
@@ -35,8 +45,8 @@ ul {
 }
 
 .categories li img {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border-radius: 100%;
     cursor: pointer;
     border: 2px solid #25d4ce00;
@@ -62,9 +72,29 @@ ul {
 
 .projects {
     display: grid;
-    grid-column-gap: 5%;
+    grid-column-gap: 4%;
     grid-row-gap: 50px;
     grid-template-columns: repeat(3, 30%);
+    justify-content: center;
+}
+
+.projects a {
+    padding: 3px;
+    border-radius: 3px;
+    transition: box-shadow .4s;
+}
+
+.projects a:hover {
+    box-shadow: 0 0 12px rgba(33, 33, 33, .2);
+}
+
+.projects a {
+    padding: 3px;
+    -webkit-transition: box-shadow .3s;
+    -moz-transition: box-shadow .3s;
+    -ms-transition: box-shadow .3s;
+    -o-transition: box-shadow .3s;
+    transition: box-shadow .3s;
 }
 
 .projects li .project-img img {
@@ -102,10 +132,15 @@ ul {
     overflow: hidden;
 }
 
+.project-div .progress span.transition {
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
 .project-div div h4 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     font-size: 18px;
     margin-top: 10px;
     margin-bottom: 5px;
@@ -115,9 +150,36 @@ ul {
     float: right;
 }
 
-
 .project-div .current-fund-raising {
     float: right;
+    -webkit-transition: transform .5s;
+    -moz-transition: transform .5s;
+    -ms-transition: transform .5s;
+    -o-transition: transform .5s;
+    transition: transform .5s;
+    transform: rotateX(0deg);
+}
+
+.project-div .progress-span {
+    -webkit-transition: transform .5s;
+    -moz-transition: transform .5s;
+    -ms-transition: transform .5s;
+    -o-transition: transform .5s;
+    transition: transform .5s;
+    transform: rotateX(0deg);
+    display: inline-block;
+}
+
+.project-div .title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.project-div .title h4 {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .project-div .title div {
@@ -127,6 +189,7 @@ ul {
 
 .project-div span {
     color: #90949c;
+    font-size: 15px;
 }
 
 #more-project-btn {

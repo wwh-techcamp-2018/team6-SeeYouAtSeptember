@@ -27,7 +27,7 @@ a {
     transition-property: color;
     transition-duration: .25s;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .header span:hover {
@@ -90,7 +90,7 @@ div.dropdown-div {
     grid-template-columns: 50% 50%;
     grid-template-areas: "owner support";
     border: 1px solid lightgray;
-    box-shadow: 0 2px 10px rgba(0,0,0,.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
     padding: 10px;
     background: white;
     opacity: 0;

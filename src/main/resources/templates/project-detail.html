@@ -26,6 +26,7 @@
                 <p class="remainning-day">{{dayRemainingUntilDeadline}}일 남음</p>
                 <div class="progress">
                     <span id="progress-inner-bar"></span>
+                    <img src="/image/baedal.png" class="baedal-img">
                 </div>
                 <p class="achievement-rate"><strong>{{numberFormat progress}}%</strong> 달성</p>
                 <p class="goal-fundraising"><strong>{{numberFormat goalFundRaising}}원</strong> 목표액 중</p>
@@ -48,21 +49,7 @@
             </div>
             <div class="product-list">
                 {{^loginUser}}
-                <div class="need-login-cover">
-                    <p>로</p>
-                    <p>그</p>
-                    <p>인</p>
-                    <p>이</p>
-                    <p>필</p>
-                    <p>요</p>
-                    <p>한</p>
-                    <p>서</p>
-                    <p>비</p>
-                    <p>스</p>
-                    <p>입</p>
-                    <p>니</p>
-                    <p>다</p>
-                </div>
+                <div class="need-login-cover"></div>
                 {{/loginUser}}
                 {{#project.products}}
                 {{#if quantityRemained}}
@@ -125,9 +112,9 @@
 <script src="/tui-editor/lib/raphael/raphael.js"></script>
 <script src="/tui-editor/lib/tui-chart/dist/tui-chart.js"></script>
 <script src="/tui-editor/dist/tui-editor-Viewer.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/project_detail.js"></script>
 {{/partial}}
-
 
 {{> base}}

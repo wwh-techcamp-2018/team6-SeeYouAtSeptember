@@ -1,0 +1,85 @@
+.projects {
+    display: grid;
+    grid-column-gap: 5%;
+    grid-row-gap: 50px;
+    grid-template-columns: repeat(3, 30%);
+}
+
+.projects li .project-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 3px;
+    border-color: lightgray;
+}
+
+.projects li {
+    width: 100%;
+}
+
+.projects li .project-info-list {
+    width: 300px;
+    height: 100px;
+}
+
+.project-div .progress {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 5px; /* Can be anything */
+    position: relative;
+    background: #e6eaed;
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+    border-radius: 1px;
+}
+
+.project-div .progress span {
+    display: block;
+    height: 100%;
+    background-color: #00bf99;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-div div h4 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.project-div .day-remaining {
+    float: right;
+}
+
+.project-div .current-fund-raising {
+    float: right;
+}
+
+.project-div .title div {
+    font-size: 14px;
+    color: #90949c;
+}
+
+.project-div span {
+    color: #90949c;
+}
+
+.projects {
+    -webkit-padding-start: 0px;
+    list-style: none;
+}
+
+.projects a {
+    text-decoration: none;
+    color: inherit
+}
+
+.project-order-text {
+    text-align: center;
+}
+
+.project-order-text p {
+    color: #999;
+}

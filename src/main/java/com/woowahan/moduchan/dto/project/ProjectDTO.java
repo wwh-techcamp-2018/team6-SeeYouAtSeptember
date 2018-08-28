@@ -59,6 +59,7 @@ public class ProjectDTO {
     @Min(value = 1000000, message = "프로젝트 목표 금액은 1000000원 이상 입력해주세요.")
     @Max(value = 1000000000, message = "프로젝트 목표 금액은 1000000000원 이하 입력해주세요.")
     private Long goalFundRaising;
+    private Long currentFundRaising;
 
     @AssertTrue(message = "프로젝트 상품들의 합이 목표 금액보다 적습니다.")
     public boolean isMoreThanMinProductsPrice() {
@@ -83,18 +84,12 @@ public class ProjectDTO {
                 .reduce(0, (x, y) -> x + y);
     }
 
-    public Long getCurrentFundRaising() {
-        return products.stream()
-                .map(productDTO -> productDTO.getPrice() * productDTO.getQuantityConsumed())
-                .reduce(0L, (x, y) -> x + y);
-    }
-
     public Long getDayRemainingUntilDeadline() {
         return (endAt - createdAt) / 1000 / 60 / 60 / 24;
     }
 
     public int getProgress() {
-        return (int) ((float) getCurrentFundRaising() / goalFundRaising * 100);
+        return (int) ((float) currentFundRaising / goalFundRaising * 100);
     }
 
     public void setThumbnailUrl(String thumbnailUrl) {
