@@ -46,38 +46,38 @@ ul {
 }
 
 #project-detail .project-detail-grid .thumbnail-img {
-   min-width: 100%;
-   min-height: 100%;
-   max-width: 120%;
-   max-height: 120%;
-   align-self: center;
-   justify-self: center;
-   position: absolute;
-   top: 0;
-   left: 0;
-   height: auto;
-   -webkit-transform: translate(-50%,-50%);
-   -ms-transform: translate(-50%,-50%);
-   transform: translate(-50%,-50%);
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 120%;
+    max-height: 120%;
+    align-self: center;
+    justify-self: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 #project-detail .project-detail-grid#row1 .thumbnail-container {
-   display: grid;
-   grid-area: img;
-   top: 50%;
-   overflow: hidden;
-   position: relative;
+    display: grid;
+    grid-area: img;
+    top: 50%;
+    overflow: hidden;
+    position: relative;
 }
 
 #project-detail .project-detail-grid#row1 .thumbnail-centered {
-   position: absolute;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
-   -webkit-transform: translate(50%,50%);
-   -ms-transform: translate(50%,50%);
-   transform: translate(50%,50%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+    transform: translate(50%, 50%);
 }
 
 #project-detail .project-detail-grid#row1 .summary-container {
@@ -119,11 +119,11 @@ ul {
     transition: all 2s;
 }
 
-#project-detail  #state-box .progress .baedal-img{
+#project-detail #state-box .progress .baedal-img {
     position: absolute;
     display: inline-block;
     width: 50px;
-    top:-40px;
+    top: -40px;
     float: left;
     margin-left: 0%;
     left: -5px;
@@ -221,7 +221,7 @@ ul {
     position: relative;
 }
 
-#project-detail .project-detail-grid#row2 .product-container .not-engough-quantity-caution{
+#project-detail .project-detail-grid#row2 .product-container .not-engough-quantity-caution {
     position: absolute;
     background-color: rgba(255, 0, 0, 0.51);
     z-index: 1;

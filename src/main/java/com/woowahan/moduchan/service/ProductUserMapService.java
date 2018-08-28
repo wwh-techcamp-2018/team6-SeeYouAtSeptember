@@ -36,9 +36,9 @@ public class ProductUserMapService {
     private OrderRepository orderRepository;
 
     @Transactional
-    public void donateProduct(UserDTO userDTO,String oid) {
+    public void donateProduct(UserDTO userDTO, String oid) {
         // TODO: 2018. 8. 22. 리팩토링!!!!!!!!!!!!!!!
-        OrderHistory orderHistory = orderRepository.findByIdAndUid(oid,userDTO.getUid()).orElseThrow(OrderNotFoundException::new).changeOrderStatusSuccess();
+        OrderHistory orderHistory = orderRepository.findByIdAndUid(oid, userDTO.getUid()).orElseThrow(OrderNotFoundException::new).changeOrderStatusSuccess();
 
         ProductUserMap productUserMap = productUserMapRepository.findById(new ProductUserPK(orderHistory.getPid(), orderHistory.getUid()))
                 .orElse(new ProductUserMap(productRepository.findById(orderHistory.getPid())

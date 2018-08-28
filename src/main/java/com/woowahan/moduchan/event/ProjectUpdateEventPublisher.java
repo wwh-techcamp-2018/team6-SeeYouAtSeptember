@@ -12,7 +12,7 @@ public class ProjectUpdateEventPublisher {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
-    public void publishEvent(Project project){
+    public void publishEvent(Project project) {
         log.debug("publishing project update event");
         ProjectUpdateEvent projectUpdateEvent = new ProjectUpdateEvent(this, project);
         applicationEventPublisher.publishEvent(projectUpdateEvent);

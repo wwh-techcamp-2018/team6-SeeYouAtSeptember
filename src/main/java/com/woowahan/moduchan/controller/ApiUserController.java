@@ -1,8 +1,6 @@
 package com.woowahan.moduchan.controller;
 
-import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.user.UserDTO;
-import com.woowahan.moduchan.event.ProjectUpdateEventPublisher;
 import com.woowahan.moduchan.exception.UnAuthenticatedException;
 import com.woowahan.moduchan.security.LoginUser;
 import com.woowahan.moduchan.service.UserService;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")

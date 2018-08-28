@@ -93,7 +93,9 @@ function logoutHandler() {
     fetchManager({
         url: "/api/users/logout",
         method: "POST",
-        headers: { "content-type": "application/json" },
-        callback: response => { if (response.status === 200) window.location.reload(); }
+        headers: {"content-type": "application/json"},
+        callback: response => {
+            if (response.status === 200) window.location.reload();
+        }
     });
 }

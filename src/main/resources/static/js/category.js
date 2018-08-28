@@ -194,10 +194,10 @@ class CategoryWebSocket {
     updateProjectCallback(project) {
         const projectBody = JSON.parse(project.body);
         const updateProject = [...$("ul.projects").children].filter(project => project.firstElementChild.dataset.projectId === projectBody.pid.toString());
-        if(updateProject.length > 0){
-            const currentFund = $at(updateProject[0],"span.current-fund-raising");
-            const progressSpan = $at(updateProject[0],"span.progress-span");
-            const progressBar = $at(updateProject[0],"div.progress span");
+        if (updateProject.length > 0) {
+            const currentFund = $at(updateProject[0], "span.current-fund-raising");
+            const progressSpan = $at(updateProject[0], "span.progress-span");
+            const progressBar = $at(updateProject[0], "div.progress span");
             this.highlightTarget(updateProject[0])
             this.rotateAndUpdateTarget(currentFund, projectBody.currentFundRaising.toLocaleString('ko-KR') + "원");
             this.rotateAndUpdateTarget(progressSpan, projectBody.progress.toLocaleString('ko-KR') + "%");
@@ -223,9 +223,9 @@ class CategoryWebSocket {
     refillProgressBar(progress, progressValue) {
         progress.classList.remove("transition");
         progress.style.width = "0%";
-        setTimeout(()=>{
+        setTimeout(() => {
             progress.classList.add("transition");
-            progress.style.width = (progressValue > 100? 100 : progressValue) + "%";
+            progress.style.width = (progressValue > 100 ? 100 : progressValue) + "%";
         }, 500);
     }
 }

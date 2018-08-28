@@ -85,10 +85,10 @@ ul {
 }
 
 .projects a:hover {
-    box-shadow: 0 0 12px rgba(33,33,33,.2);
+    box-shadow: 0 0 12px rgba(33, 33, 33, .2);
 }
 
-.projects a{
+.projects a {
     padding: 3px;
     -webkit-transition: box-shadow .3s;
     -moz-transition: box-shadow .3s;
@@ -150,7 +150,6 @@ ul {
     float: right;
 }
 
-
 .project-div .current-fund-raising {
     float: right;
     -webkit-transition: transform .5s;
@@ -171,19 +170,19 @@ ul {
     display: inline-block;
 }
 
-.project-div .title { 
+.project-div .title {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
 
-.project-div .title h4 { 
+.project-div .title h4 {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
 
-.project-div .title div { 
+.project-div .title div {
     font-size: 14px;
     color: #90949c;
 }

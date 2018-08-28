@@ -18,7 +18,7 @@ public class ProjectUpdateEventListener implements ApplicationListener<ProjectUp
 
     @Override
     public void onApplicationEvent(ProjectUpdateEvent event) {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+event.getProject().toString());
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + event.getProject().toString());
         template.convertAndSend("/subscribe/project", event.getProject().toDTO());
     }
 }

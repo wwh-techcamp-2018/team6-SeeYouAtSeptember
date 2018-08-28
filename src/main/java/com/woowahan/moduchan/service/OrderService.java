@@ -13,8 +13,8 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public OrderHistoryDTO createOrder(OrderHistoryDTO orderHistoryDTO, UserDTO userDTO){
+    public OrderHistoryDTO createOrder(OrderHistoryDTO orderHistoryDTO, UserDTO userDTO) {
         // TODO: 2018. 8. 28. 유효갯수 이상 구매시 에러발생 
-        return orderRepository.save(OrderHistory.from(orderHistoryDTO,userDTO.getUid())).toDTO();
+        return orderRepository.save(OrderHistory.from(orderHistoryDTO, userDTO.getUid())).toDTO();
     }
 }

@@ -11,7 +11,7 @@ public class ProjectUpdateEvent extends ApplicationEvent {
         this.project = project;
     }
 
-    public Project getProject(){
+    public Project getProject() {
         return this.project;
     }
 }
