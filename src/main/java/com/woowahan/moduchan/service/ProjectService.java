@@ -45,7 +45,7 @@ public class ProjectService {
 
     public ProjectDTO getProject(Long pid) {
         return projectRepository.findById(pid)
-                .orElseThrow(() -> new ProjectNotFoundException("pid " + pid))
+                .orElseThrow(() -> new ProjectNotFoundException())
                 .toDTO();
     }
 
@@ -54,9 +54,9 @@ public class ProjectService {
         Project newProject = Project.from(
                 projectDTO,
                 categoryRepository.findById(projectDTO.getCid())
-                        .orElseThrow(() -> new CategoryNotFoundException("cid: " + projectDTO.getCid())),
+                        .orElseThrow(() -> new CategoryNotFoundException()),
                 normalUserRepository.findById(writer.getUid())
-                        .orElseThrow(() -> new UserNotFoundException("uid: " + writer.getUid())));
+                        .orElseThrow(() -> new UserNotFoundException()));
         projectDTO.getProducts().stream().forEach(productDTO -> newProject.addProduct(productDTO));
         projectRepository.save(newProject);
     }
@@ -64,10 +64,9 @@ public class ProjectService {
     @Transactional
     public void deleteProject(Long pid, UserDTO userDTO) {
         Project project = projectRepository.findById(pid)
-                .orElseThrow(() -> new ProjectNotFoundException("pid: " + pid));
+                .orElseThrow(() -> new ProjectNotFoundException());
         if (!project.isOwner(userDTO)) {
-            throw new UnAuthorizedException(String.format("pid: {} tried :{} ",
-                    pid, userDTO.getUid()));
+            throw new UnAuthorizedException();
         }
         project.delete();
     }
@@ -75,13 +74,12 @@ public class ProjectService {
     @Transactional
     public ProjectDTO updateProject(ProjectDTO projectDTO, UserDTO userDTO) {
         Project project = projectRepository.findById(projectDTO.getPid())
-                .orElseThrow(() -> new ProjectNotFoundException("pid: " + projectDTO.getPid()));
+                .orElseThrow(() -> new ProjectNotFoundException());
         if (!project.isOwner(userDTO)) {
-            throw new UnAuthorizedException(String.format("project owner: {} tried :{} ",
-                    project.toDTO().getPid(), userDTO.getUid()));
+            throw new UnAuthorizedException();
         }
         return project.updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid())
-                .orElseThrow(() -> new CategoryNotFoundException("cid: " + projectDTO.getCid())))
+                .orElseThrow(() -> new CategoryNotFoundException()))
                 .toDTO();
     }
 

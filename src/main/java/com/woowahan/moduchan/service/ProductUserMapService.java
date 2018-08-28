@@ -79,10 +79,10 @@ public class ProductUserMapService {
 
     private ProductUserMap createProductUserMap(OrderHistory orderHistory) {
         Product product = productRepository.findById(orderHistory.getPid())
-                .orElseThrow(() -> new ProductNotFoundException("pid: " + orderHistory.getPid()));
+                .orElseThrow(() -> new ProductNotFoundException());
 
         NormalUser normalUser = normalUserRepository.findById(orderHistory.getUid())
-                .orElseThrow(() -> new UserNotFoundException("uid: " + orderHistory.getUid()));
+                .orElseThrow(() -> new UserNotFoundException());
 
         return new ProductUserMap(product, normalUser, 0L, false);
     }

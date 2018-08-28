@@ -29,7 +29,7 @@ public class CategoryService {
 
     public CategoryDTO getCategory(Long cid) {
         return categoryRepository.findById(cid)
-                .orElseThrow(() -> new CategoryNotFoundException("cid: " + cid))
+                .orElseThrow(() -> new CategoryNotFoundException())
                 .toDTO();
     }
 
