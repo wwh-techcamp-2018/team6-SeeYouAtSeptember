@@ -11,12 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class UserRestControllerAdvice {
 
-    @ExceptionHandler(UnAuthenticatedException.class)
-    public ResponseEntity<Void> loginUserNotFound(UnAuthenticatedException exception) {
-        log.debug("[UnAuthenticatedException] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
-    }
-
     @ExceptionHandler(UnAuthorizedException.class)
     public ResponseEntity<Void> unAuthorized(UnAuthorizedException exception) {
         log.debug("[UnAuthorizedException] {}", exception.getMessage());
@@ -24,20 +18,20 @@ public class UserRestControllerAdvice {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Void> userNotFound(UserNotFoundException exception) {
+    public ResponseEntity<String> userNotFound(UserNotFoundException exception) {
         log.debug("[UserNotFoundException] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("user not found",HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<Void> emailAlreadyExists(EmailAlreadyExistsException exception) {
+    public ResponseEntity<String> emailAlreadyExists(EmailAlreadyExistsException exception) {
         log.debug("[EmailAlreadyExistsException] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("email already exists",HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(PasswordNotMatchedException.class)
-    public ResponseEntity<Void> passwordNotMatched(PasswordNotMatchedException exception) {
+    public ResponseEntity<String> passwordNotMatched(PasswordNotMatchedException exception) {
         log.debug("[PasswordNotMatched] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("password not matched",HttpStatus.BAD_REQUEST);
     }
 }

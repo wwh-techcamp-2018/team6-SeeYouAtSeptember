@@ -44,11 +44,11 @@ public class CategoryService {
 
     public List<ProjectDTO> getProjectsOfOneCategory(Long cid, Long lastIndex) {
         if (lastIndex == 0) {
-            return projectRepository.findTop9ByCategoryOrderByIdDesc(categoryRepository.findById(cid).orElseThrow(RuntimeException::new))
+            return projectRepository.findTop9ByCategoryOrderByIdDesc(categoryRepository.findById(cid).orElseThrow(CategoryNotFoundException::new))
                     .stream().map(project -> project.toDTO()).collect(Collectors.toList());
         }
         return projectRepository
-                .findTop9ByCategoryAndIdLessThanOrderByIdDesc(categoryRepository.findById(cid).orElseThrow(RuntimeException::new), lastIndex)
+                .findTop9ByCategoryAndIdLessThanOrderByIdDesc(categoryRepository.findById(cid).orElseThrow(CategoryNotFoundException::new), lastIndex)
                 .stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
 }

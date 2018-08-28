@@ -110,7 +110,7 @@ public class ApiUserController {
             // TODO: 2018. 8. 20. 에러에 대한 설명을 추가해야합니다.
     })
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@ApiIgnore HttpSession session, @LoginUser UserDTO loginUserDTO) {
+    public ResponseEntity<Void> logout(@ApiIgnore HttpSession session, @ApiIgnore @LoginUser UserDTO loginUserDTO) {
         session.removeAttribute(SessionUtil.LOGIN_USER);
         return new ResponseEntity<>(HttpStatus.OK);
     }

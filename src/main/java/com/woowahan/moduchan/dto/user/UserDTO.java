@@ -26,7 +26,6 @@ public class UserDTO {
     private String email;
 
     @ApiModelProperty(example = "password", position = 2)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty(groups = {LoginValid.class, JoinValid.class})
     private String password;
 
@@ -52,6 +51,14 @@ public class UserDTO {
         this.name = userDTO.getName();
         this.phoneNo = userDTO.getPhoneNo();
         this.address = userDTO.getAddress();
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     // @Validated를 위한 인터페이스
