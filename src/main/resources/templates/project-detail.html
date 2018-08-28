@@ -33,7 +33,12 @@
                 <p class="total-fundraising"><strong>{{numberFormat currentFundRaising}}원</strong> 후원</p>
                 <p class="total-supporter"><strong>{{numberFormat supporterCount}}</strong>명의 후원</p>
             </div>
-            <button class="support-btn"><i class="fas fa-share-alt"></i> 공유하기</button>
+            <div class="support-product-cart">
+                <ul>
+
+                </ul>
+            </div>
+            <button class="support-btn">후원하기</button>
         </div>
     </div>
     <div class="separator"></div>
@@ -85,10 +90,12 @@
                                 {{/if}}
                             </div>
                             <div class="product-support">
-                                <input type="number" class="product-quantity" placeholder="갯수">
-                                <button class="product-support-btn">후원하기</button>
+                                <input type="number" class="product-quantity" placeholder="갯수" min="1"
+                                       max="{{quantitySupplied}}">
+                                <button class="product-support-btn">담기</button>
                                 <button class="product-support-cancel-btn">취소</button>
                                 <div class="product-caution caution">수량을 0개 이상 넣어주세요.</div>
+                                <div class="product-caution caution over">상품의 갯수가 너무 큽니다.</div>
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-ul {
+ul, li {
     -webkit-padding-start: 0px;
     list-style: none;
 }
@@ -84,6 +84,7 @@ ul {
     grid-area: summary;
     width: 80%;
     padding: 0 10%;
+    position: relative;
 }
 
 #project-detail .project-detail-grid#row1 .summary-container #state-box {
@@ -101,7 +102,8 @@ ul {
 }
 
 #project-detail .project-detail-grid#row1 .summary-container #state-box .progress {
-    margin-bottom: 35px;
+    margin-top: 50px;
+    margin-bottom: 20px;
     height: 5px;
     background-color: #e6eaed;
     border-radius: 1px;
@@ -134,7 +136,7 @@ ul {
 
 #project-detail .project-detail-grid#row1 .summary-container #state-box p {
     font-size: 15px;
-    margin: 0 0 40px 0;
+    margin: 0 0 20px 0;
 }
 
 #project-detail .project-detail-grid#row1 .summary-container #state-box p strong {
@@ -142,11 +144,54 @@ ul {
 }
 
 #project-detail .project-detail-grid#row1 .summary-container .support-btn {
-    width: 100%;
     height: 50px;
     font-size: 20px;
     background-color: #2bc2bc;
     color: white;
+    position: absolute;
+    bottom: 0;
+    width: inherit;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart {
+    width: 99%;
+    height: 120px;
+    border: 1px #e6eaed solid;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart ul {
+    margin: 0;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart li {
+    margin: 10px 0;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart li div {
+    display: inline-block;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart .title {
+    width: 50%;
+    padding-left: 20px;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart .amount {
+    width: 30%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart .amount input {
+    text-align: left;
+    width: 70px;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart .close {
+    width: 5%;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 #project-detail .project-detail-grid#row2 .container {
