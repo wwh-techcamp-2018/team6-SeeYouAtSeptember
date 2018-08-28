@@ -7,6 +7,7 @@ class CategoryManager {
         getData("/api/categories/all/last/0", this.categoryProjectCallback.bind(this));
         addEventListenerToTarget(this.ulTag, "click", this.liClickHandler.bind(this));
         addEventListenerToTarget($("#more-project-btn"), "click", this.projectsMoreViewHandler.bind(this));
+        addEventListenerToTarget(window, "scroll", this.setCategoryScrollOffset.bind(this));
     }
 
     fillCategoryContentHTML(category) {
@@ -55,6 +56,7 @@ class CategoryManager {
         eraseHTML($(".projects"));
         $("#category-content").insertAdjacentElement("beforeend", this.categories[this.currentCid].categoryChildProductsTag);
         this.projectsMoreViewToggle();
+        moveScroll(this.categories[this.currentCid].scrollLeft, this.categories[this.currentCid].scrollTop);
     }
 
     liClickHandler(evt) {
@@ -88,12 +90,19 @@ class CategoryManager {
         button.removeAttribute("style");
         button.textContent = "더보기";
     }
+
+    setCategoryScrollOffset() {
+        if(this.categories[this.currentCid] !== null) {
+            this.categories[this.currentCid].setScrollOffset();
+        }
+    }
 }
 
 class Category {
     constructor(projects) {
         this.insertProjectsContentHTML(projects);
         this.no_more_data = false;
+        this.setScrollOffset();
     }
 
     fillProjectContentHTML(project) {
@@ -174,6 +183,11 @@ class Category {
 
     projectsMoreViewApiManager(cid) {
         getData("/api/categories/" + cid + "/last/" + $('.projects').lastElementChild.firstElementChild.dataset.projectId, this.projectsMoreViewCallback.bind(this));
+    }
+
+    setScrollOffset() {
+        this.scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        this.scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     }
 }
 
