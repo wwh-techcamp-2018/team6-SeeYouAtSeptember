@@ -63,7 +63,7 @@ class ProjectForm {
     }
 
     addProductCreateFormHandler() {
-        if (this.productList.length > 4) return;
+        if (this.productList.length > 4 || this.productList.length < 1) return;
         const productTag = $('.products-addList');
         const html = ` <div class="product-addInfo">
                             <span>물품 이름:</span><input type="text" id="product-title-input"><br>
@@ -107,9 +107,10 @@ class ProjectForm {
     }
 
     setTitle() {
-        const minTitleLength = 5;
+        const minTitleLength = 1;
+        const maxTitleLength = 50;
         this.title = $("#projects-title-input").value;
-        if (this.title.length >= minTitleLength) {
+        if (this.title.length >= minTitleLength && this.title.length <= maxTitleLength) {
             $("#project-title").style.visibility = "hidden";
             return true;
         }
@@ -119,9 +120,11 @@ class ProjectForm {
 
     setEndAt() {
         this.endAt = new Date($("#projects-endAt-input").value).getTime();
-        let currentDate = new Date();
-        currentDate.setDate(currentDate.getDate() + 30);
-        if (this.endAt > currentDate.getTime()) {
+        let minCurrentDate = new Date();
+        minCurrentDate.setDate(minCurrentDate.getDate() + 30);
+        let maxCurrentDate = new Date();
+        maxCurrentDate.setDate(maxCurrentDate.getDate() + 180);
+        if (this.endAt >= minCurrentDate.getTime() && this.endAt <= maxCurrentDate.getTime()) {
             $("#project-end").style.visibility = "hidden";
             return true;
         }
@@ -131,9 +134,10 @@ class ProjectForm {
 
     setGoalFundRaising() {
         const minGoalFundRaising = 1000000;
+        const maxGoalFundRaising = 1000000000;
         this.goalFundRaising = $("#projects-goalFundRaising-input").value;
 
-        if (this.goalFundRaising >= minGoalFundRaising) {
+        if (this.goalFundRaising >= minGoalFundRaising && this.goalFundRaising <= maxGoalFundRaising) {
             $("#project-goalFundRaising").style.visibility = "hidden";
             return true;
         }
