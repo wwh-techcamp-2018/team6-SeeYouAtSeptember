@@ -111,7 +111,7 @@ public class ApiProjectController {
     }
 
     @GetMapping("/order/current_fund_rasing/top3")
-    public ResponseEntity<List<ProjectDTO>> getTop3ByOrderByCurrentFundRaising(){
-        return new ResponseEntity<>(projectService.getTop3ByOrderByCurrentFundRaising(),HttpStatus.OK);
+    public ResponseEntity<List<ProjectDTO>> getTop3ByOrderByCurrentFundRaising() {
+        return new ResponseEntity<>(projectService.getTop3ByOrderByCurrentFundRaising(), HttpStatus.OK);
     }
 }

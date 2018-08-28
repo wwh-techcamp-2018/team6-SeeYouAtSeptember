@@ -102,7 +102,7 @@ public class ProjectService {
                 .stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
 
-    public List<ProjectDTO> getTop3ByOrderByCurrentFundRaising(){
+    public List<ProjectDTO> getTop3ByOrderByCurrentFundRaising() {
         return projectRepository.findTop3ByOrderByCurrentFundRaisingDesc().stream()
                 .map(project -> project.toDTO()).collect(Collectors.toList());
     }

@@ -12,6 +12,7 @@ import com.woowahan.moduchan.support.S3Util;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Where;
 
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Entity
 @Where(clause = "deleted=false")
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")

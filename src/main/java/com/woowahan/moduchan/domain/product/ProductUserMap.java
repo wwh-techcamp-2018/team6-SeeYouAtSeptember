@@ -55,5 +55,4 @@ public class ProductUserMap extends BaseTimeEntity {
         this.quantity += quantity;
         return this;
     }
-
 }
