@@ -84,3 +84,8 @@ function successCallback(response) {
         return;
     }
 }
+
+function moveScroll(scrollLeft, scrollTop) {
+    document.documentElement.scrollLeft = document.body.scrollLeft = scrollLeft;
+    document.documentElement.scrollTop = document.body.scrollTop = scrollTop;
+}

@@ -7,6 +7,7 @@ class CategoryManager {
         getData("/api/categories/all/last/0", this.categoryProjectCallback.bind(this));
         addEventListenerToTarget(this.ulTag, "click", this.liClickHandler.bind(this));
         addEventListenerToTarget($("#more-project-btn"), "click", this.projectsMoreViewHandler.bind(this));
+        addEventListenerToTarget(window, "scroll", this.setCategoryScrollOffset.bind(this));
     }
 
     fillCategoryContentHTML(category) {
@@ -38,29 +39,31 @@ class CategoryManager {
     categoryProjectCallback(response) {
         response.json().then(projects => {
             this.addCategory(projects);
+            this.projectsMoreViewToggle();
         })
     }
 
     addCategory(projects) {
-        this.categories[this.currentCid] = new Category(projects, this.currentCid);
+        this.categories[this.currentCid] = new Category(projects);
     }
 
     viewCategoryProject(target) {
         this.currentCid = target.dataset.categoryId;
-
-        if (this.categories[this.currentCid] !== null) {
-            eraseHTML($(".projects"));
-            $("#category-content").insertAdjacentElement("beforeend", this.categories[this.currentCid].categoryChildProductsTag);
+        if (this.categories[this.currentCid] === null) {
+            getData("/api/categories/" + this.currentCid + "/last/0", this.categoryProjectCallback.bind(this));
             return;
         }
-
-        getData("/api/categories/" + this.currentCid + "/last/0", this.categoryProjectCallback.bind(this));
+        eraseHTML($(".projects"));
+        $("#category-content").insertAdjacentElement("beforeend", this.categories[this.currentCid].categoryChildProductsTag);
+        this.projectsMoreViewToggle();
+        moveScroll(this.categories[this.currentCid].scrollLeft, this.categories[this.currentCid].scrollTop);
     }
 
     liClickHandler(evt) {
         evt.preventDefault();
         if (evt.target.tagName === 'UL') return;
 
+        /* depth가 깊어지면 잠재적으로 parentElement에서 에러를 만들어 낼 수 있습니다. */
         const target = evt.target.tagName === 'LI' ? evt.target : evt.target.parentElement;
 
         if (target.classList.contains("on")) return;
@@ -74,11 +77,32 @@ class CategoryManager {
         this.categories[this.currentCid].projectsMoreViewApiManager(this.currentCid);
     }
 
+    projectsMoreViewToggle() {
+        let button = $("#more-project-btn");
+        if (this.categories[this.currentCid].no_more_data) {
+            button.disabled = true;
+            button.style.background = "#17aba6";
+            button.style.cursor = "initial";
+            button.textContent = "끝!";
+            return;
+        }
+        button.disabled = false;
+        button.removeAttribute("style");
+        button.textContent = "더보기";
+    }
+
+    setCategoryScrollOffset() {
+        if(this.categories[this.currentCid] !== null) {
+            this.categories[this.currentCid].setScrollOffset();
+        }
+    }
 }
 
 class Category {
     constructor(projects) {
         this.insertProjectsContentHTML(projects);
+        this.no_more_data = false;
+        this.setScrollOffset();
     }
 
     fillProjectContentHTML(project) {
@@ -109,6 +133,7 @@ class Category {
                             {progress}%
                         </span>
                         <span class="day-remaining">
+                            <i class="far fa-calendar-alt"></i>
                             {dayRemaining}일 남음
                         </span>
                     </div>
@@ -140,6 +165,10 @@ class Category {
 
     projectsMoreViewCallback(response) {
         response.json().then(projects => {
+            if (projects.length === 0) {
+                this.no_more_data = true;
+                categoryManager.projectsMoreViewToggle();
+            }
             const projectListUl = $(".projects");
 
             let html = ``;
@@ -154,6 +183,11 @@ class Category {
 
     projectsMoreViewApiManager(cid) {
         getData("/api/categories/" + cid + "/last/" + $('.projects').lastElementChild.firstElementChild.dataset.projectId, this.projectsMoreViewCallback.bind(this));
+    }
+
+    setScrollOffset() {
+        this.scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        this.scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     }
 }
 
@@ -231,8 +265,7 @@ class CategoryWebSocket {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    new CategoryManager();
+    categoryManager = new CategoryManager();
     initStickyHeader();
-
     new CategoryWebSocket();
 })
