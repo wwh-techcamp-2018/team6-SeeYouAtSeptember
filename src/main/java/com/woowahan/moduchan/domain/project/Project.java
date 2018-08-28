@@ -146,7 +146,6 @@ public class Project extends BaseTimeEntity {
         this.currentFundRaising += currentFundRaising;
     }
 
-
     public enum STATUS {
         DRAFT,
         EVALUATING,

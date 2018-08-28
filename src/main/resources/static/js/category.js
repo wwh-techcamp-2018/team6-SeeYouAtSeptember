@@ -96,6 +96,7 @@ class Category {
                     <span>
                         {owner}
                     </span>
+                    </br>
                     <span class="current-fund-raising">
                         {currentFundRaising}원
                     </span>
@@ -159,17 +160,25 @@ class Category {
 function toggleStickyHeader() {
     if (window.pageYOffset > headerHeight) {
         addClassName("sticky", header);
-        $("#category-content").style.marginTop = "208px";
+        $("#category-content").style.paddingTop = "155px";
+        $(".sticky-scissors").style.left = header.offsetLeft - 35;
+        $(".sticky-scissors").style.display = "inline";
     } else {
         removeClassName("sticky", header);
-        $("#category-content").style.marginTop = "0px";
+        $("#category-content").style.paddingTop = "0px";
+        $(".sticky-scissors").style.display = "none";
     }
+}
+
+function rearrangeStickyScissors() {
+    $(".sticky-scissors").style.left = header.offsetLeft - 35;
 }
 
 function initStickyHeader() {
     header = $(".categories");
     headerHeight = header.offsetTop;
     window.addEventListener("scroll", toggleStickyHeader);
+    window.addEventListener("resize", rearrangeStickyScissors);
 }
 
 class CategoryWebSocket {

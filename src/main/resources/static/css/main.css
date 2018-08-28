@@ -27,7 +27,7 @@ a {
     transition-property: color;
     transition-duration: .25s;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .header span:hover {
