@@ -1,5 +1,6 @@
 package com.woowahan.moduchan.domain.order;
 
+import java.util.List;
 import com.woowahan.moduchan.dto.order.OrderHistoryDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
 import lombok.AllArgsConstructor;
@@ -31,8 +32,8 @@ public class OrderHistory extends BaseTimeEntity {
     private Long quantity;
     private STATUS status;
 
-    public static OrderHistory from(OrderHistoryDTO orderHistoryDTO, Long uid) {
-        return new OrderHistoryBuilder().merchantUid(UUID.randomUUID().toString())
+    public static OrderHistory from(OrderHistoryDTO orderHistoryDTO, Long uid,String merchantUid) {
+        return new OrderHistoryBuilder().merchantUid(merchantUid)
                 .pid(orderHistoryDTO.getPid())
                 .uid(uid)
                 .purchasePrice(orderHistoryDTO.getPurchasePrice())
@@ -42,8 +43,11 @@ public class OrderHistory extends BaseTimeEntity {
                 .build();
     }
 
-    public OrderHistoryDTO toDTO() {
-        return new OrderHistoryDTO(id, merchantUid,pid, uid, name, purchasePrice, quantity);
+    public OrderHistoryDTO toDTO(int size,Long purchasePrice) {
+        if(size == 1) {
+            return new OrderHistoryDTO(id, merchantUid, pid, uid, name, purchasePrice, quantity);
+        }
+        return new OrderHistoryDTO(id,merchantUid,pid,uid,String.format("%s 외 %d개의 물품",name,size),purchasePrice,quantity);
     }
 
     public OrderHistory changeOrderStatusSuccess() {

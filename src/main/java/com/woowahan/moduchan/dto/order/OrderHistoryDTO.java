@@ -16,4 +16,6 @@ public class OrderHistoryDTO {
     private String name;
     private Long purchasePrice;
     private Long quantity;
+
+
 }
