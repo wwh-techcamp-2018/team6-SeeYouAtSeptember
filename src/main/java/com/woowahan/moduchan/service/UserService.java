@@ -30,13 +30,13 @@ public class UserService {
 
     public UserDTO getNormalUser(Long uid) {
         return normalUserRepository.findById(uid)
-                .orElseThrow(() -> new UserNotFoundException("uid: " + uid))
+                .orElseThrow(() -> new UserNotFoundException())
                 .toDTO();
     }
 
     public UserDTO createNormalUser(UserDTO userDTO) {
         if (normalUserRepository.existsByEmail(userDTO.getEmail()))
-            throw new EmailAlreadyExistsException(userDTO.erasePassword().toString());
+            throw new EmailAlreadyExistsException();
         return normalUserRepository
                 .save(NormalUser.from(userDTO).encryptPassword(passwordEncoder))
                 .toDTO().erasePassword();
@@ -45,7 +45,7 @@ public class UserService {
     public UserDTO updateNormalUser(UserDTO userDTO) {
         return normalUserRepository.save(
                 normalUserRepository.findById(userDTO.getUid())
-                        .orElseThrow(() -> new UserNotFoundException(userDTO.toString()))
+                        .orElseThrow(() -> new UserNotFoundException())
                         .update(userDTO))
                 .toDTO().erasePassword();
     }
@@ -53,17 +53,17 @@ public class UserService {
     @Transactional
     public void deleteNormalUserById(Long uid) {
         normalUserRepository.findById(uid)
-                .orElseThrow(() -> new UserNotFoundException("uid: " + uid))
+                .orElseThrow(() -> new UserNotFoundException())
                 .delete();
     }
 
     public UserDTO login(UserDTO userDTO) {
         NormalUser loginUser = normalUserRepository
                 .findByEmail(userDTO.getEmail())
-                .orElseThrow(() -> new UserNotFoundException(userDTO.erasePassword().toString()));
+                .orElseThrow(() -> new UserNotFoundException());
 
         if (!loginUser.matchPassword(userDTO.getPassword(), passwordEncoder)) {
-            throw new PasswordNotMatchedException(userDTO.erasePassword().toString());
+            throw new PasswordNotMatchedException();
         }
 
         return loginUser.toDTO().erasePassword();

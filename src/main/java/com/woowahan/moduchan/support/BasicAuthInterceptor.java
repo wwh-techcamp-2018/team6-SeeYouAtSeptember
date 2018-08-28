@@ -30,7 +30,6 @@ public class BasicAuthInterceptor extends HandlerInterceptorAdapter {
         final String[] values = credentials.split(":", 2);
         log.debug("username : {}", values[0]);
         log.debug("password : {}", values[1]);
-
         UserDTO loginUserDTO = new UserDTO(null, values[0], values[1], null, null, null);
         log.debug("login user dto : {}", loginUserDTO);
         UserDTO userDTO = userService.login(loginUserDTO);
