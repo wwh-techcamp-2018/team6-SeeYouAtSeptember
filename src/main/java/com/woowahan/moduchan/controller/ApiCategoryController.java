@@ -32,16 +32,6 @@ public class ApiCategoryController {
         return new ResponseEntity<>(categoryService.getCategories(), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "카테고리 조회", notes = "특정 카테고리의 정보를 조회합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "조회 성공")
-            //error에 대한 설명 추가
-    })
-    @GetMapping("/{cid}")
-    public ResponseEntity<CategoryDTO> getCategory(@PathVariable Long cid) {
-        return new ResponseEntity<>(categoryService.getCategory(cid), HttpStatus.OK);
-    }
-
     @ApiOperation(value = "카테고리별 특정 페이지의 프로젝트 조회", notes = "특정 페이지의 프로젝트 정보를 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "조회 성공")

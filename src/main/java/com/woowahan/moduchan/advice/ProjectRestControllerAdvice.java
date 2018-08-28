@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ProjectRestControllerAdvice {
     @ExceptionHandler(ProjectNotFoundException.class)
-    public ResponseEntity<Void> projectNotFound(ProjectNotFoundException exception) {
+    public ResponseEntity<String> projectNotFound(ProjectNotFoundException exception) {
         log.debug("[ProjectNotFoundException] {}", exception.getMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
