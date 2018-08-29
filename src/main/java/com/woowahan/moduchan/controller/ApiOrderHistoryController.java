@@ -25,11 +25,11 @@ public class ApiOrderHistoryController {
     private OrderHistoryService orderHistoryService;
 
 
-    @ApiOperation(value = "후원 생성", notes = "결제하기 전 후원을 생성합니다.")
+    @ApiOperation(value = "주문 생성", notes = "결제하기 전 주문을 생성합니다.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "후원 생성 성공"),
-            @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
-            //error에 대한 설명 추가
+            @ApiResponse(code = 200, message = "주문 생성 성공"),
+            @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근"),
+            @ApiResponse(code = 400, message = "잘못된 요청으로 주문 생성 실패")
     })
     @PostMapping("")
     public ResponseEntity<OrderHistoryDTO> createOrder(@LoginUser UserDTO loginUser, @RequestBody List<OrderHistoryDTO> orderHistoryDTOList) {
@@ -37,15 +37,27 @@ public class ApiOrderHistoryController {
     }
 
 
-    @ApiOperation(value = "후원", notes = "상품을 후원합니다.")
+    @ApiOperation(value = "결제 성공 후 주문 내역 성공으로 변경", notes = "상품주문에 성공합니다. 결제 모듈에서 결제성공")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "후원 성공"),
-            @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
-            //error에 대한 설명 추가
+            @ApiResponse(code = 200, message = "주문 성공"),
+            @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근"),
+            @ApiResponse(code = 400, message = "잘못된 요청으로 주문 성공처리 실패")
     })
     @PutMapping("")
     public ResponseEntity<Void> donateProduct(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody String oid) {
         orderHistoryService.donateProduct(loginUserDTO, oid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "결제 실패 후 주문 내역 실패로 변경", notes = "상품주문 실패합니다. 결제 모듈에서 결제 실패")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "주문 내역 실패로 변경"),
+            @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근"),
+            @ApiResponse(code = 400, message = "잘못된 요청으로 결제 실패 처리 된 주문내역 실패로 변경 실패")
+    })
+    @PutMapping("/fail")
+    public ResponseEntity<Void> orderFail(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody String oid) {
+        orderHistoryService.orderFail(loginUserDTO, oid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -117,4 +117,7 @@ public class Product {
         return this;
     }
 
+    public void rollbackQuantityRemained(Long orderQuantity) {
+        quantityRemained += orderQuantity;
+    }
 }
