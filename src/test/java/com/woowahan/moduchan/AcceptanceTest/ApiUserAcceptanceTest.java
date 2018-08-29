@@ -19,7 +19,7 @@ public class ApiUserAcceptanceTest extends ApiAcceptanceTest {
     public void setUp() throws Exception {
         loginUserDTO = new UserDTO(null, "a", "a", null, null, null);
         joinUserDTO = new UserDTO(null, "test@naver.com", "qwe123!!",
-                "테스트", "01012341234", "올림픽로 295");
+                "테스트", "010-1234-1234", "올림픽로 295");
     }
 
     @Test

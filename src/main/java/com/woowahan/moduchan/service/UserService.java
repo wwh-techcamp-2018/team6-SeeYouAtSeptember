@@ -11,8 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -21,18 +19,6 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    public List<UserDTO> getNomalUsers() {
-        return normalUserRepository.findAll().stream()
-                .map(normalUser -> normalUser.toDTO())
-                .collect(Collectors.toList());
-    }
-
-    public UserDTO getNormalUser(Long uid) {
-        return normalUserRepository.findById(uid)
-                .orElseThrow(() -> new UserNotFoundException())
-                .toDTO();
-    }
 
     public UserDTO createNormalUser(UserDTO userDTO) {
         if (normalUserRepository.existsByEmail(userDTO.getEmail()))

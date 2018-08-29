@@ -10,7 +10,6 @@ public class SessionUtil {
 
     public static UserDTO getLoginUserFromWebRequest(NativeWebRequest webRequest) {
         UserDTO loginUserDTO = (UserDTO) webRequest.getAttribute(LOGIN_USER, WebRequest.SCOPE_SESSION);
-        // FIXME: 2018. 8. 20. guestUser 사용시 변경해야함(null->guestUser)
         if (loginUserDTO == null)
             throw new UnAuthenticatedException();
         return loginUserDTO;
