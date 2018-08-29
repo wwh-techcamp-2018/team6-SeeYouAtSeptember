@@ -1,79 +1,124 @@
 class ProductBtns {
     constructor() {
-        this.SUPPORT_BTN_TEXT = "후원하기"
-        this.CANCEL_BTN_TEXT = "취소"
-
-        this.productBtns = $all(".product-list .product-btn");
+        this.productBtns = $all(".product-card");
 
         this.productBtns.forEach(btn => {
             addEventListenerToTarget(btn, "click", this.productBtnClickHandler.bind(this));
         });
-        addEventListenerToTarget($(".need-login-cover"), "click", this.needLoginCoverClickHandler);
+        addEventListenerToTarget($(".support-btn"), "click", this.supportBtnClickHandler.bind(this));
+        addEventListenerToTarget($(".support-product-cart"),"click", this.cancelBtnHandler.bind(this));
     }
-
+    /*
     needLoginCoverClickHandler() {
         window.location.href = "/users/login";
     }
+    */
+
+    cancelBtnHandler(evt) {
+        if(evt.target.className !== "close") {
+            return;
+        }
+        const id = evt.target.parentElement.dataset.productId;
+        const matchProduct = [...this.productBtns].filter(product => {return product.dataset.productId === id})[0];
+        removeClassName("in", matchProduct);
+        evt.target.parentElement.remove();
+    }
+
+    supportBtnClickHandler(evt) {
+        this.supportProduct($(".support-product-cart"));
+    }
 
     productBtnClickHandler(evt) {
-        if (evt.target.textContent === this.SUPPORT_BTN_TEXT) {
-            this.supportProduct(evt.target);
+        const target = evt.currentTarget;
+        if(parseInt($at(target, ".remainedQuantity").innerText.replace(/[^0-9]/g, '')) === 0) {
             return;
         }
-        if (evt.target.textContent === this.CANCEL_BTN_TEXT) {
-            this.hideProductSupport(evt.target);
+
+        if(target.classList.contains("in")) {
+            removeClassName("in", target);
+            this.removeCartItem(target);
             return;
         }
-        const target = evt.target.closest("div.product-btn");
-        if (!target.classList.contains("soldout"))
-            target.querySelector(".product-info-container .product-support").style.display = "block";
+        addClassName("in", target);
+        this.addCartItem(target);
     }
 
-    hideProductSupport(target) {
-        target.parentElement.firstElementChild.value = "";
-        target.closest("div.product-support").style.display = "none";
+
+    removeCartItem(target) {
+        const id = target.dataset.productId;
+        const matchCartItem = [...$(".support-product-cart ul").children].filter(cart => {return cart.dataset.productId === id})[0];
+        matchCartItem.remove();
     }
 
-    validQuantity(target) {
-        const numRegex = /^[0-9]{1,}/g;
-        const num = target.parentElement.firstElementChild.value;
-        if (numRegex.test(num) && num > 0)
-            return true;
-        this.showCaution(target, 2000);
-        return false;
+    addCartItem(target) {
+        const id = target.dataset.productId;
+        const remainedQuantity = $at(target, ".remainedQuantity").innerText.replace(/[^0-9]/g, '');
+        const productPrice = $at(target, ".price span").innerText;
+        const title = $at(target, ".title").innerText;
+
+        let html = `<li data-product-price="${productPrice}" data-product-id="${id}" >
+                        <div class="title">${title}</div>
+                        <div class="amount">
+                            <input type="number" value="1" min="1" max="${remainedQuantity}"/>개
+                        </div>
+                        <div class="close">&times;</div>
+                    </li>`;
+        $(".support-product-cart ul").insertAdjacentHTML("beforeend", html);
     }
 
-    showCaution(target, milleSec) {
-        const cautionElement = target.parentElement.querySelector(".caution");
-        cautionElement.style.display = "block";
-        setTimeout(function () {
-            cautionElement.style.display = "none";
-        }, milleSec)
+    setSupportForm(liElement) {
+        const quantity = $at(liElement, ".amount input").value;
+        const productPrice = liElement.dataset.productPrice.replace(/[^0-9]/g, '');
+
+        const supportForm = {
+            "pid": liElement.dataset.productId,
+            "quantity": quantity,
+            "purchasePrice": productPrice * quantity,
+            "name": $at(liElement, ".title").innerText
+        };
+        return supportForm;
+    }
+
+    showCaution(filterCart) {
+        filterCart.forEach(cartLi => {
+            $at(cartLi,".amount input").style.border = "red 2px solid";
+            setTimeout(function () {
+                $at(cartLi,".amount input").removeAttribute("style");
+            }, 2000)});
+    }
+
+    validCartAmount(target) {
+        const inputTag = $at(target,".amount input");
+        if(inputTag.value === "" || parseInt(inputTag.value) > parseInt(inputTag.max)) {
+            return false;
+        }
+        return true;
     }
 
     supportProduct(target) {
-        if (!this.validQuantity(target)) {
+        const cartList =  [...$(".support-product-cart ul").children];
+        if (cartList.length === 0) {
             return;
         }
-        const productPrice = target.parentElement.parentElement.getElementsByClassName("product-info-price").item(0).lastElementChild.textContent.replace(/[^0-9]/g, '');
-        const quantity = target.parentElement.firstElementChild.value;
-        const name = target.parentElement.parentElement.getElementsByClassName("product-info-title").item(0).textContent;
 
-        const supportForm = {
-            "pid": target.closest("div.product-btn").dataset.productId,
-            "quantity": quantity,
-            "purchasePrice": productPrice * quantity,
-            "name": name
-        };
+        const supportFormList = [];
+        const filterCart = cartList.filter(cart => {return !this.validCartAmount(cart)});
+        if(filterCart.length !== 0) {
+            this.showCaution(filterCart);
+            return;
+        }
+
+        for(const cart of cartList) {
+            supportFormList.push(this.setSupportForm(cart));
+        }
 
         fetchManager({
             url: '/api/orders',
             method: 'POST',
             headers: {'content-type': 'application/json'},
-            body: JSON.stringify(supportForm),
+            body: JSON.stringify(supportFormList),
             callback: this.supportCallback.bind(this)
         });
-        this.hideProductSupport(target);
     }
 
     supportCallback(response) {
@@ -93,7 +138,7 @@ class ProductBtns {
         IMP.request_pay({
             pg: "html5_inicis",
             name: result.name,
-            merchant_uid: result.id,
+            merchant_uid: result.merchantUid,
             amount: 100,
             buyer_email: result.uid
         }, function (rsp) {

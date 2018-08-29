@@ -45,7 +45,7 @@ public class OrderHistory extends BaseTimeEntity {
         if (size == 1) {
             return new OrderHistoryDTO(id, merchantUid, pid, uid, name, purchasePrice, quantity);
         }
-        return new OrderHistoryDTO(id, merchantUid, pid, uid, String.format("%s 외 %d개의 물품", name, size), purchasePrice, quantity);
+        return new OrderHistoryDTO(id, merchantUid, pid, uid, String.format("%s 등 %d개의 물품", name, size), purchasePrice, quantity);
     }
 
     public OrderHistory changeOrderStatusSuccess() {
