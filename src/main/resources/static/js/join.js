@@ -1,36 +1,3 @@
-class LoginBtn {
-    constructor() {
-        addEventListenerToTarget($("#login .login-box form button.btn-login"), "click", this.loginBtnHandler.bind(this))
-    }
-
-    loginBtnHandler(evt) {
-        evt.preventDefault();
-
-        this.loginForm = {
-            "email": $("#email").value,
-            "password": $("#pwd").value
-        };
-
-        $("#pwd").value = "";
-
-        fetchManager({
-            url: '/api/users/login',
-            method: 'POST',
-            headers: {'content-type': 'application/json'},
-            body: JSON.stringify(this.loginForm),
-            callback: this.login
-        });
-    }
-
-    login(response) {
-        if (response.status === 200) {
-            location.href = "/";
-            return;
-        }
-        $("p.err-msg").style.display = "block";
-    }
-}
-
 class Join {
     constructor() {
         addEventListenerToTarget($("#email-domain-select"), "change", this.domainSelectChangeHandler.bind(this))
@@ -241,7 +208,6 @@ class AddressAPI {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    new LoginBtn();
     new Join();
     addressAPI = new AddressAPI();
 });
