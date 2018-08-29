@@ -146,6 +146,7 @@ class ProductBtns {
             buyer_tel: result.userDTO.phoneNo,
             buyer_addr: result.userDTO.address
         }, function (rsp) {
+
             if (rsp.success) {
                 fetchManager({
                     url: '/api/orders',
@@ -154,9 +155,16 @@ class ProductBtns {
                     body: rsp.merchant_uid,
                     callback: successCallback
                 });
-            } else {
-                alert("결제가 실패하였습니다.");
-            }
+                return;
+            } 
+            
+                fetchManager({
+                    url: '/api/orders/fail',
+                    method: 'PUT',
+                    headers: {'content-type': 'application/json'},
+                    body: result.merchantUid,
+                    callback: successCallback
+                });
         })
     }
 

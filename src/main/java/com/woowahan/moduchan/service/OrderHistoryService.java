@@ -43,7 +43,6 @@ public class OrderHistoryService {
 
     @Transactional
     public OrderHistoryDTO createOrder(List<OrderHistoryDTO> orderHistoryDTOList, UserDTO userDTO) {
-        // TODO: 2018. 8. 28. 유효갯수 이상 구매시 에러발생
         String merchantUid = UUID.randomUUID().toString();
 
         List<OrderHistory> orderHistories = orderHistoryDTOList.stream().map(orderHistoryDTO -> orderHistoryRepository.
@@ -70,6 +69,12 @@ public class OrderHistoryService {
 
         orderHistoryRepository.findByStatusAndCreatedAtLessThan(OrderHistory.STATUS.PENDING, limitTime)
                 .forEach(orderHistory -> orderHistory.updatePendingOrderIntoFail());
+    }
+
+    @Transactional
+    public void orderFail(UserDTO loginUserDTO, String oid) {
+        orderHistoryRepository.findByMerchantUidAndNormalUser(oid,getNormalUser(loginUserDTO))
+                .orElseThrow(OrderNotFoundException::new).forEach(orderHistory -> orderHistory.updatePendingOrderIntoFail());
     }
 
     private Product getProduct(OrderHistoryDTO orderHistoryDTO) {
