@@ -4,7 +4,7 @@ package com.woowahan.moduchan.controller;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.security.LoginUser;
-import com.woowahan.moduchan.service.ProductUserMapService;
+import com.woowahan.moduchan.service.OrderHistoryService;
 import com.woowahan.moduchan.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -32,7 +32,7 @@ public class ApiProjectController {
     private ProjectService projectService;
 
     @Autowired
-    private ProductUserMapService productUserMapService;
+    private OrderHistoryService orderHistoryService;
 
     @ApiOperation(value = "프로젝트 전체 조회", notes = "모든 프로젝트의 정보를 조회합니다.")
     @ApiResponses(value = {
@@ -107,7 +107,7 @@ public class ApiProjectController {
     public ResponseEntity<List<List<ProjectDTO>>> getDropdownProjects(@ApiIgnore @LoginUser UserDTO loginUserDTO) {
         List<List<ProjectDTO>> returnLists = new ArrayList<>();
         returnLists.add(projectService.getOwnedProjects(loginUserDTO));
-        returnLists.add(projectService.getSupportingProjects(loginUserDTO));
+        returnLists.add(orderHistoryService.getSupportingProjects(loginUserDTO));
         return new ResponseEntity<>(returnLists, HttpStatus.OK);
     }
 }

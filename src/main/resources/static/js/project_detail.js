@@ -71,11 +71,12 @@ class ProductBtns {
         const productPrice = liElement.dataset.productPrice.replace(/[^0-9]/g, '');
 
         const supportForm = {
-            "pid": liElement.dataset.productId,
-            "quantity": quantity,
-            "purchasePrice": productPrice * quantity,
-            "name": $at(liElement, ".title").innerText
+            "productDTO":{
+                    "pid": liElement.dataset.productId,
+            },
+            "quantity": quantity
         };
+
         return supportForm;
     }
 
@@ -140,12 +141,15 @@ class ProductBtns {
             name: result.name,
             merchant_uid: result.merchantUid,
             amount: 100,
-            buyer_email: result.uid
+            buyer_email: result.userDTO.email,
+            buyer_name: result.userDTO.name,
+            buyer_tel: result.userDTO.phoneNo,
+            buyer_addr: result.userDTO.address
         }, function (rsp) {
             if (rsp.success) {
                 fetchManager({
-                    url: '/api/products',
-                    method: 'POST',
+                    url: '/api/orders',
+                    method: 'PUT',
                     headers: {'content-type': 'application/json'},
                     body: rsp.merchant_uid,
                     callback: successCallback
