@@ -110,17 +110,4 @@ public class ApiProjectController {
         returnLists.add(projectService.getSupportingProjects(loginUserDTO));
         return new ResponseEntity<>(returnLists, HttpStatus.OK);
     }
-//
-//    @GetMapping("/top3/current_fund_rasing")
-//    public ResponseEntity<List<ProjectDTO>> getTop3ByOrderByCurrentFundRaising() {
-//        return new ResponseEntity<>(projectService.getTop3ByOrderByCurrentFundRaising(), HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/recommendation")
-//    public ResponseEntity<List<ProjectDTO>> getRecommendationProjects() {
-//        projectService.getRecommendationProjects();
-//        return null;
-//    }
-//
-//    @GetMapping("/")
 }
