@@ -139,11 +139,11 @@ class Join {
 
     addEventListenerToInputs() {
         [...$all("input")].forEach(input =>
-        addEventListenerToTarget(input, "click", (evt) => {
-            evt.target.removeAttribute("style");
-            $("#join-form").removeAttribute("style");
-            $(".btn").removeAttribute("style");
-        }));
+            addEventListenerToTarget(input, "click", (evt) => {
+                evt.target.removeAttribute("style");
+                $("#join-form").removeAttribute("style");
+                $(".btn").removeAttribute("style");
+            }));
     }
 
     join(response) {

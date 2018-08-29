@@ -31,6 +31,9 @@ import java.util.stream.Collectors;
 public class ProjectService {
     private final List<Long> recommendationProjectIds = new ArrayList<>(Arrays.asList(1L, 2L, 3L));
     private final S3Util s3Util;
+    //websocket 테스트용 api입니다 나중에 삭제해야해요!
+    @Autowired
+    ProjectUpdateEventPublisher projectUpdateEventPublisher;
     @Autowired
     private ProjectRepository projectRepository;
     @Autowired
@@ -110,9 +113,6 @@ public class ProjectService {
                 .map(project -> project.toDTO()).collect(Collectors.toList());
     }
 
-    //websocket 테스트용 api입니다 나중에 삭제해야해요!
-    @Autowired
-    ProjectUpdateEventPublisher projectUpdateEventPublisher;
     public void testUpdate(Long pid) {
         projectUpdateEventPublisher.publishEvent(projectRepository.findById(pid).get());
     }

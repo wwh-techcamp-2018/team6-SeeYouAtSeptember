@@ -26,7 +26,12 @@ class Login {
 
     login(response) {
         if (response.status === 200) {
-            location.href = "/";
+            const redirUrl = $("#redir-url").value;
+            if (!redirUrl) {
+                location.href = "/";
+                return;
+            }
+            location.href = redirUrl;
             return;
         }
 
