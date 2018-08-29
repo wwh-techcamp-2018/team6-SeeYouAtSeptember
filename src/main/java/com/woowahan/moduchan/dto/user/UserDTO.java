@@ -7,7 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Getter
 @ToString
@@ -34,7 +37,7 @@ public class UserDTO {
     private String password;
 
     @ApiModelProperty(example = "name", position = 3)
-    @Size(min=1, max = 20, message = "20자 이하의 이름을 입력해 주세요.", groups = JoinValid.class)
+    @Size(min = 1, max = 20, message = "20자 이하의 이름을 입력해 주세요.", groups = JoinValid.class)
     private String name;
 
     @ApiModelProperty(example = "010-0000-0000", position = 4)

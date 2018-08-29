@@ -92,7 +92,7 @@ class CategoryManager {
     }
 
     setCategoryScrollOffset() {
-        if(this.categories[this.currentCid] !== null) {
+        if (this.categories[this.currentCid] !== null) {
             this.categories[this.currentCid].setScrollOffset();
         }
     }
