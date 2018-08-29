@@ -18,7 +18,9 @@ public class HomeController {
 
     @GetMapping("")
     public String index(Model model) {
-        model.addAttribute("ProjectsOrderByCurrentFund", projectService.getTop3ByOrderByCurrentFundRaising());
+        model.addAttribute("projectsOrderByCurrentFund", projectService.getTop3ByOrderByCurrentFundRaising());
+        model.addAttribute("projectsRecommendation", projectService.getRecommendationProjects());
+        model.addAttribute("projectsOrderByEndAt", projectService.getTop3ByEndAt());
         return "index";
     }
 }

@@ -85,7 +85,7 @@ public class ProjectDTO {
     }
 
     public Long getDayRemainingUntilDeadline() {
-        return (endAt - createdAt) / 1000 / 60 / 60 / 24;
+        return (endAt - TODAY_LONG) / 1000 / 60 / 60 / 24;
     }
 
     public int getProgress() {
