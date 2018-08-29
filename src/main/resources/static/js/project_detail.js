@@ -136,8 +136,6 @@ class ProductBtns {
     }
 
     requestImport(result) {
-        console.log(result);
-        
         IMP.request_pay({
             pg: "html5_inicis",
             name: result.name,
