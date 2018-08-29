@@ -63,7 +63,7 @@ class ProjectForm {
     }
 
     addProductCreateFormHandler() {
-        if (this.productList.length > 4 || this.productList.length < 1) return;
+        if (this.productList.length > 4) return;
         const productTag = $('.products-addList');
         const html = ` <div class="product-addInfo">
                             <span>물품 이름:</span><input type="text" id="product-title-input"><br>
