@@ -3,6 +3,7 @@ package com.woowahan.moduchan.controller;
 
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.event.ProjectUpdateEventPublisher;
 import com.woowahan.moduchan.security.LoginUser;
 import com.woowahan.moduchan.service.OrderHistoryService;
 import com.woowahan.moduchan.service.ProjectService;
@@ -109,5 +110,12 @@ public class ApiProjectController {
         returnLists.add(projectService.getOwnedProjects(loginUserDTO));
         returnLists.add(orderHistoryService.getSupportingProjects(loginUserDTO));
         return new ResponseEntity<>(returnLists, HttpStatus.OK);
+    }
+
+    //websocket 테스트용 api입니다 나중에 삭제해야해요!
+    @GetMapping("/test/{pid}")
+    public ResponseEntity<Void> test(@PathVariable Long pid){
+        projectService.testUpdate(pid);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

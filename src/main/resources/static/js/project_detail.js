@@ -195,4 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
     IMP.init('imp68124833');
     new ProductBtns();
     fillProgressBar(500);
+
+    //websocket 테스트용 api입니다 나중에 삭제해야해요!
+    addEventListenerToTarget($(".project-title"),"click",function (evt) {
+        getData('/api/projects/test/'+document.location.href.split('/')[4],()=>{})
+    })
 });
