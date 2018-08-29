@@ -2,6 +2,7 @@ package com.woowahan.moduchan.support;
 
 import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.repository.NormalUserRepository;
+
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
