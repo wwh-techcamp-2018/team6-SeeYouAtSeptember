@@ -143,7 +143,7 @@ class ProductBtns {
             amount: 100,
             buyer_email: result.userDTO.email,
             buyer_name: result.userDTO.name,
-            buyer_tel: result.userDTO.email,
+            buyer_tel: result.userDTO.phoneNo,
             buyer_addr: result.userDTO.address
         }, function (rsp) {
             if (rsp.success) {

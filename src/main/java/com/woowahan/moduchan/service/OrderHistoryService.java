@@ -80,7 +80,7 @@ public class OrderHistoryService {
 
     public List<ProjectDTO> getSupportingProjects(UserDTO loginUserDTO) {
         return orderHistoryRepository.findAllByNormalUser(normalUserRepository.findById(loginUserDTO.getUid()).orElse(null))
-                .stream().map(orderHistory -> orderHistory.getSuccessProject()).collect(Collectors.toSet())
+                .stream().map(orderHistory -> orderHistory.getProject(OrderHistory.STATUS.SUCCESS)).collect(Collectors.toSet())
                 .stream().filter(project -> project != null).map(project -> project.toDTO()).collect(Collectors.toList());
     }
 }

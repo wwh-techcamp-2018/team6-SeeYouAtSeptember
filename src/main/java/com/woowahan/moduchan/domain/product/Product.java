@@ -79,7 +79,7 @@ public class Product {
     }
 
     private Set<NormalUser> getSupporters() {
-        return orderHistories.stream().map(orderHistory -> orderHistory.getSuccessNormalUser())
+        return orderHistories.stream().map(orderHistory -> orderHistory.getNormalUser(OrderHistory.STATUS.SUCCESS))
                 .collect(Collectors.toSet());
     }
 
@@ -110,7 +110,7 @@ public class Product {
     }
 
     public Product updateRemainQuantity(Long orderQuantity) {
-        if(orderQuantity > quantityRemained){
+        if (orderQuantity > quantityRemained) {
             throw new NotEnoughQuantityException();
         }
         quantityRemained -= orderQuantity;
