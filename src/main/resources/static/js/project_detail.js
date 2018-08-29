@@ -1,26 +1,26 @@
 class ProductBtns {
     constructor() {
-        this.SUPPORT_BTN_TEXT = "담기"
-        this.CANCEL_BTN_TEXT = "취소"
-
-        this.productBtns = $all(".product-list .product-btn");
+        this.productBtns = $all(".product-card");
 
         this.productBtns.forEach(btn => {
             addEventListenerToTarget(btn, "click", this.productBtnClickHandler.bind(this));
         });
-        addEventListenerToTarget($(".need-login-cover"), "click", this.needLoginCoverClickHandler);
         addEventListenerToTarget($(".support-btn"), "click", this.supportBtnClickHandler.bind(this));
         addEventListenerToTarget($(".support-product-cart"),"click", this.xBtnHandler.bind(this));
     }
-
+    /*
     needLoginCoverClickHandler() {
         window.location.href = "/users/login";
     }
+    */
 
     xBtnHandler(evt) {
         if(evt.target.className !== "close") {
             return;
         }
+        const id = evt.target.parentElement.dataset.productId;
+        const matchProduct = [...this.productBtns].filter(product => {return product.dataset.productId === id})[0];
+        removeClassName("in", matchProduct);
         evt.target.parentElement.remove();
     }
 
@@ -29,99 +29,46 @@ class ProductBtns {
     }
 
     productBtnClickHandler(evt) {
-        if (evt.target.textContent === this.SUPPORT_BTN_TEXT) {
-            this.addCart(evt.target);
+        const target = evt.currentTarget;
+        if(parseInt($at(target, ".remainedQuantity").innerText.replace(/[^0-9]/g, '')) === 0) {
             return;
         }
-        if (evt.target.textContent === this.CANCEL_BTN_TEXT) {
-            this.hideProductSupport(evt.target);
+
+        if(target.classList.contains("in")) {
+            removeClassName("in", target);
+            this.removeCartItem(target);
             return;
         }
-        const target = evt.target.closest("div.product-btn");
-        if (!target.classList.contains("soldout"))
-            target.querySelector(".product-info-container .product-support").style.display = "block";
+        addClassName("in", target);
+        this.addCartItem(target);
     }
 
-    insertCartHTML(target) {
-        const id = target.closest("div.product-btn").dataset.productId;
-        const suppliedQuantity = target.parentElement.firstElementChild.max;
-        const productPrice = target.parentElement.parentElement.getElementsByClassName("product-info-price").item(0).lastElementChild.textContent.replace(/[^0-9]/g, '');
-        const quantity = target.parentElement.firstElementChild.value;
-        const name = target.parentElement.parentElement.getElementsByClassName("product-info-title").item(0).textContent;
+
+    removeCartItem(target) {
+        const id = target.dataset.productId;
+        const matchCartItem = [...$(".support-product-cart ul").children].filter(cart => {return cart.dataset.productId === id})[0];
+        matchCartItem.remove();
+    }
+
+    addCartItem(target) {
+        const id = target.dataset.productId;
+        const remainedQuantity = $at(target, ".remainedQuantity").innerText.replace(/[^0-9]/g, '');
+        const productPrice = $at(target, ".price span").innerText;
+        const title = $at(target, ".title").innerText;
 
         let html = `<li data-product-price="${productPrice}" data-product-id="${id}" >
-                        <div class="title">${name}</div>
+                        <div class="title">${title}</div>
                         <div class="amount">
-                            <input type="number" value="${quantity}" min="1" max="${suppliedQuantity}"/>개
+                            <input type="number" value="1" min="1" max="${remainedQuantity}"/>개
                         </div>
                         <div class="close">&times;</div>
                     </li>`;
         $(".support-product-cart ul").insertAdjacentHTML("beforeend", html);
     }
 
-    appendCartHTML(matchCart, target) {
-        let amount = $at(matchCart,".amount input");
-        const inputQuantity = target.parentElement.firstElementChild.value;
-        amount.value = parseInt(amount.value) + parseInt(inputQuantity);
-    }
-
-    showOverAmount(target, milleSec) {
-        const cautionElement = target.parentElement.querySelector(".caution.over");
-        cautionElement.style.display = "block";
-        setTimeout(function () {
-            cautionElement.style.display = "none";
-        }, milleSec)
-    }
-
-    addCart(target) {
-        if (!this.validQuantity(target)) {
-            return;
-        }
-
-        const quantity = target.parentElement.firstElementChild.value;
-        const suppliedQuantity = target.parentElement.firstElementChild.max;
-        if(parseInt(quantity) > parseInt(suppliedQuantity)) {
-            this.showOverAmount(target, 2000);
-            return;
-        }
-
-        const id = target.closest("div.product-btn").dataset.productId;
-        const cartList = [...$(".support-product-cart ul").children];
-        const matchCart = cartList.filter(cart => {return cart.dataset.productId === id});
-
-        if(matchCart.length === 0) {
-            this.insertCartHTML(target);
-        } else {
-            this.appendCartHTML(matchCart[0], target);
-        }
-        this.hideProductSupport(target);
-    }
-
-    hideProductSupport(target) {
-        $at(target.parentElement, ".product-quantity").value="";
-        target.parentElement.style.display = "none";
-    }
-
-    validQuantity(target) {
-        const numRegex = /^[0-9]{1,}/g;
-        const num = target.parentElement.firstElementChild.value;
-        if (numRegex.test(num) && num > 0)
-            return true;
-        this.showCaution(target, 2000);
-        return false;
-    }
-
-    showCaution(target, milleSec) {
-        const cautionElement = target.parentElement.querySelector(".caution");
-        cautionElement.style.display = "block";
-        setTimeout(function () {
-            cautionElement.style.display = "none";
-        }, milleSec)
-    }
-
     setSupportForm(liElement) {
         const quantity = $at(liElement, ".amount input").value;
-        const productPrice = liElement.dataset.productPrice;
+        const productPrice = liElement.dataset.productPrice.replace(/[^0-9]/g, '');
 
         const supportForm = {
             "pid": liElement.dataset.productId,
@@ -132,29 +79,32 @@ class ProductBtns {
         return supportForm;
     }
 
-    showCartAmount(filterCart) {
+    showCaution(filterCart) {
         filterCart.forEach(cartLi => {
-            $at(cartLi,".amount input").style.borderColor = "red";
+            $at(cartLi,".amount input").style.border = "red 2px solid";
             setTimeout(function () {
-                $at(cartLi,".amount input").style.borderColor = "";
+                $at(cartLi,".amount input").removeAttribute("style");
             }, 2000)});
     }
 
     validCartAmount(target) {
         const inputTag = $at(target,".amount input");
-        if(parseInt(inputTag.value) > parseInt(inputTag.max)) {
+        if(inputTag.value === "" || parseInt(inputTag.value) > parseInt(inputTag.max)) {
             return false;
         }
         return true;
     }
 
     supportProduct(target) {
-        const cartList =  [...$(".support-product-cart").firstElementChild.children];
+        const cartList =  [...$(".support-product-cart ul").children];
+        if (cartList.length === 0) {
+            return;
+        }
+
         const supportFormList = [];
         const filterCart = cartList.filter(cart => {return !this.validCartAmount(cart)});
-
         if(filterCart.length !== 0) {
-            this.showCartAmount(filterCart);
+            this.showCaution(filterCart);
             return;
         }
 

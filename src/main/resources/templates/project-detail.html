@@ -22,87 +22,46 @@
         </div>
         <div class="summary-container container">
             <div id="state-box">
-                <!--<p class="project-title">{{title}}</p>-->
-                <p class="remainning-day">{{dayRemainingUntilDeadline}}일 남음</p>
+                <p class="remainning-day"><span>{{dayRemainingUntilDeadline}}</span>일 남음</p>
+                <p class="goal-fundraising"><span>{{numberFormat currentFundRaising}}</span> 원 / {{numberFormat
+                    goalFundRaising}} 원</p>
+                <p class="achievement-rate"><span>{{numberFormat progress}}</span>% 달성</p>
                 <div class="progress">
                     <span id="progress-inner-bar"></span>
                     <img src="https://s3.ap-northeast-2.amazonaws.com/moduchan-img/static/small-baedal.png"
                          class="baedal-img">
                 </div>
-                <p class="achievement-rate"><strong>{{numberFormat progress}}%</strong> 달성</p>
-                <p class="goal-fundraising"><strong>{{numberFormat goalFundRaising}}원</strong> 목표액 중</p>
-                <p class="total-fundraising"><strong>{{numberFormat currentFundRaising}}원</strong> 후원</p>
-                <p class="total-supporter"><strong>{{numberFormat supporterCount}}</strong>명의 후원</p>
+                <p class="total-supporter">함께하는 배짱이 <span>{{numberFormat supporterCount}}</span> 명</p>
             </div>
             <div class="support-product-cart">
+                <h4>담은 반찬</h4>
                 <ul>
-
                 </ul>
             </div>
-            <button class="support-btn">후원하기</button>
+            <button class="support-btn">주문하기</button>
         </div>
     </div>
-    <div class="separator"></div>
-    <div class="project-detail-grid" id="row2">
-        <div class="description-container container">
-            <div class="description-viewer" data-description="{{description}}">
-                <div id="viewer-section"></div>
-            </div>
-        </div>
-        <div class="product-container container">
-            <div class="product-title">
-                <p>후원목록</p>
-            </div>
-            <div class="product-list">
-                {{^loginUser}}
-                <div class="need-login-cover"></div>
-                {{/loginUser}}
-                {{#project.products}}
-                {{#if quantityRemained}}
-                <div class="product-btn" data-product-id="{{pid}}">
-                    {{else}}
-                    <div class="product-btn soldout" data-product-id="{{pid}}">
-                        {{/if}}
-                        <div class="not-engough-quantity-caution">
-                            <p class="caution-str">
-                                제품이 부족합니다.
-                            </p>
-                        </div>
-                        <div class="product-info-container">
-                            <div class="product-info-title">{{title}}</div>
-                            <div class="product-info-description">
-                                {{description}}
-                            </div>
-                            <div class="product-info-price">
-                                가격<br>
-                                <strong>{{numberFormat price}}원</strong>
-                            </div>
-                            <div class="product-info-delivery">
-                                배송비<br>
-                                <strong>0원</strong>
-                            </div>
-                            <div class="product-info-quantity">
-                                {{#if quantityRemained}}
-                                <span>제한수량 {{numberFormat quantitySupplied}}개 현재 {{numberFormat remainQuantity}}개 남음</span>
-                                <span style="display: none;">재고가 모두 소진되었습니다.</span>
-                                {{else}}
-                                <span style="display: none;">제한수량 {{numberFormat quantitySupplied}}개 현재 {{numberFormat remainQuantity}}개 남음</span>
-                                <span>재고가 모두 소진되었습니다.</span>
-                                {{/if}}
-                            </div>
-                            <div class="product-support">
-                                <input type="number" class="product-quantity" placeholder="갯수" min="1"
-                                       max="{{quantitySupplied}}">
-                                <button class="product-support-btn">담기</button>
-                                <button class="product-support-cancel-btn">취소</button>
-                                <div class="product-caution caution">수량을 0개 이상 넣어주세요.</div>
-                                <div class="product-caution caution over">상품의 갯수가 너무 큽니다.</div>
-                            </div>
-                        </div>
-                    </div>
-                    {{/project.products}}
-                </div>
-            </div>
+    <div class="product-grid">
+        <h4>반찬 목록</h4>
+        <ul>
+            {{#project.products}}
+            {{#if quantityRemained}}
+            <li class="product-card" data-product-id="{{pid}}">
+                {{else}}
+            <li class="product-card soldout" data-product-id="{{pid}}">
+                {{/if}}
+                <p class="price"><span>{{numberFormat price}}</span> 원</p>
+                <p class="title">{{title}}</p>
+                <p class="description">{{description}}</p>
+                <p class="quantity"><span class="remainedQuantity">{{numberFormat remainQuantity}}</span> 개 / <span
+                        class="suppliedQuantity">{{numberFormat quantitySupplied}}</span> 개</p>
+            </li>
+            {{/project.products}}
+        </ul>
+    </div>
+    <div class="description-container container">
+        <div class="description-viewer" data-description="{{description}}">
+            <div id="viewer-section"></div>
         </div>
     </div>
 </div>
