@@ -22,18 +22,6 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<UserDTO> getNomalUsers() {
-        return normalUserRepository.findAll().stream()
-                .map(normalUser -> normalUser.toDTO())
-                .collect(Collectors.toList());
-    }
-
-    public UserDTO getNormalUser(Long uid) {
-        return normalUserRepository.findById(uid)
-                .orElseThrow(() -> new UserNotFoundException())
-                .toDTO();
-    }
-
     public UserDTO createNormalUser(UserDTO userDTO) {
         if (normalUserRepository.existsByEmail(userDTO.getEmail()))
             throw new EmailAlreadyExistsException();
