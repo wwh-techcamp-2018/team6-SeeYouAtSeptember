@@ -6,7 +6,7 @@ class ProductBtns {
             addEventListenerToTarget(btn, "click", this.productBtnClickHandler.bind(this));
         });
         addEventListenerToTarget($(".support-btn"), "click", this.supportBtnClickHandler.bind(this));
-        addEventListenerToTarget($(".support-product-cart"),"click", this.xBtnHandler.bind(this));
+        addEventListenerToTarget($(".support-product-cart"),"click", this.cancelBtnHandler.bind(this));
     }
     /*
     needLoginCoverClickHandler() {
@@ -14,7 +14,7 @@ class ProductBtns {
     }
     */
 
-    xBtnHandler(evt) {
+    cancelBtnHandler(evt) {
         if(evt.target.className !== "close") {
             return;
         }
