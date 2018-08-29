@@ -89,3 +89,15 @@ function moveScroll(scrollLeft, scrollTop) {
     document.documentElement.scrollLeft = document.body.scrollLeft = scrollLeft;
     document.documentElement.scrollTop = document.body.scrollTop = scrollTop;
 }
+
+function highlightBorderValid(target) {
+    target.style.border = "1px solid #2ac1bc";
+}
+
+function highlightBorderInvalid(target) {
+    target.style.border = "1px solid rgb(226, 65, 65)";
+}
+
+function highlightBackgroundInvalid(target) {
+    target.style.background = "rgb(226, 65, 65)";
+}

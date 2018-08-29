@@ -32,7 +32,14 @@
                 <button class="address-search">주소 찾기</button>
             </div>
             <input type="text" name="address" id="address" title="주소" class="disabled" disabled>
-            <input type="text" name="address" id="address_detail" title="주소" placeholder="상세주소" autocomplete="off">
+            <input type="text" name="address" id="address-detail" title="주소" placeholder="상세주소" autocomplete="off">
+
+            <div id="layer"
+                 style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+                <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer"
+                     style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1"
+                     onclick="addressAPI.closeDaumPostcode()" alt="닫기 버튼">
+            </div>
 
             <button class="btn"> 가입 완료 </button>
         </form>

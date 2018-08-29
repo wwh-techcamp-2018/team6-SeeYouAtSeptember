@@ -175,3 +175,12 @@ li.dropdown-item div.content > span {
     display: block;
     white-space: nowrap;
 }
+
+input {
+    outline: none;
+}
+
+button {
+    outline: none;
+    cursor: pointer;
+}

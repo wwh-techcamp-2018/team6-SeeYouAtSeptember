@@ -1,15 +1,15 @@
 class Join {
     constructor() {
-        addEventListenerToTarget($("#email-domain-select"), "change", this.domainSelectChangeHandler.bind(this))
-        addEventListenerToTarget($(".join-form-box .btn"), "click", this.joinBtnClickHandler.bind(this));
-        this.focusOutTargetList = [$("input#email-domain"), $("input#pw1"), $("input#pw2"), $("input#name"), $("input#cell3")];
+        addEventListenerToTarget($(".btn"), "click", this.joinBtnClickHandler.bind(this));
+        this.focusOutTargetList = [$("#email"), $("#pw1"), $("#pw2"), $("#name"), $("#phone-last")];
         this.focusOutTargetList.forEach(target => {
             addEventListenerToTarget(target, "focusout", this.focusOutHandler.bind(this));
         })
+        this.addEventListenerToInputs();
     }
 
     focusOutHandler(evt) {
-        if (evt.target.id === "email-domain")
+        if (evt.target.id === "email")
             this.validEmail();
         if (evt.target.id === "pw1")
             this.validPassword();
@@ -17,30 +17,18 @@ class Join {
             this.validPasswordConfirm();
         if (evt.target.id === "name")
             this.validName();
-        if (evt.target.id === "cell3")
+        if (evt.target.id === "phone-last")
             this.validPhoneNo();
-    }
-
-    domainSelectChangeHandler(evt) {
-        this.emailDomain = $("input#email-domain");
-
-        if (evt.target.value === "0") {
-            this.emailDomain.value = "";
-            this.emailDomain.disabled = false;
-            return;
-        }
-
-        this.emailDomain.value = evt.target.value;
-        this.emailDomain.disabled = true;
-
-        this.validEmail();
     }
 
     joinBtnClickHandler(evt) {
         evt.preventDefault();
 
-        if (!this.validAll())
+        if (!this.validAll()) {
+            highlightBackgroundInvalid($(".btn"));
+            highlightBorderInvalid($("#join-form"));
             return;
+        }
 
         this.joinForm = {
             "email": this.email,
@@ -75,12 +63,12 @@ class Join {
 
     validEmail() {
         this.emailPattern = /^[_0-9a-zA-Z-]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)*$/;
-        this.email = $("#email-id").value + "@" + $("#email-domain").value;
+        this.email = $("#email").value;
         if (!this.emailPattern.test(this.email)) {
-            $("#email-caution").style.display = "inline-block";
+            highlightBorderInvalid($("#email"));
             return false;
         }
-        $("#email-caution").style.display = "none";
+        highlightBorderValid($("#email"));
         return true;
     }
 
@@ -88,68 +76,89 @@ class Join {
         this.passwordPattern = /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{8,12}$/;
         this.password = $("#pw1").value;
         if (!this.passwordPattern.test(this.password)) {
-            $("#password-caution").style.display = "inline-block"
+            highlightBorderInvalid($("#pw1"));
             return false;
         }
-        $("#password-caution").style.display = "none"
+        highlightBorderValid($("#pw1"));
         return true;
     }
 
     validPasswordConfirm() {
         this.confirmPassword = $("#pw2").value;
-        if (this.password !== this.confirmPassword) {
-            $("#password-confirm-caution").style.display = "inline-block";
+        if (!this.validPassword() || this.password !== this.confirmPassword) {
+            highlightBorderInvalid($("#pw2"));
             return false;
         }
-        $("#password-confirm-caution").style.display = "none";
+        highlightBorderValid($("#pw2"));
         return true;
     }
 
     validName() {
         this.name = $("#name").value;
         if (!this.name || this.name.length > 20) {
-            $("#name-caution").style.display = "inline-block";
+            highlightBorderInvalid($("#name"));
             return false;
         }
-        $("#name-caution").style.display = "none";
+        highlightBorderValid($("#name"));
         return true;
     }
 
     validPhoneNo() {
         this.phoneNoPattern = /^01[0|1|6-9]-[0-9]{3,4}-[0-9]{4}$/;
-        this.phoneNo = $("#cell1").value + "-" + $("#cell2").value + "-" + $("#cell3").value;
+        this.phoneNo = $("#phone-first").value + "-" + $("#phone-middle").value + "-" + $("#phone-last").value;
         if (!this.phoneNoPattern.test(this.phoneNo)) {
-            $("#phone-caution").style.display = "inline-block";
+            highlightBorderInvalid($("#phone-first"));
+            highlightBorderInvalid($("#phone-middle"));
+            highlightBorderInvalid($("#phone-last"));
             return false;
         }
-        $("#phone-caution").style.display = "none";
+        highlightBorderValid($("#phone-first"));
+        highlightBorderValid($("#phone-middle"));
+        highlightBorderValid($("#phone-last"));
         return true;
     }
 
     validAddress() {
         this.address = $("#postcode").value + $("#address").value;
 
-        if (this.address !== addressAPI.address) {
-            $("#address-caution").style.display = "inline-block";
+        if (this.address !== addressAPI.address || $("#address-detail").value === "") {
+            highlightBorderInvalid($("#postcode"));
+            highlightBorderInvalid($("#address"));
+            highlightBorderInvalid($("#address-detail"));
+            highlightBackgroundInvalid($("button.address-search"));
             return false;
         }
-        this.address += $("#address_detail").value;
-        $("#address-caution").style.display = "none";
+        highlightBorderValid($("#postcode"));
+        highlightBorderValid($("#address"));
+        highlightBorderValid($("#address-detail"));
+        $("button.address-search").removeAttribute("style");
+
+        this.address += $("#address-detail").value;
         return true;
+    }
+
+    addEventListenerToInputs() {
+        [...$all("input")].forEach(input =>
+        addEventListenerToTarget(input, "click", (evt) => {
+            evt.target.removeAttribute("style");
+            $("#join-form").removeAttribute("style");
+            $(".btn").removeAttribute("style");
+        }));
     }
 
     join(response) {
         if (response.status === 201) {
             location.href = "/";
         }
-        //todo: 에러처리
+        highlightBorderInvalid($("#email"));
+        //todo: e-mail을 제외한 validation 에러처리
     }
 
 }
 
 class AddressAPI {
     constructor() {
-        addEventListenerToTarget($("#address-search-btn"), "click", this.loadAddressAPI.bind(this));
+        addEventListenerToTarget($("button.address-search"), "click", this.loadAddressAPI.bind(this));
         addEventListenerToTarget($("#btnCloseLayer"), "click", this.closeDaumPostcode.bind(this));
     }
 
