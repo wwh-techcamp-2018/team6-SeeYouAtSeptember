@@ -3,6 +3,7 @@ package com.woowahan.moduchan.service;
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.event.ProjectUpdateEventPublisher;
 import com.woowahan.moduchan.exception.CategoryNotFoundException;
 import com.woowahan.moduchan.exception.ProjectNotFoundException;
 import com.woowahan.moduchan.exception.UnAuthorizedException;
@@ -107,5 +108,12 @@ public class ProjectService {
     public List<ProjectDTO> getTop3ByEndAt() {
         return projectRepository.findTop3ByOrderByEndAtAsc().stream()
                 .map(project -> project.toDTO()).collect(Collectors.toList());
+    }
+
+    //websocket 테스트용 api입니다 나중에 삭제해야해요!
+    @Autowired
+    ProjectUpdateEventPublisher projectUpdateEventPublisher;
+    public void testUpdate(Long pid) {
+        projectUpdateEventPublisher.publishEvent(projectRepository.findById(pid).get());
     }
 }

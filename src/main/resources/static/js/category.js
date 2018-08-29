@@ -143,8 +143,8 @@ class Category {
             `;
         return projectTemplate.replace(/{id}/g, project.pid)
             .replace(/{thumbnailUrl}/g, project.thumbnailUrl)
-            .replace(/{title}/g, project.title)
-            .replace(/{owner}/g, project.owner)
+            .replace(/{title}/g, project.title.replace(/</g, "&lt;").replace(/>/g, "&gt;"))
+            .replace(/{owner}/g, project.owner.replace(/</g, "&lt;").replace(/>/g, "&gt;"))
             .replace(/{currentFundRaising}/g, project.currentFundRaising.toLocaleString('ko-KR'))
             .replace(/{progressPercentage}/g, project.progress <= 100 ? project.progress : 100)
             .replace(/{progress}/g, project.progress.toLocaleString('ko-KR'))

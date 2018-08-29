@@ -6,8 +6,9 @@ class ProductBtns {
             addEventListenerToTarget(btn, "click", this.productBtnClickHandler.bind(this));
         });
         addEventListenerToTarget($(".support-btn"), "click", this.supportBtnClickHandler.bind(this));
-        addEventListenerToTarget($(".support-product-cart"),"click", this.cancelBtnHandler.bind(this));
+        addEventListenerToTarget($(".support-product-cart"), "click", this.cancelBtnHandler.bind(this));
     }
+
     /*
     needLoginCoverClickHandler() {
         window.location.href = "/users/login";
@@ -15,11 +16,13 @@ class ProductBtns {
     */
 
     cancelBtnHandler(evt) {
-        if(evt.target.className !== "close") {
+        if (evt.target.className !== "close") {
             return;
         }
         const id = evt.target.parentElement.dataset.productId;
-        const matchProduct = [...this.productBtns].filter(product => {return product.dataset.productId === id})[0];
+        const matchProduct = [...this.productBtns].filter(product => {
+            return product.dataset.productId === id
+        })[0];
         removeClassName("in", matchProduct);
         evt.target.parentElement.remove();
     }
@@ -30,11 +33,11 @@ class ProductBtns {
 
     productBtnClickHandler(evt) {
         const target = evt.currentTarget;
-        if(parseInt($at(target, ".remainedQuantity").innerText.replace(/[^0-9]/g, '')) === 0) {
+        if (parseInt($at(target, ".remainedQuantity").innerText.replace(/[^0-9]/g, '')) === 0) {
             return;
         }
 
-        if(target.classList.contains("in")) {
+        if (target.classList.contains("in")) {
             removeClassName("in", target);
             this.removeCartItem(target);
             return;
@@ -46,7 +49,9 @@ class ProductBtns {
 
     removeCartItem(target) {
         const id = target.dataset.productId;
-        const matchCartItem = [...$(".support-product-cart ul").children].filter(cart => {return cart.dataset.productId === id})[0];
+        const matchCartItem = [...$(".support-product-cart ul").children].filter(cart => {
+            return cart.dataset.productId === id
+        })[0];
         matchCartItem.remove();
     }
 
@@ -82,34 +87,37 @@ class ProductBtns {
 
     showCaution(filterCart) {
         filterCart.forEach(cartLi => {
-            $at(cartLi,".amount input").style.border = "red 2px solid";
+            $at(cartLi, ".amount input").style.border = "red 2px solid";
             setTimeout(function () {
-                $at(cartLi,".amount input").removeAttribute("style");
-            }, 2000)});
+                $at(cartLi, ".amount input").removeAttribute("style");
+            }, 2000)
+        });
     }
 
     validCartAmount(target) {
-        const inputTag = $at(target,".amount input");
-        if(inputTag.value === "" || parseInt(inputTag.value) > parseInt(inputTag.max)) {
+        const inputTag = $at(target, ".amount input");
+        if (inputTag.value === "" || parseInt(inputTag.value) > parseInt(inputTag.max)) {
             return false;
         }
         return true;
     }
 
     supportProduct(target) {
-        const cartList =  [...$(".support-product-cart ul").children];
+        const cartList = [...$(".support-product-cart ul").children];
         if (cartList.length === 0) {
             return;
         }
 
         const supportFormList = [];
-        const filterCart = cartList.filter(cart => {return !this.validCartAmount(cart)});
-        if(filterCart.length !== 0) {
+        const filterCart = cartList.filter(cart => {
+            return !this.validCartAmount(cart)
+        });
+        if (filterCart.length !== 0) {
             this.showCaution(filterCart);
             return;
         }
 
-        for(const cart of cartList) {
+        for (const cart of cartList) {
             supportFormList.push(this.setSupportForm(cart));
         }
 
@@ -195,4 +203,9 @@ document.addEventListener("DOMContentLoaded", () => {
     IMP.init('imp68124833');
     new ProductBtns();
     fillProgressBar(500);
+
+    //websocket 테스트용 api입니다 나중에 삭제해야해요!
+    addEventListenerToTarget($(".project-title"),"click",function (evt) {
+        getData('/api/projects/test/'+document.location.href.split('/')[4],()=>{})
+    })
 });
