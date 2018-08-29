@@ -73,7 +73,7 @@ public class OrderHistoryService {
 
     @Transactional
     public void orderFail(UserDTO loginUserDTO, String oid) {
-        orderHistoryRepository.findByMerchantUidAndNormalUser(oid,getNormalUser(loginUserDTO))
+        orderHistoryRepository.findByMerchantUidAndNormalUser(oid, getNormalUser(loginUserDTO))
                 .orElseThrow(OrderNotFoundException::new).forEach(orderHistory -> orderHistory.updatePendingOrderIntoFail());
     }
 

@@ -11,8 +11,8 @@ public class Scheduler {
     @Autowired
     private OrderHistoryService orderHistoryService;
 
-    @Scheduled(cron="0 0/5 * * * *")
-    public void updatePendingOrderHistory(){
+    @Scheduled(cron = "0 0/5 * * * *")
+    public void updatePendingOrderHistory() {
         orderHistoryService.updatePendingOrderHistory();
     }
 }
