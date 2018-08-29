@@ -1,5 +1,8 @@
 package com.woowahan.moduchan.domain.order;
 
+import com.woowahan.moduchan.domain.product.Product;
+import com.woowahan.moduchan.domain.project.Project;
+import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.order.OrderHistoryDTO;
 import com.woowahan.moduchan.support.BaseTimeEntity;
 import lombok.AllArgsConstructor;
@@ -7,10 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -23,34 +23,50 @@ public class OrderHistory extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String merchantUid;
-    private String name;
-    private Long pid;
-    private Long uid;
-    private Long purchasePrice;
+
+    @ManyToOne
+    @JoinColumn
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn
+    private NormalUser normalUser;
+
     private Long quantity;
     private STATUS status;
 
-    public static OrderHistory from(OrderHistoryDTO orderHistoryDTO, Long uid, String merchantUid) {
+    public Project getProject() {
+        return this.product.getProject();
+    }
+
+    public static OrderHistory from(OrderHistoryDTO orderHistoryDTO, NormalUser normalUser, Product product, String merchantUid) {
         return new OrderHistoryBuilder().merchantUid(merchantUid)
-                .pid(orderHistoryDTO.getPid())
-                .uid(uid)
-                .purchasePrice(orderHistoryDTO.getPurchasePrice())
+                .product(product)
+                .normalUser(normalUser)
                 .quantity(orderHistoryDTO.getQuantity())
                 .status(STATUS.FAIL)
-                .name(orderHistoryDTO.getName())
                 .build();
     }
 
-    public OrderHistoryDTO toDTO(int size, Long purchasePrice) {
+    public OrderHistoryDTO toDTO(int size,Long totalPurchasePrice) {
         if (size == 1) {
-            return new OrderHistoryDTO(id, merchantUid, pid, uid, name, purchasePrice, quantity);
+            return new OrderHistoryDTO(id, merchantUid, product.toDTO(), normalUser.toDTO(), quantity, product.getTitle(),totalPurchasePrice);
         }
-        return new OrderHistoryDTO(id, merchantUid, pid, uid, String.format("%s 외 %d개의 물품", name, size), purchasePrice, quantity);
+        return new OrderHistoryDTO(id, merchantUid, product.toDTO(),normalUser.toDTO(),
+                quantity,String.format("%s 외 %d개의 물품", product.getTitle(), size),totalPurchasePrice);
     }
 
     public OrderHistory changeOrderStatusSuccess() {
         this.status = STATUS.SUCCESS;
         return this;
+    }
+
+    public boolean isSuccess(){
+        return this.status == STATUS.SUCCESS;
+    }
+
+    public Long calculateTotalProductPrice() {
+        return this.product.getPrice()*quantity;
     }
 
     public enum STATUS {

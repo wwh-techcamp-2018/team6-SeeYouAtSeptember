@@ -2,6 +2,7 @@ package com.woowahan.moduchan.dto.project;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.woowahan.moduchan.domain.project.Project;
+import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.product.ProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Getter
@@ -79,9 +80,8 @@ public class ProjectDTO {
     }
 
     public int getSupporterCount() {
-        return products.stream()
-                .map(productDTO -> productDTO.getSupporterCount())
-                .reduce(0, (x, y) -> x + y);
+        return products.stream().map(productDTO -> productDTO.getSupporters())
+                .reduce(new HashSet<>(),(x,y)-> {x.addAll(y);return x;}).size();
     }
 
     public Long getDayRemainingUntilDeadline() {

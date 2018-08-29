@@ -1,6 +1,7 @@
 package com.woowahan.moduchan.dto.product;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.woowahan.moduchan.domain.user.NormalUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -33,14 +35,6 @@ public class ProductDTO {
     @Size(max = 100, message = "상품 설명을 최대 100자로 입력해주세요.")
     private String description;
 
-    private int supporterCount;
-    private Long quantityConsumed;
-
-    public Long getRemainQuantity() {
-        return quantitySupplied - quantityConsumed;
-    }
-
-    public boolean isQuantityRemained() {
-        return quantitySupplied > quantityConsumed;
-    }
+    private Set<NormalUser> supporters;
+    private Long quantityRemained;
 }
