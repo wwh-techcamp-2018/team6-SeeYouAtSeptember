@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 @Slf4j
@@ -78,10 +79,13 @@ public class ProjectDTO {
         return endAt <= TODAY_LONG + ONE_DAY_DIFF * 180;
     }
 
-    public int getSupporterCount() {
-        return products.stream()
-                .map(productDTO -> productDTO.getSupporterCount())
-                .reduce(0, (x, y) -> x + y);
+    public Long getSupporterCount() {
+        return products.stream().map(productDTO -> productDTO.getSupporters())
+                .reduce(new HashSet<>(), (x, y) -> {
+                    x.addAll(y);
+                    return x;
+                })
+                .stream().filter(normalUser -> normalUser != null).count();
     }
 
     public Long getDayRemainingUntilDeadline() {

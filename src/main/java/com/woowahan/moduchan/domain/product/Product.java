@@ -1,7 +1,10 @@
 package com.woowahan.moduchan.domain.product;
 
+import com.woowahan.moduchan.domain.order.OrderHistory;
 import com.woowahan.moduchan.domain.project.Project;
+import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.product.ProductDTO;
+import com.woowahan.moduchan.exception.NotEnoughQuantityException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +14,8 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Where(clause = "deleted=false")
@@ -26,6 +31,7 @@ public class Product {
     private String title;
     private Long price;
     private Long quantitySupplied;
+    private Long quantityRemained;
 
     @Lob
     private String description;
@@ -35,7 +41,7 @@ public class Product {
     private Project project;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "product")
-    private List<ProductUserMap> productUserMaps;
+    private List<OrderHistory> orderHistories;
 
     @NotNull
     private boolean deleted = false;
@@ -45,6 +51,7 @@ public class Product {
                 .title(productDTO.getTitle())
                 .price(productDTO.getPrice())
                 .quantitySupplied(productDTO.getQuantitySupplied())
+                .quantityRemained(productDTO.getQuantitySupplied())
                 .description(productDTO.getDescription())
                 .project(project)
                 .deleted(false)
@@ -56,7 +63,7 @@ public class Product {
     }
 
     public void delete() {
-        if (productUserMaps.stream().filter(productUserMap -> !productUserMap.isDeleted()).count() != 0) {
+        if (orderHistories.stream().filter(orderHistory -> !orderHistory.isSuccess()).count() != 0) {
             // TODO: 2018. 8. 22. 후원자가 존재하는데 삭제한 경우, 에러를 반환한다. 
             throw new RuntimeException();
         }
@@ -68,17 +75,12 @@ public class Product {
     }
 
     public ProductDTO toDTO() {
-        return new ProductDTO(id, title, price, quantitySupplied, description, getSupporterCount(), getQuantityConsumed());
+        return new ProductDTO(id, title, price, quantitySupplied, description, getSupporters(), quantityRemained);
     }
 
-    private int getSupporterCount() {
-        return productUserMaps.size();
-    }
-
-    private Long getQuantityConsumed() {
-        return productUserMaps.stream()
-                .map(productUserMap -> productUserMap.getQuantity())
-                .reduce(0L, (x, y) -> x + y);
+    private Set<NormalUser> getSupporters() {
+        return orderHistories.stream().map(orderHistory -> orderHistory.getNormalUser(OrderHistory.STATUS.SUCCESS))
+                .collect(Collectors.toSet());
     }
 
     public boolean update(ProductDTO productDTO) {
@@ -87,7 +89,7 @@ public class Product {
             return false;
         }
 
-        if (productUserMaps.stream().filter(productUserMap -> !productUserMap.isDeleted()).count() == 0) {
+        if (orderHistories.stream().filter(orderHistory -> !orderHistory.isSuccess()).count() == 0) {
             updateAll(productDTO);
         } else {
             updateDescription(productDTO.getDescription());
@@ -99,10 +101,20 @@ public class Product {
         this.title = productDTO.getTitle();
         this.price = productDTO.getPrice();
         this.quantitySupplied = productDTO.getQuantitySupplied();
+        this.quantityRemained = productDTO.getQuantitySupplied();
         this.description = productDTO.getDescription();
     }
 
     private void updateDescription(String description) {
         this.description = description;
     }
+
+    public Product updateRemainQuantity(Long orderQuantity) {
+        if (orderQuantity > quantityRemained) {
+            throw new NotEnoughQuantityException();
+        }
+        quantityRemained -= orderQuantity;
+        return this;
+    }
+
 }
