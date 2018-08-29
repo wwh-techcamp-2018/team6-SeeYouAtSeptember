@@ -176,6 +176,15 @@ li.dropdown-item div.content > span {
     white-space: nowrap;
 }
 
+input {
+    outline: none;
+}
+
+button {
+    outline: none;
+    cursor: pointer;
+}
+
 #footer {
     margin-top: 50px;
     padding: 15px 0;
