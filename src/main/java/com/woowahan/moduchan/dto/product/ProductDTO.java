@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProductDTO {
+public class ProductDTO implements Comparable<ProductDTO> {
     private Long pid;
 
     @NotBlank(message = "상품 제목을 입력해주세요.")
@@ -37,4 +37,15 @@ public class ProductDTO {
 
     private Set<NormalUser> supporters;
     private Long quantityRemained;
+
+    @Override
+    public int compareTo(ProductDTO productDTO) {
+        if (this.price < productDTO.getPrice()) {
+            return -1;
+        } else if (this.price == productDTO.getPrice()) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }
