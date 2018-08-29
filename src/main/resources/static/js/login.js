@@ -30,8 +30,8 @@ class Login {
             return;
         }
 
-        $(".form").style.border = "1px solid rgb(226, 65, 65)";
-        $("#login-btn").style.background = "rgb(226, 65, 65)";
+        highlightBorderValid($(".form"));
+        highlightBackgroundInvalid($("#login-btn"));
     }
 
     focusLoginBoxInput() {

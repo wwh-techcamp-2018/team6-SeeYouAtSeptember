@@ -95,9 +95,9 @@ function highlightBorderValid(target) {
 }
 
 function highlightBorderInvalid(target) {
-    target.style.border = "1px solid rgb(226, 65, 65)";
+    target.style.border = "1px solid #E24141";
 }
 
 function highlightBackgroundInvalid(target) {
-    target.style.background = "rgb(226, 65, 65)";
+    target.style.background = "#E24141";
 }
