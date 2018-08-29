@@ -9,9 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
-
+@Slf4j
 @Entity
 @Getter
 @Builder
@@ -39,6 +40,20 @@ public class OrderHistory extends BaseTimeEntity {
         return this.product.getProject();
     }
 
+    public Project getSuccessProject(){
+        if(status == STATUS.SUCCESS) {
+            return this.product.getProject();
+        }
+        return null;
+    }
+
+    public NormalUser getSuccessNormalUser(){
+        if(status == STATUS.SUCCESS) {
+            return normalUser;
+        }
+        return null;
+    }
+
     public static OrderHistory from(OrderHistoryDTO orderHistoryDTO, NormalUser normalUser, Product product, String merchantUid) {
         return new OrderHistoryBuilder().merchantUid(merchantUid)
                 .product(product)
@@ -53,7 +68,7 @@ public class OrderHistory extends BaseTimeEntity {
             return new OrderHistoryDTO(id, merchantUid, product.toDTO(), normalUser.toDTO(), quantity, product.getTitle(),totalPurchasePrice);
         }
         return new OrderHistoryDTO(id, merchantUid, product.toDTO(),normalUser.toDTO(),
-                quantity,String.format("%s 외 %d개의 물품", product.getTitle(), size),totalPurchasePrice);
+                quantity,String.format("%s 등 %d개의 물품", product.getTitle(), size),totalPurchasePrice);
     }
 
     public OrderHistory changeOrderStatusSuccess() {

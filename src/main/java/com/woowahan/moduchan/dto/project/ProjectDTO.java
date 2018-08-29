@@ -79,13 +79,14 @@ public class ProjectDTO {
         return endAt <= TODAY_LONG + ONE_DAY_DIFF * 180;
     }
 
-    public int getSupporterCount() {
+    public Long getSupporterCount() {
         return products.stream().map(productDTO -> productDTO.getSupporters())
-                .reduce(new HashSet<>(),(x,y)-> {x.addAll(y);return x;}).size();
+                .reduce(new HashSet<>(),(x,y)-> {x.addAll(y);return x;})
+                .stream().filter(normalUser -> normalUser != null).count();
     }
 
     public Long getDayRemainingUntilDeadline() {
-        return (endAt - createdAt) / 1000 / 60 / 60 / 24;
+        return (endAt - TODAY_LONG) / 1000 / 60 / 60 / 24;
     }
 
     public int getProgress() {

@@ -118,7 +118,7 @@ class Join {
     }
 
     validPassword() {
-        this.passwordPattern = /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,12}$/;
+        this.passwordPattern = /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{8,12}$/;
         this.password = $("#pw1").value;
         if (!this.passwordPattern.test(this.password)) {
             $("#password-caution").style.display = "inline-block"
@@ -140,7 +140,7 @@ class Join {
 
     validName() {
         this.name = $("#name").value;
-        if (!this.name) {
+        if (!this.name || this.name.length > 20) {
             $("#name-caution").style.display = "inline-block";
             return false;
         }

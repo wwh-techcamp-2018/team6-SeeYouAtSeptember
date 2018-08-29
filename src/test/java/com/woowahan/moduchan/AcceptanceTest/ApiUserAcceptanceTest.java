@@ -2,7 +2,6 @@ package com.woowahan.moduchan.AcceptanceTest;
 
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.support.ApiAcceptanceTest;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Slf4j
 public class ApiUserAcceptanceTest extends ApiAcceptanceTest {
     private UserDTO loginUserDTO;
     private UserDTO joinUserDTO;
@@ -19,7 +17,7 @@ public class ApiUserAcceptanceTest extends ApiAcceptanceTest {
     public void setUp() throws Exception {
         loginUserDTO = new UserDTO(null, "a", "a", null, null, null);
         joinUserDTO = new UserDTO(null, "test@naver.com", "qwe123!!",
-                "테스트", "01012341234", "올림픽로 295");
+                "테스트", "010-1234-1234", "올림픽로 295");
     }
 
     @Test

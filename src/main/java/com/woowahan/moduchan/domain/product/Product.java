@@ -79,7 +79,7 @@ public class Product {
     }
 
     private Set<NormalUser> getSupporters() {
-        return orderHistories.stream().map(orderHistory -> orderHistory.getNormalUser())
+        return orderHistories.stream().map(orderHistory -> orderHistory.getSuccessNormalUser())
                 .collect(Collectors.toSet());
     }
 

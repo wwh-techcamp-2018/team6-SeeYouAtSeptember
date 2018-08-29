@@ -11,6 +11,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     public List<Project> findTop3ByOrderByCurrentFundRaisingDesc();
 
+    public List<Project> findTop3ByOrderByEndAtAsc();
+
     public List<Project> findTop9ByCategoryOrderByIdDesc(Category category);
 
     public List<Project> findTop9ByIdLessThanOrderByIdDesc(Long id);
@@ -18,4 +20,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     public List<Project> findTop9ByCategoryAndIdLessThanOrderByIdDesc(Category category, Long id);
 
     public List<Project> findAllByOwnerId(Long id);
+
+    public List<Project> findByIdIn(List<Long> ids);
 }

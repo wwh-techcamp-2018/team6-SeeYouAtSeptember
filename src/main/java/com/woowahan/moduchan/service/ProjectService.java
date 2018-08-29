@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ProjectService {
+    private final List<Long> recommendationProjectIds = new ArrayList<>(Arrays.asList(1L, 2L, 3L));
     private final S3Util s3Util;
     @Autowired
     private ProjectRepository projectRepository;
@@ -93,6 +96,16 @@ public class ProjectService {
 
     public List<ProjectDTO> getTop3ByOrderByCurrentFundRaising() {
         return projectRepository.findTop3ByOrderByCurrentFundRaisingDesc().stream()
+                .map(project -> project.toDTO()).collect(Collectors.toList());
+    }
+
+    public List<ProjectDTO> getRecommendationProjects() {
+        return projectRepository.findByIdIn(recommendationProjectIds).stream()
+                .map(project -> project.toDTO()).collect(Collectors.toList());
+    }
+
+    public List<ProjectDTO> getTop3ByEndAt() {
+        return projectRepository.findTop3ByOrderByEndAtAsc().stream()
                 .map(project -> project.toDTO()).collect(Collectors.toList());
     }
 }
