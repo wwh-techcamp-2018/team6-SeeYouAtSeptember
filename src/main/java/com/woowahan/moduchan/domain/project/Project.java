@@ -117,7 +117,7 @@ public class Project extends BaseTimeEntity {
                 endAt.getTime(),
                 status,
                 owner.toDTO().getName(),
-                products.stream().map(product -> product.toDTO()).collect(Collectors.toList()),
+                products.stream().map(product -> product.toDTO()).sorted().collect(Collectors.toList()),
                 goalFundRaising,
                 currentFundRaising
         );
