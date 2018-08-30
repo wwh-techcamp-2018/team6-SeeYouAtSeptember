@@ -164,15 +164,15 @@ class ProductBtns {
                     callback: successCallback
                 });
                 return;
-            } 
-            
-                fetchManager({
-                    url: '/api/orders/fail',
-                    method: 'PUT',
-                    headers: {'content-type': 'application/json'},
-                    body: result.merchantUid,
-                    callback: successCallback
-                });
+            }
+
+            fetchManager({
+                url: '/api/orders/fail',
+                method: 'PUT',
+                headers: {'content-type': 'application/json'},
+                body: result.merchantUid,
+                callback: successCallback
+            });
         })
     }
 
