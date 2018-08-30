@@ -4,7 +4,6 @@ import com.woowahan.moduchan.domain.user.NormalUser;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -24,11 +23,11 @@ public class NormalUserTest {
 
     @Test
     public void 비밀번호_확인_성공() {
-        assertThat(normalUser.matchPassword("qwe123!!",passwordEncoder)).isEqualTo(true);
+        assertThat(normalUser.matchPassword("qwe123!!", passwordEncoder)).isEqualTo(true);
     }
 
     @Test
     public void 비밀번호_확인_실패() {
-        assertThat(normalUser.matchPassword("qwe123!",passwordEncoder)).isEqualTo(false);
+        assertThat(normalUser.matchPassword("qwe123!", passwordEncoder)).isEqualTo(false);
     }
 }

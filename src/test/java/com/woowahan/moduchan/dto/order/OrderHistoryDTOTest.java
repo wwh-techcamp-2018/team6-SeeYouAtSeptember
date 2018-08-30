@@ -23,14 +23,14 @@ public class OrderHistoryDTOTest {
 
     @Test
     public void orderHistoryValid_성공() {
-        OrderHistoryDTO orderHistoryDTO = new OrderHistoryDTO(null,null,null,null,1L,null,null);
+        OrderHistoryDTO orderHistoryDTO = new OrderHistoryDTO(null, null, null, null, 1L, null, null);
         Set<ConstraintViolation<OrderHistoryDTO>> constraintViolcations = validator.validate(orderHistoryDTO);
         assertThat(constraintViolcations.size()).isEqualTo(0);
     }
 
     @Test
     public void orderHistoryValid_실패_주문수량_미달() {
-        OrderHistoryDTO orderHistoryDTO = new OrderHistoryDTO(null,null,null,null,0L,null,null);
+        OrderHistoryDTO orderHistoryDTO = new OrderHistoryDTO(null, null, null, null, 0L, null, null);
         Set<ConstraintViolation<OrderHistoryDTO>> constraintViolcations = validator.validate(orderHistoryDTO);
         assertThat(constraintViolcations.size()).isEqualTo(1);
     }

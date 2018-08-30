@@ -1,12 +1,8 @@
 package com.woowahan.moduchan.service;
 
-import com.woowahan.moduchan.domain.user.NormalUser;
-import com.woowahan.moduchan.domain.user.User;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.exception.EmailAlreadyExistsException;
 import com.woowahan.moduchan.repository.NormalUserRepository;
-import com.woowahan.moduchan.support.AcceptanceTest;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,11 +11,10 @@ import org.mockito.Spy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-public class UserServiceTest{
+public class UserServiceTest {
 
     @Mock
     private NormalUserRepository normalUserRepository;

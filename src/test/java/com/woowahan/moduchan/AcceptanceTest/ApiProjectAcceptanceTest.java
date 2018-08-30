@@ -38,25 +38,26 @@ public class ApiProjectAcceptanceTest extends ApiAcceptanceTest {
     }
 
     @Test
-    public void createProject_성공(){
+    public void createProject_성공() {
         ResponseEntity<Void> response = templateWithNormalUser()
-                .postForEntity("/api/projects", getDefaultProjectDTO(),Void.class);;
+                .postForEntity("/api/projects", getDefaultProjectDTO(), Void.class);
+        ;
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
     @Test
-    public void createProject_실패_로그인_하지않은_사용자(){
+    public void createProject_실패_로그인_하지않은_사용자() {
         ResponseEntity<Void> response = template()
-                .postForEntity("/api/projects", getDefaultProjectDTO(),Void.class);
+                .postForEntity("/api/projects", getDefaultProjectDTO(), Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 
     @Test
-    public void createProject_실패_유효성검사_실패(){
+    public void createProject_실패_유효성검사_실패() {
         ProjectDTO projectDTO = getDefaultProjectDTO();
         projectDTO.setThumbnailUrl("test");
         ResponseEntity<Void> response = templateWithNormalUser()
-                .postForEntity("/api/projects", projectDTO,Void.class);
+                .postForEntity("/api/projects", projectDTO, Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 }

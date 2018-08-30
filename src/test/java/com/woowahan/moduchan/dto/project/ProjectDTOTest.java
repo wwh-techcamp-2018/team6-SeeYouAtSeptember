@@ -19,10 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProjectDTOTest {
 
-    private static Validator validator;
     private final static Long ONE_DAY_DIFF = 86400000L;
-    List<ProductDTO> productDTOs;
+    private static Validator validator;
     private static Long todayTime;
+    List<ProductDTO> productDTOs;
 
     @Before
     public void setUp() throws Exception {
@@ -91,7 +91,9 @@ public class ProjectDTOTest {
         Set<NormalUser> normalUsers = new HashSet<>();
         normalUsers.add(null);
 
-        normalUsers.forEach(normalUser -> {System.out.println(normalUser);});
+        normalUsers.forEach(normalUser -> {
+            System.out.println(normalUser);
+        });
         productDTOs.add(new ProductDTO(null, "테스트상품", 1000000L, 1L, "테스트입니다", normalUsers, null));
 
         ProjectDTO projectDTO = new ProjectDTO(2L, null, "프로젝트", "프로젝트설명", "https://moduchan-img.s3.ap-northeast-2.amazonaws.com/media/53e15324-3732-444c-8528-468d41cf160a.png", null
