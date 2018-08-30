@@ -41,7 +41,6 @@ public class ApiProjectAcceptanceTest extends ApiAcceptanceTest {
     public void createProject_성공() {
         ResponseEntity<Void> response = templateWithNormalUser()
                 .postForEntity("/api/projects", getDefaultProjectDTO(), Void.class);
-        ;
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
