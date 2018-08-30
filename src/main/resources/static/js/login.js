@@ -35,7 +35,7 @@ class Login {
             return;
         }
 
-        highlightBorderValid($(".form"));
+        highlightBorderInvalid($(".form"));
         highlightBackgroundInvalid($("#login-btn"));
     }
 

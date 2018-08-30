@@ -98,6 +98,10 @@ input:hover, select:hover, input:focus, select:focus {
     overflow: scroll;
 }
 
+.description:hover, .description:foucs {
+    border: 1px #2bc2bc solid;
+}
+
 .product-add-button {
     border: 2px #efefef solid;
     padding: 0 10px;

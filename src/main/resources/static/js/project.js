@@ -71,10 +71,10 @@ class ProjectForm {
 
     addProductCard(event) {
         const html = `<li class="product-card">
-            <input type="number" class="price" min="1000" placeholder="가격"></input>
-            <input type="text" class="title" maxlength="30" placeholder="반찬 이름"></input>
-            <textarea class="description" maxlength="100" placeholder="설명"></textarea>
-            <input type="number" class="quantity" min="1" placeholder="공급량"></input>
+            <input type="number" class="price" min="1000" value="5000" placeholder="가격 (1000원 이상)"></input>
+            <input type="text" class="title" maxlength="30" placeholder="반찬 이름 (최대 30자)"></input>
+            <textarea class="description" maxlength="100" placeholder="설명 (최대 100자)"></textarea>
+            <input type="number" class="quantity" min="1" value="1" placeholder="공급량"></input>
         </li>`
         event.target.insertAdjacentHTML('beforeBegin', html);
         this.products.push(event.target.previousElementSibling);
