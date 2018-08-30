@@ -3,6 +3,7 @@ package com.woowahan.moduchan.dto.project;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.product.ProductDTO;
+import com.woowahan.moduchan.support.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -23,7 +23,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProjectDTO {
     private final static String URL_REGEX = "(http(s?):\\/)(\\/[^/]+)+\\.(?:jpg|gif|png)";
-    private final static Long TODAY_LONG = new Date().getTime();
     private final static Long ONE_DAY_DIFF = 86400000L;
 
     @NotNull(message = "프로젝트 카테고리를 입력해주세요.")
@@ -71,12 +70,12 @@ public class ProjectDTO {
 
     @AssertTrue(message = "프로젝트 목표 날짜는 현재 날짜의 30일 이후로 입력해주세요.")
     public boolean isMoreThanMinEndAt() {
-        return endAt >= TODAY_LONG + ONE_DAY_DIFF * 30;
+        return endAt >= BaseTimeEntity.getTodayTime() + ONE_DAY_DIFF * 30;
     }
 
     @AssertTrue(message = "프로젝트 목표 날짜는 현재 날짜의 180일 이전으로 입력해주세요.")
     public boolean isLessThanMaxEndAt() {
-        return endAt <= TODAY_LONG + ONE_DAY_DIFF * 180;
+        return endAt <= BaseTimeEntity.getTodayTime() + ONE_DAY_DIFF * 180;
     }
 
     public Long getSupporterCount() {
@@ -89,15 +88,11 @@ public class ProjectDTO {
     }
 
     public Long getDayRemainingUntilDeadline() {
-        return (endAt - TODAY_LONG) / 1000 / 60 / 60 / 24;
+        return (endAt - BaseTimeEntity.getTodayTime()) / 1000 / 60 / 60 / 24;
     }
 
     public int getProgress() {
         return (int) ((float) currentFundRaising / goalFundRaising * 100);
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
     }
 
 }
