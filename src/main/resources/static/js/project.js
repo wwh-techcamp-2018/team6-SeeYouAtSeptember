@@ -4,6 +4,7 @@ class ProjectForm {
         this.cropper = null;
         this.fileInput = $("#file-input");
         this.modal = $("#myModal");
+        this.thumbnailUploaded = false;
 
         /* thumbnail image upload */
         addEventListenerToTarget($("#thumbnailUrl"), "click", this.uploadFileHandler.bind(this));
@@ -18,18 +19,16 @@ class ProjectForm {
         addEventListenerToTarget($(".product-add-button"), "click", this.addProductCard.bind(this));
 
         /* validation */
-        /* todo: 이름 바뀌었어요 */
-        this.focusOutProjectsInfoTargetList = [
-            $("#projects-title-input"),
-            $("#projects-goalFundRaising-input"),
-            $("#projects-endAt-input")
-        ];
-        this.focusOutProjectsInfoTargetList.forEach(target => {
-            addEventListenerToTarget(target, "focusout", this.focusOutProjectInputHandler.bind(this));
-        });
+        this.addEventListenerToProjectInputs();
 
-        /* create projecdt */
-        addEventListenerToTarget($(".create-project-button"), "click", this.createProjectBtnHandler.bind(this));
+        /* create project */
+        addEventListenerToTarget($(".create-project-button"), "click", this.submitCreateProjectForm.bind(this));
+    }
+
+    addEventListenerToProjectInputs() {
+        addEventListenerToTarget($("#project-title"), "focusout", this.setTitle);
+        addEventListenerToTarget($("#project-goalFundRaising"), "focusout", this.setGoalFundRaising);
+        addEventListenerToTarget($("#project-endAt"), "focusout", this.setEndAt);
     }
 
     uploadFileHandler() {
@@ -99,80 +98,64 @@ class ProjectForm {
         $(".product-add-button").removeAttribute("style");
     }
 
-    setProjectInfoAll() {
-        this.projectInfoSettingFuncList = [
-            this.setTitle.bind(this),
-            this.setEndAt.bind(this),
-            this.setGoalFundRaising.bind(this),
-            this.setThumbnailUrl.bind(this)
-        ];
-
-        this.cnt = this.projectInfoSettingFuncList.length;
-        this.projectInfoSettingFuncList.forEach((settingFunc, i) => {
-            if (settingFunc()) {
-                this.cnt--;
-            }
-        });
-        return this.cnt === 0;
+    validateThumbnailUrl() {
+        if (this.thumbnailUploaded) {
+            highlightBorderValid($(".thumbnail"));
+            return true;
+        }
+        highlightBorderInvalid($(".thumbnail"));
+        return false;
     }
 
     setTitle() {
         const minTitleLength = 1;
         const maxTitleLength = 50;
-        this.title = $("#projects-title-input").value;
+        this.title = $("#project-title").value;
         if (this.title.length >= minTitleLength && this.title.length <= maxTitleLength) {
-            $("#project-title").style.visibility = "hidden";
+            highlightBorderValid($("#project-title"));
             return true;
         }
-        $("#project-title").style.visibility = "visible";
-        return false;
-    }
-
-    setEndAt() {
-        this.endAt = new Date($("#projects-endAt-input").value).getTime();
-        let minCurrentDate = new Date();
-        minCurrentDate.setDate(minCurrentDate.getDate() + 30);
-        let maxCurrentDate = new Date();
-        maxCurrentDate.setDate(maxCurrentDate.getDate() + 180);
-        if (this.endAt >= minCurrentDate.getTime() && this.endAt <= maxCurrentDate.getTime()) {
-            $("#project-end").style.visibility = "hidden";
-            return true;
-        }
-        $("#project-end").style.visibility = "visible";
+        highlightBorderInvalid($("#project-title"));
         return false;
     }
 
     setGoalFundRaising() {
         const minGoalFundRaising = 1000000;
         const maxGoalFundRaising = 1000000000;
-        this.goalFundRaising = $("#projects-goalFundRaising-input").value;
+        this.goalFundRaising = $("#project-goalFundRaising").value;
 
         if (this.goalFundRaising >= minGoalFundRaising && this.goalFundRaising <= maxGoalFundRaising) {
-            $("#project-goalFundRaising").style.visibility = "hidden";
+            highlightBorderValid($("#project-goalFundRaising"));
             return true;
         }
-        $("#project-goalFundRaising").style.visibility = "visible";
+        highlightBorderInvalid($("#project-goalFundRaising"));
         return false;
     }
 
-    setThumbnailUrl() {
-        this.thumbnailUrl = $("#thumbnailUrl").src;
-        if (this.thumbnailUrl !== "") {
-            $("#project-img").style.visibility = "hidden";
+    setEndAt() {
+        this.endAt = new Date($("#project-endAt").value).getTime();
+        let minCurrentDate = new Date();
+        minCurrentDate.setDate(minCurrentDate.getDate() + 30);
+        let maxCurrentDate = new Date();
+        maxCurrentDate.setDate(maxCurrentDate.getDate() + 180);
+        if (this.endAt >= minCurrentDate.getTime() && this.endAt <= maxCurrentDate.getTime()) {
+            highlightBorderValid($("#project-endAt"));
             return true;
         }
-        $("#project-img").style.visibility = "visible";
+        highlightBorderInvalid($("#project-endAt"));
         return false;
     }
 
-    focusOutProjectInputHandler(evt) {
-        if (evt.target.id === "projects-title-input") this.setTitle();
-        if (evt.target.id === "projects-goalFundRaising-input") this.setGoalFundRaising();
-        if (evt.target.id === "projects-endAt-input") this.setEndAt();
+    setProjectInfoAll() {
+        let ret = true;
+        ret &= this.validateThumbnailUrl();
+        ret &= this.setTitle();
+        ret &= this.setGoalFundRaising();
+        ret &= this.setEndAt();
+        return ret;
     }
 
     insertImgFile(blob) {
-
         if (blob === undefined) return;
 
         if (blob["type"].split("/")[0] === "image") {
@@ -181,6 +164,7 @@ class ProjectForm {
                 lastModified: Date.now()
             });
             fetchFormData(this.setFormData(file), "/api/projects/upload", this.imageUploadCallback.bind(this));
+            /* todo: fetchFormData에서 에러시 */
         }
         this.modal.style.display = "none";
     }
@@ -199,20 +183,26 @@ class ProjectForm {
     imageUploadCallback(img) {
         $("#thumbnailUrl").src = img;
         this.thumbnailUrl = $("#thumbnailUrl").src;
+        this.thumbnailUploaded = true;
+        highlightBorderValid($(".thumbnail"));
     }
 
-    createProjectBtnHandler(evt) {
+    submitCreateProjectForm(evt) {
         evt.preventDefault();
-
         if (!this.setProjectInfoAll()) return;
-
+        if (this.products.length === 0) {
+            return;
+        }
         const products = [];
+        let validation = true;
         for (const product of this.products) {
-            let productInfo = product.setProductAll();
-            if (productInfo === null) {
-                return;
-            }
-            products.push(productInfo);
+            let productInfo = new Product(product);
+            validation &= productInfo.setProductAll();
+            products.push(productInfo.product);
+        }
+
+        if (!validation) {
+            return;
         }
 
         const project = {
@@ -224,11 +214,6 @@ class ProjectForm {
             "cid": $('.categories-dropbox select').value,
             "products": products
         };
-
-        if (!this.checkMinProductsPrice(project["products"])) {
-            alert("상품 총 합의 가격이 목표금액보다 작습니다.");
-            return;
-        }
 
         fetchManager({
             url: '/api/projects',
@@ -244,15 +229,6 @@ class ProjectForm {
             location.href = "/categories"
         }
     }
-
-    checkMinProductsPrice(products) {
-        let minPrice = 0;
-        products.forEach(product => {
-            minPrice += product["price"] * product["quantitySupplied"]
-        })
-        return minPrice >= this.goalFundRaising
-    }
-
 }
 
 document.addEventListener("DOMContentLoaded", () => {
