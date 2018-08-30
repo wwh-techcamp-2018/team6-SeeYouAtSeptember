@@ -138,7 +138,7 @@ input:hover, select:hover, input:focus, select:focus {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 5; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    padding: 10px 0; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -155,7 +155,7 @@ input:hover, select:hover, input:focus, select:focus {
     margin: auto;
     padding: 0;
     border: 1px solid #888;
-    width: 700px;
+    width: 800px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -206,7 +206,7 @@ input:hover, select:hover, input:focus, select:focus {
 }
 
 .modal-body {
-    padding: 2px 16px;
+    margin: 30px 0;
 }
 
 .modal-footer {
