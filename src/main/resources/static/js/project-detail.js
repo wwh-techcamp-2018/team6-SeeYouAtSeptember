@@ -23,6 +23,11 @@ class ProductBtns {
         const matchProduct = [...this.productBtns].filter(product => {
             return product.dataset.productId === id
         })[0];
+        const productPrice = matchCartItem.dataset.productPrice.replace(/[^0-9]/g, '');
+        const quantity = $at(matchCartItem, ".amount input");
+
+        $("#money").innerText = parseInt($("#money").innerText.replace(/[^0-9]/g, '')) - parseInt(parseInt(productPrice) * quantity);
+        $("#money").innerText = parseInt($("#money").innerText).toLocaleString('ko-KR');
         removeClassName("in", matchProduct);
         evt.target.parentElement.remove();
     }
@@ -52,7 +57,12 @@ class ProductBtns {
         const matchCartItem = [...$(".support-product-cart ul").children].filter(cart => {
             return cart.dataset.productId === id
         })[0];
+        const productPrice = matchCartItem.dataset.productPrice.replace(/[^0-9]/g, '');
+        const quantity = $at(matchCartItem, ".amount input");
+
         matchCartItem.remove();
+        $("#money").innerText = parseInt($("#money").innerText.replace(/[^0-9]/g, '')) - parseInt(parseInt(productPrice) * quantity);
+        $("#money").innerText = parseInt($("#money").innerText).toLocaleString('ko-KR');
     }
 
     addCartItem(target) {
@@ -69,6 +79,8 @@ class ProductBtns {
                         <div class="close">&times;</div>
                     </li>`;
         $(".support-product-cart ul").insertAdjacentHTML("beforeend", html);
+        $("#money").innerText = parseInt($("#money").innerText.replace(/[^0-9]/g, '')) + parseInt(productPrice.replace(/[^0-9]/g, ''));
+        $("#money").innerText = parseInt($("#money").innerText).toLocaleString('ko-KR');
     }
 
     setSupportForm(liElement) {

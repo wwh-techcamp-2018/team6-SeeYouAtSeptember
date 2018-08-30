@@ -130,7 +130,7 @@ ul, li {
 
 #state-box p {
     font-size: 15px;
-    margin: 0 0 20px 0;
+    margin: 0 0 15px 0;
 }
 
 #state-box p span {
@@ -157,10 +157,11 @@ ul, li {
 }
 
 .summary-container .support-product-cart {
-    height: 155px;
+    height: 115px;
     background: #fafafa;
     border: 1px #efefef solid;
     border-radius: 5px;
+    overflow: scroll;
 }
 
 .summary-container .support-product-cart h4 {
@@ -168,7 +169,7 @@ ul, li {
 }
 
 .summary-container .support-product-cart ul {
-    margin: 5px 0px 0px 0px;
+    margin: 10px 0px;
 }
 
 .summary-container .support-product-cart li {
@@ -205,6 +206,20 @@ ul, li {
     cursor: pointer;
 }
 
+.cart-total {
+    font-size: 20px;
+    margin-top: 18px;
+}
+
+.cart-total #won {
+    float: right;
+}
+
+.cart-total #money {
+    font-size: 30px;
+    font-weight: bolder;
+}
+
 .product-grid {
     width: 916px;
     border-top: 2px #efefef solid;
@@ -212,11 +227,6 @@ ul, li {
     height: 330px;
     margin-top: 40px;
     padding: 20px;
-}
-
-.product-grid h4 {
-    margin: 0;
-    font-size: 17px;
 }
 
 .product-grid ul {
