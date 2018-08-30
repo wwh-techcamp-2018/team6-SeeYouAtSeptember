@@ -6,6 +6,13 @@ a {
     text-decoration: none;
 }
 
+label {
+    margin-left: 5px;
+    display: inline-block;
+    margin-top: 7px;
+    font-weight: 600;
+}
+
 #main-container {
     width: 960px;
     margin: 0 auto;

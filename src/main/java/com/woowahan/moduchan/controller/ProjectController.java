@@ -35,6 +35,6 @@ public class ProjectController {
     public String create(@LoginUser UserDTO loginUserDTO, Model model) {
         model.addAttribute(CATEGORY_KEY, categoryService.getCategories().stream().
                 filter(categoryDTO -> categoryDTO.getId() != 1).collect(Collectors.toList()));
-        return "create_project";
+        return "create-project";
     }
 }

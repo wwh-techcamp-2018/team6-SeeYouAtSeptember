@@ -57,6 +57,7 @@ public class ApiProjectController {
     @ApiOperation(value = "프로젝트 생성", notes = "프로젝트를 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "생성 성공"),
+            @ApiResponse(code = 400, message = "유효성 검사 실패"),
             @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
             // TODO: 2018. 8. 21.  error에 대한 설명 추가
     })

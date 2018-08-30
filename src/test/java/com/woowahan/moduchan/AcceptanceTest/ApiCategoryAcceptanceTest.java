@@ -1,6 +1,7 @@
 package com.woowahan.moduchan.AcceptanceTest;
 
 import com.woowahan.moduchan.dto.category.CategoryDTO;
+import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.support.ApiAcceptanceTest;
 import org.junit.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -27,36 +28,33 @@ public class ApiCategoryAcceptanceTest extends ApiAcceptanceTest {
     }
 
     @Test
-    public void getCategory_성공() {
-        ResponseEntity<CategoryDTO> response = template().getForEntity("/api/categories/2", CategoryDTO.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody().getTitle()).isEqualTo("밑반찬");
-        assertThat(response.getBody().getId()).isEqualTo(2L);
-    }
-
-    @Test
-    public void getCategory_없는카테고리() {
-        ResponseEntity<String> response = template().getForEntity("/api/categories/10", String.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        assertThat(response.getBody().contains("category not found")).isTrue();
-    }
-
-    @Test
     public void getCategoryPage_성공() {
-        ResponseEntity<List<CategoryDTO>> response = template().exchange("/api/categories/2/last/0",
+        ResponseEntity<List<ProjectDTO>> response = template().exchange("/api/categories/2/last/0",
                 HttpMethod.GET,
                 createHttpEntity(),
-                new ParameterizedTypeReference<List<CategoryDTO>>() {
+                new ParameterizedTypeReference<List<ProjectDTO>>() {
                 });
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody().size()).isEqualTo(9);
-        assertThat(response.getBody().stream().filter(categoryDTO -> categoryDTO.getTitle().equals("[집밥의완성] 별미노각생채 190g")).count()).isEqualTo(1);
+        assertThat(response.getBody().size()).isEqualTo(3);
+        assertThat(response.getBody().stream().filter(categoryDTO -> categoryDTO.getTitle().equals("[남도애꽃] 샐러리양파 장아찌 200g")).count()).isEqualTo(1);
     }
 
     @Test
-    public void getCategoryPage_없는카테고리() {
+    public void getCategoryPage_실패_없는카테고리() {
         ResponseEntity<String> response = template().getForEntity("/api/categories/10/last/0", String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().contains("category not found")).isTrue();
+    }
+
+    @Test
+    public void getProjectsOfAllCategory_성공() {
+        ResponseEntity<List<ProjectDTO>> response = template().exchange("/api/categories/all/last/0",
+                HttpMethod.GET,
+                createHttpEntity(),
+                new ParameterizedTypeReference<List<ProjectDTO>>() {
+                });
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().size()).isEqualTo(4);
+        assertThat(response.getBody().stream().filter(categoryDTO -> categoryDTO.getTitle().equals("[남도애꽃] 샐러리양파 장아찌 200g")).count()).isEqualTo(1);
     }
 }
