@@ -13,6 +13,12 @@ input {
     border: 1px #e4e4e4 solid;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 ul {
     -webkit-padding-start: 0px;
     list-style: none;

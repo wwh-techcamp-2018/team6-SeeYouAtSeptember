@@ -258,5 +258,11 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         height: "700px"
     })
+
+    Date.prototype.addDays = function(days) {
+        let date = new Date();
+        date.setDate(date.getDate() + days);
+        return date;
+    }
 });
 

@@ -96,7 +96,7 @@ class ProductBtns {
         const id = target.dataset.productId;
         const remainedQuantity = $at(target, ".remainedQuantity").innerText.replace(/[^0-9]/g, '');
         const productPrice = $at(target, ".price span").innerText;
-        const title = $at(target, ".title").innerText;
+        const title = $at(target, ".title").innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
         let html = `<li data-product-price="${productPrice}" data-product-id="${id}" >
                         <div class="title">${title}</div>

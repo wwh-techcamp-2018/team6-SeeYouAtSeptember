@@ -117,8 +117,8 @@ input:hover, select:hover, input:focus, select:focus {
 }
 
 .product-card.selected {
-    border: 2px #2bc2bc solid;
-    background: #22bbcc0d;
+    border: 2px #E24141 solid;
+    background: #E241410d;
 }
 
 .create-project-button {

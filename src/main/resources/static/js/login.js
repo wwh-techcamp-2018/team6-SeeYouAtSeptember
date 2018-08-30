@@ -27,7 +27,7 @@ class Login {
     login(response) {
         if (response.status === 200) {
             const redirUrl = $("#redir-url").value;
-            if (!redirUrl) {
+            if (!redirUrl || redirUrl.includes("login") || redirUrl.includes("join")) {
                 location.href = "/";
                 return;
             }
