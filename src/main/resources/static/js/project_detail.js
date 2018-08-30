@@ -136,7 +136,7 @@ class ProductBtns {
             return;
         }
 
-        if (response.status === 200) {
+        if (response.status === 201) {
             response.json().then(result => {
                 this.requestImport(result);
             })

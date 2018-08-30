@@ -48,4 +48,8 @@ public class ProductDTO implements Comparable<ProductDTO> {
             return 1;
         }
     }
+
+    public void setPid(Long pid) {
+        this.pid = pid;
+    }
 }
