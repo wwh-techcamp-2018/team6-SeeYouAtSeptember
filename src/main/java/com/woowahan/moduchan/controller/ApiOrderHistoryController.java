@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -27,13 +28,13 @@ public class ApiOrderHistoryController {
 
     @ApiOperation(value = "주문 생성", notes = "결제하기 전 주문을 생성합니다.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "주문 생성 성공"),
+            @ApiResponse(code = 201, message = "주문 생성 성공"),
             @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근"),
             @ApiResponse(code = 400, message = "잘못된 요청으로 주문 생성 실패")
     })
     @PostMapping("")
-    public ResponseEntity<OrderHistoryDTO> createOrder(@LoginUser UserDTO loginUser, @RequestBody List<OrderHistoryDTO> orderHistoryDTOList) {
-        return new ResponseEntity<>(orderHistoryService.createOrder(orderHistoryDTOList, loginUser), HttpStatus.OK);
+    public ResponseEntity<OrderHistoryDTO> createOrder(@LoginUser UserDTO loginUser, @Valid @RequestBody List<OrderHistoryDTO> orderHistoryDTOList) {
+        return new ResponseEntity<>(orderHistoryService.createOrder(orderHistoryDTOList, loginUser), HttpStatus.CREATED);
     }
 
 
