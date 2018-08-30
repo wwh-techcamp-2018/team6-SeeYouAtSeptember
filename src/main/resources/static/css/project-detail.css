@@ -282,6 +282,7 @@ ul, li {
     font-size: 15px;
     height: 135px;
     overflow: scroll;
+    overflow-wrap: break-word;
 }
 
 .product-card .quantity {

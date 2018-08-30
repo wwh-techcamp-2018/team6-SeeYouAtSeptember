@@ -233,3 +233,7 @@ input:hover, select:hover, input:focus, select:focus {
     background: #2ac1bc;
     color: #fff;
 }
+
+.edit-des{
+    padding-bottom:2px;
+}
