@@ -7,6 +7,7 @@ class ProductBtns {
         });
         addEventListenerToTarget($(".support-btn"), "click", this.supportBtnClickHandler.bind(this));
         addEventListenerToTarget($(".support-product-cart"), "click", this.cancelBtnHandler.bind(this));
+        addEventListenerToTarget($(".support-product-cart ul"),"input", this.cartInputHandler.bind(this));
     }
 
     /*
@@ -15,21 +16,37 @@ class ProductBtns {
     }
     */
 
-    cancelBtnHandler(evt) {
-        if (evt.target.className !== "close") {
+    cartInputHandler(evt) {
+        const target = evt.target;
+        if(target.tagName !== "INPUT") {
             return;
         }
-        const id = evt.target.parentElement.dataset.productId;
+
+        if(!this.validCartAmount(target)) {
+            this.showCaution(target.parentElement.parentElement);
+            if(parseInt(target.value) > parseInt(target.max)) {
+                target.value = target.max;
+            } else {
+                target.value = 1;
+            }
+        }
+        this.setTotal();
+    }
+
+    cancelBtnHandler(evt) {
+        const target = evt.target;
+        if (target.className !== "close") {
+            return;
+        }
+        const id = target.parentElement.dataset.productId;
         const matchProduct = [...this.productBtns].filter(product => {
             return product.dataset.productId === id
         })[0];
-        const productPrice = matchCartItem.dataset.productPrice.replace(/[^0-9]/g, '');
-        const quantity = $at(matchCartItem, ".amount input");
 
-        $("#money").innerText = parseInt($("#money").innerText.replace(/[^0-9]/g, '')) - parseInt(parseInt(productPrice) * quantity);
+        $("#money").innerText = parseInt($("#money").innerText.replace(/[^0-9]/g, '')) - parseInt(this.multiplyPriceAndQuantity(target.parentElement));
         $("#money").innerText = parseInt($("#money").innerText).toLocaleString('ko-KR');
         removeClassName("in", matchProduct);
-        evt.target.parentElement.remove();
+        target.parentElement.remove();
     }
 
     supportBtnClickHandler(evt) {
@@ -51,17 +68,27 @@ class ProductBtns {
         this.addCartItem(target);
     }
 
+    multiplyPriceAndQuantity(target) {
+        const productPrice = target.dataset.productPrice.replace(/[^0-9]/g, '');
+        const quantity = $at(target, ".amount input").value;
+        return parseInt(productPrice) * quantity;
+    }
+
+    setTotal() {
+        const cartList = [...$(".support-product-cart ul").children];
+        let sum = 0;
+        cartList.forEach(cartLi => {sum += this.multiplyPriceAndQuantity(cartLi)});
+        $("#money").innerText = sum.toLocaleString('ko-KR');
+    }
 
     removeCartItem(target) {
         const id = target.dataset.productId;
         const matchCartItem = [...$(".support-product-cart ul").children].filter(cart => {
             return cart.dataset.productId === id
         })[0];
-        const productPrice = matchCartItem.dataset.productPrice.replace(/[^0-9]/g, '');
-        const quantity = $at(matchCartItem, ".amount input");
 
         matchCartItem.remove();
-        $("#money").innerText = parseInt($("#money").innerText.replace(/[^0-9]/g, '')) - parseInt(parseInt(productPrice) * quantity);
+        $("#money").innerText = parseInt($("#money").innerText.replace(/[^0-9]/g, '')) - parseInt(this.multiplyPriceAndQuantity(matchCartItem));
         $("#money").innerText = parseInt($("#money").innerText).toLocaleString('ko-KR');
     }
 
@@ -97,18 +124,15 @@ class ProductBtns {
         return supportForm;
     }
 
-    showCaution(filterCart) {
-        filterCart.forEach(cartLi => {
-            $at(cartLi, ".amount input").style.border = "red 2px solid";
-            setTimeout(function () {
-                $at(cartLi, ".amount input").removeAttribute("style");
-            }, 2000)
-        });
+    showCaution(cartLi) {
+        $at(cartLi, ".amount input").style.border = "red 2px solid";
+        setTimeout(function () {
+            $at(cartLi, ".amount input").removeAttribute("style");
+        }, 2000);
     }
 
-    validCartAmount(target) {
-        const inputTag = $at(target, ".amount input");
-        if (inputTag.value === "" || parseInt(inputTag.value) > parseInt(inputTag.max)) {
+    validCartAmount(inputTag) {
+        if (inputTag.value === "" || inputTag.value === "0" || parseInt(inputTag.value) > parseInt(inputTag.max)) {
             return false;
         }
         return true;
@@ -122,10 +146,12 @@ class ProductBtns {
 
         const supportFormList = [];
         const filterCart = cartList.filter(cart => {
-            return !this.validCartAmount(cart)
+            return !this.validCartAmount($at(cart, ".amount input"))
         });
         if (filterCart.length !== 0) {
-            this.showCaution(filterCart);
+            filterCart.forEach(cartLi => {
+                this.showCaution(cartLi)
+            });
             return;
         }
 
