@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -93,6 +94,10 @@ public class ProjectDTO {
 
     public int getProgress() {
         return (int) ((float) currentFundRaising / goalFundRaising * 100);
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 
 }
