@@ -47,17 +47,16 @@ function addMyProjects(projectsList, targets) {
 }
 
 function getDropdownProjectHTML(project) {
-    return `
-        <li class="dropdown-item card">
+    let html = `<li class="dropdown-item card">
         <a href="/projects/${project.pid}">
             <div class="progress" style="width:${project.progress}%;"></div>
             <div class="content">
-                <span class="project-title">${project.title}</span>
+                <span class="project-title">{title}</span>
                 <span class="project-info"><span>${project.dayRemainingUntilDeadline}일 남음</span><span style="float:right">${project.progress}%</span></span>
             </div>
             </a>
-        </li>
-    `
+        </li>`;
+    return html.replace(/{title}/g, project.title.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
 }
 
 function openDropdown(target) {
