@@ -164,10 +164,6 @@ ul, li {
     overflow: scroll;
 }
 
-.summary-container .support-product-cart h4 {
-    margin: 15px 20px;
-}
-
 .summary-container .support-product-cart ul {
     margin: 10px 0px;
 }
@@ -227,6 +223,11 @@ ul, li {
     height: 330px;
     margin-top: 40px;
     padding: 20px;
+}
+
+.product-grid h4 {
+    margin: 0;
+    font-size: 17px;
 }
 
 .product-grid ul {

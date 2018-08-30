@@ -47,8 +47,8 @@ class ProjectForm {
             return;
         }
         this.cropper = new Croppie(el, {
-            viewport: {width: 288, height: 288},
-            boundary: {width: 500, height: 500},
+            viewport: {width: 600, height: 600},
+            boundary: {width: 700, height: 700},
             showZoomer: true,
             enableOrientation: true
         });
