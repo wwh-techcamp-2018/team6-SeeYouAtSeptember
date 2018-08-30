@@ -31,11 +31,12 @@
 
         <label for="project-goalFundRaising">목표 금액</label>
         <input type="number" min="1000000" step="500000" id="project-goalFundRaising"
-        placeholder="목표 금액은 최소 1백만 원, 최대 1억 원 입니다." autocomplete="off"/>
+        placeholder="목표 금액은 최소 1백만 원, 최대 1억 원 입니다." autocomplete="off"
+        onfocus="this.value=1000000;"/>
 
         <label for="project-endAt">마감 날짜</label>
         <input placeholder="오늘로부터 31일 이후, 180일 이내로 마감"
-               type="text" onfocus="(this.type='date'); this.valueAsDate=new Date().addDays(31);" id="project-endAt"/>
+               type="text" onfocus="this.type='date'; this.valueAsDate=new Date().addDays(31);" id="project-endAt"/>
     </div>
 </div>
 
