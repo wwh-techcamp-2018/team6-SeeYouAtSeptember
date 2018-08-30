@@ -1,27 +1,35 @@
 class ProjectForm {
     constructor() {
-        this.productList = [];
+        this.products = [];
         this.cropper = null;
         this.fileInput = $("#file-input");
         this.modal = $("#myModal");
-        addEventListenerToTarget($("#create-project-btn"), "click", this.createProjectBtnHandler.bind(this));
-        addEventListenerToTarget($("#addProduct"), "click", this.addProductCreateFormHandler.bind(this));
-        addEventListenerToTarget($(".products-addList"), "click", this.removeProductCreateFormHandler.bind(this));
-        addEventListenerToTarget($("#crop-btn"), "click", this.cropButtonHandler.bind(this));
+
+        /* thumbnail image upload */
         addEventListenerToTarget($("#thumbnailUrl"), "click", this.uploadFileHandler.bind(this));
+        addEventListenerToTarget($("#crop-btn"), "click", this.cropButtonHandler.bind(this));
         $all(".close").forEach(closeObject => closeObject.addEventListener("click", this.closeButtonHandler.bind(this)));
         addEventListenerToTarget(this.fileInput, "click", this.fileClickHandler.bind(this));
         addEventListenerToTarget(this.fileInput, "change", this.fileChangeHandler.bind(this));
 
+        /* products */
+        addEventListenerToTarget($(".product-cards"), "click", this.highlightCard);
+        addEventListenerToTarget($(".trash-bin"), "click", this.removeProductCard.bind(this));
+        addEventListenerToTarget($(".product-add-button"), "click", this.addProductCard.bind(this));
+
+        /* validation */
+        /* todo: 이름 바뀌었어요 */
         this.focusOutProjectsInfoTargetList = [
             $("#projects-title-input"),
             $("#projects-goalFundRaising-input"),
             $("#projects-endAt-input")
         ];
-
         this.focusOutProjectsInfoTargetList.forEach(target => {
             addEventListenerToTarget(target, "focusout", this.focusOutProjectInputHandler.bind(this));
         });
+
+        /* create projecdt */
+        addEventListenerToTarget($(".create-project-button"), "click", this.createProjectBtnHandler.bind(this));
     }
 
     uploadFileHandler() {
@@ -62,31 +70,33 @@ class ProjectForm {
         this.cropper.result('blob').then(this.insertImgFile.bind(this));
     }
 
-    addProductCreateFormHandler() {
-        if (this.productList.length >= 4) return;
-        const productTag = $('.products-addList');
-        const html = ` <div class="product-addInfo">
-                            <span>물품 이름:</span><input type="text" id="product-title-input"><br>
-                            <span>물품 설명:</span><input type="text" id="product-description-input"><br>
-                            <span>물품 가격:</span><input type="number" value="0" min="0" step="100" id="product-price-input"><br>
-                            <span>물품 수량:</span><input type="number" value="10" min="10" step="1" id="product-supplyQuantity-input"><br>
-                            <button id="removeProduct">물품 빼기</button>
-                        </div> `
-        productTag.insertAdjacentHTML('beforeend', html);
-        this.productList.push(new Product(productTag.lastElementChild));
+    addProductCard(event) {
+        const html = `<li class="product-card">
+            <input type="number" class="price" min="1000" placeholder="가격"></input>
+            <input type="text" class="title" maxlength="30" placeholder="반찬 이름"></input>
+            <textarea class="description" maxlength="100" placeholder="설명"></textarea>
+            <input type="number" class="quantity" min="1" placeholder="공급량"></input>
+        </li>`
+        event.target.insertAdjacentHTML('beforeBegin', html);
+        this.products.push(event.target.previousElementSibling);
+        if (this.products.length == 4) {
+            event.target.style.display = "none";
+        }
     }
 
-    removeProductCreateFormHandler(evt) {
-        const maybeRemoveProductBtn = evt.target;
-        if (maybeRemoveProductBtn.id === "removeProduct") {
-            for (let [i, product] of this.productList.entries()) {
-                if (product.productTag === maybeRemoveProductBtn.parentElement) {
-                    this.productList.splice(i, 1)
-                    maybeRemoveProductBtn.parentElement.remove();
-                    break;
-                }
-            }
+    highlightCard(event) {
+        if (!event.target.classList.contains("product-card")) {
+            return;
         }
+        event.target.classList.toggle("selected");
+    }
+
+    removeProductCard(evt) {
+        [...$all(".selected")].forEach(card => {
+            this.products.splice(this.products.indexOf(card), 1);
+            card.remove();
+        });
+        $(".product-add-button").removeAttribute("style");
     }
 
     setProjectInfoAll() {
@@ -197,7 +207,7 @@ class ProjectForm {
         if (!this.setProjectInfoAll()) return;
 
         const products = [];
-        for (const product of this.productList) {
+        for (const product of this.products) {
             let productInfo = product.setProductAll();
             if (productInfo === null) {
                 return;
@@ -249,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
     new ProjectForm();
     editor = new tui.Editor({
         el: document.querySelector("#editSection"),
-        initialEditType: "markdown",
+        initialEditType: "wysiwyg",
         hooks: {
             'addImageBlobHook': insertEditorImg
         },

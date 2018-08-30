@@ -13,9 +13,8 @@
 {{#partial "contents"}}
 <div class="project-create-form">
     <div class="thumbnail">
-        <img id="thumbnailUrl"><br>
+        <img id="thumbnailUrl" src="/image/upload-image.png"/>
         <input type="file" id="file-input" accept="image/*" style="display:none" autocomplete="off">
-        <!--<span class="tb-in-txt caution" id="project-img">메인 이미지 등록을 해주세요.</span>-->
     </div>
     <div>
         <div class="categories-dropbox">
@@ -28,7 +27,7 @@
         </div>
 
         <label for="title">제목</label>
-        <input type="text" id="title" placeholder="제목은 최소 1자, 최대 50자로 입력해 주세요"/>
+        <input type="text" id="title" placeholder="제목은 최소 1자, 최대 50자로 입력해 주세요" autocomplete="off"/>
 
         <label for="goalFundRaising">목표 금액</label>
         <input type="number" min="1000000" step="500000" id="goalFundRaising"
@@ -42,14 +41,10 @@
 
 <div class="product-grid">
     <h4>반찬 목록</h4>
-    <ul>
-        <li class="product-card">
-            <p class="price"><span>numberFormat price}}</span> 원</p>
-            <p class="title">title}}</p>
-            <p class="description">description}}</p>
-            <p class="quantity"><span class="remainedQuantity">numberFormat quantityRemained}}</span> 개 / <span
-                    class="suppliedQuantity">numberFormat quantitySupplied}}</span> 개</p>
-        </li>
+    <div class="trash-bin"></div>
+    <!--<img class="trash-bin" src="/image/trash.png" alt="쓰레기통">-->
+    <ul class="product-cards">
+        <li class="product-add-button"></li>
     </ul>
 </div>
 
@@ -57,7 +52,7 @@
     <div id="editSection"></div>
 </div>
 
-<button class="btn">프로젝트 시작하기</button>
+<button class="create-project-button">프로젝트 시작하기</button>
 
 <div id="myModal" class="modal">
     <div class="modal-content">

@@ -1,4 +1,4 @@
-input {
+input, select {
     display: block;
     width: 100%;
     height: 40px;
@@ -7,6 +7,11 @@ input {
     margin: 10px 0;
     border-radius: 5px;
     border: 1px #e4e4e4 solid;
+    outline: none;
+}
+
+input:hover, select:hover, input:focus, select:focus {
+    border: 1px #2bc2bc solid;
 }
 
 .project-create-form {
@@ -18,8 +23,13 @@ input {
 }
 
 .thumbnail {
-    height: 500px;
+    height: 572px;
     border: 2px dashed #aeaeae;
+    cursor: pointer;
+}
+
+.thumbnail:hover {
+    border: 2px dashed #2bc2bc;
 }
 
 .thumbnail img {
@@ -36,8 +46,23 @@ input {
 }
 
 .product-grid h4 {
-    margin: 0;
+    display: inline;
     font-size: 17px;
+    margin: 0;
+}
+
+.product-grid .trash-bin {
+    float: right;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background: url('/image/trash.png') no-repeat;
+    background-size: contain;
+}
+
+.product-grid .trash-bin:hover {
+    background: url('/image/trash-red.png') no-repeat;
+    background-size: contain;
 }
 
 .product-grid ul {
@@ -47,54 +72,51 @@ input {
     margin: 16px 0;
 }
 
-.product-grid .product-card {
+.product-card {
     border: 2px #efefef solid;
-    padding: 0 20px;
+    font-size: 15px;
+    padding: 0 10px;
     height: 290px;
     cursor: pointer;
 }
 
-.product-grid .product-card:hover {
+.product-card:hover {
     background: #fafafa;
 }
 
-.product-grid .product-card.in {
-    border: 2px #2bc2bc solid;
-    background: #22bbcc0d;;
-}
-
-.product-card .price {
-    font-size: 15px;
-}
-
-.product-card .price span {
-    font-weight: bolder;
-    font-size: 20px;
-    color: #805c34;
-}
-
-.product-card .title {
-    font-size: 17px;
-}
-
 .product-card .description {
-    color: gray;
-    font-size: 15px;
-    height: 135px;
+    display: block;
+    width: 100%;
+    height: 120px;
+    padding-left: 10px;
+    margin: 10px 0px;
+    border-radius: 5px;
+    border: 1px solid #e4e4e4;
+    padding-top: 5px;
+    resize: none;
+    outline: none;
     overflow: scroll;
 }
 
-.product-card .quantity {
-    font-size: 15px;
+.product-add-button {
+    border: 2px #efefef solid;
+    padding: 0 10px;
+    height: 290px;
+    cursor: pointer;
+    background: url('/image/add-button.png') center;
 }
 
-.product-card .remainedQuantity {
-    font-size: 20px;
-    font-weight: bolder;
-    color: #805c34;
+.product-add-button:hover {
+    background: url('/image/add-button-hover.png') center;
+    border: 2px #2bc2bc solid;
 }
 
-.btn {
+.product-card.selected {
+    border: 2px #2bc2bc solid;
+    background: #22bbcc0d;
+}
+
+.create-project-button {
      height: 40px;
      font-size: 18px;
      background-color: #2bc2bc;
@@ -107,11 +129,9 @@ input {
      outline: none;
  }
 
-.btn:hover {
+.create-project-button:hover {
     background: #17aba6;
 }
-
-
 
 /* The Modal (background) */
 .modal {
