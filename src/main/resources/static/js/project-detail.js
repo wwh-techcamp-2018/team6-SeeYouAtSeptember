@@ -115,8 +115,8 @@ class ProductBtns {
         const productPrice = liElement.dataset.productPrice.replace(/[^0-9]/g, '');
 
         const supportForm = {
-            "productDTO":{
-                    "pid": liElement.dataset.productId,
+            "productDTO": {
+                "pid": liElement.dataset.productId,
             },
             "quantity": quantity
         };
@@ -174,7 +174,7 @@ class ProductBtns {
             return;
         }
 
-        if (response.status === 200) {
+        if (response.status === 201) {
             response.json().then(result => {
                 this.requestImport(result);
             })
@@ -192,6 +192,7 @@ class ProductBtns {
             buyer_tel: result.userDTO.phoneNo,
             buyer_addr: result.userDTO.address
         }, function (rsp) {
+
             if (rsp.success) {
                 fetchManager({
                     url: '/api/orders',
@@ -200,9 +201,16 @@ class ProductBtns {
                     body: rsp.merchant_uid,
                     callback: successCallback
                 });
-            } else {
-                alert("결제가 실패하였습니다.");
+                return;
             }
+
+            fetchManager({
+                url: '/api/orders/fail',
+                method: 'PUT',
+                headers: {'content-type': 'application/json'},
+                body: result.merchantUid,
+                callback: successCallback
+            });
         })
     }
 
@@ -235,7 +243,8 @@ document.addEventListener("DOMContentLoaded", () => {
     fillProgressBar(500);
 
     //websocket 테스트용 api입니다 나중에 삭제해야해요!
-    addEventListenerToTarget($(".project-title"),"click",function (evt) {
-        getData('/api/projects/test/'+document.location.href.split('/')[4],()=>{})
+    addEventListenerToTarget($(".project-title"), "click", function (evt) {
+        getData('/api/projects/test/' + document.location.href.split('/')[4], () => {
+        })
     })
 });

@@ -3,47 +3,47 @@
 <link rel="stylesheet" type="text/css" href="/css/user.css">
 {{/partial}}
 {{#partial "contents"}}
-        <form id="join-form" class="form">
-            <div class="thumbnail">
-                <img src="/image/join-baedal.png" alt="">
-            </div>
-            <label for="email">이메일</label>
-            <input type="text" id="email" placeholder="이메일" autocomplete="off">
-
-            <label for="pw1">비밀번호</label>
-            <input type="password" id="pw1" placeholder="8-16 자리 영문, 숫자 조합" autocomplete="off">
-            <input type="password" id="pw2" placeholder="비밀번호 확인" autocomplete="off">
-
-            <label for="name">이름</label>
-            <input type="text" id="name" placeholder="이름" autocomplete="off">
-
-            <label for="phone-first">휴대 전화</label>
-            <div class="phone">
-                <input type="text" maxlength="3" id="phone-first" title="휴대 전화 번호 앞자리" autocomplete="off">
-                <span>  -  </span>
-                <input type="text" maxlength="4" id="phone-middle" title="휴대 전화 번호 중간자리" autocomplete="off">
-                <span>  -  </span>
-                <input type="text" maxlength="4" id="phone-last" title="휴대 전화 번호 뒷자리" autocomplete="off">
-            </div>
-
-            <label for="address">주소</label>
-            <div>
-                <input type="text" name="address" id="postcode" title="주소" class="address-search disabled" disabled>
-                <button class="address-search">주소 찾기</button>
-            </div>
-            <input type="text" name="address" id="address" title="주소" class="disabled" disabled>
-            <input type="text" name="address" id="address-detail" title="주소" placeholder="상세주소" autocomplete="off">
-
-            <div id="layer"
-                 style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
-                <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer"
-                     style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1"
-                     onclick="addressAPI.closeDaumPostcode()" alt="닫기 버튼">
-            </div>
-
-            <button class="btn"> 가입 완료 </button>
-        </form>
+<form id="join-form" class="form">
+    <div class="thumbnail">
+        <img src="/image/join-baedal.png" alt="">
     </div>
+    <label for="email">이메일</label>
+    <input type="text" id="email" placeholder="이메일" autocomplete="off">
+
+    <label for="pw1">비밀번호</label>
+    <input type="password" id="pw1" placeholder="8-16 자리 영문, 숫자 조합" autocomplete="off">
+    <input type="password" id="pw2" placeholder="비밀번호 확인" autocomplete="off">
+
+    <label for="name">이름</label>
+    <input type="text" id="name" placeholder="이름" autocomplete="off">
+
+    <label for="phone-first">휴대 전화</label>
+    <div class="phone">
+        <input type="text" maxlength="3" id="phone-first" title="휴대 전화 번호 앞자리" autocomplete="off">
+        <span>  -  </span>
+        <input type="text" maxlength="4" id="phone-middle" title="휴대 전화 번호 중간자리" autocomplete="off">
+        <span>  -  </span>
+        <input type="text" maxlength="4" id="phone-last" title="휴대 전화 번호 뒷자리" autocomplete="off">
+    </div>
+
+    <label for="address">주소</label>
+    <div>
+        <input type="text" name="address" id="postcode" title="주소" class="address-search disabled" disabled>
+        <button class="address-search">주소 찾기</button>
+    </div>
+    <input type="text" name="address" id="address" title="주소" class="disabled" disabled>
+    <input type="text" name="address" id="address-detail" title="주소" placeholder="상세주소" autocomplete="off">
+
+    <div id="layer"
+         style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+        <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer"
+             style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1"
+             onclick="addressAPI.closeDaumPostcode()" alt="닫기 버튼">
+    </div>
+
+    <button class="btn"> 가입 완료</button>
+</form>
+</div>
 {{/partial}}
 {{#partial "script"}}
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>

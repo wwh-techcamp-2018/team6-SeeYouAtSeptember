@@ -43,7 +43,7 @@ public class OrderHistory extends BaseTimeEntity {
                 .product(product)
                 .normalUser(normalUser)
                 .quantity(orderHistoryDTO.getQuantity())
-                .status(STATUS.FAIL)
+                .status(STATUS.PENDING)
                 .build();
     }
 
@@ -80,9 +80,15 @@ public class OrderHistory extends BaseTimeEntity {
         return this.product.getPrice() * quantity;
     }
 
+    public void updatePendingOrderIntoFail() {
+        this.status = STATUS.FAIL;
+        product.rollbackQuantityRemained(quantity);
+    }
+
     public enum STATUS {
         SUCCESS,
         FAIL,
-        CANCEL
+        CANCEL,
+        PENDING
     }
 }

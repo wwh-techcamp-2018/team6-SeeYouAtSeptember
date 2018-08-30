@@ -17,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,7 +43,6 @@ public class OrderHistoryService {
 
     @Transactional
     public OrderHistoryDTO createOrder(List<OrderHistoryDTO> orderHistoryDTOList, UserDTO userDTO) {
-        // TODO: 2018. 8. 28. 유효갯수 이상 구매시 에러발생
         String merchantUid = UUID.randomUUID().toString();
 
         List<OrderHistory> orderHistories = orderHistoryDTOList.stream().map(orderHistoryDTO -> orderHistoryRepository.
@@ -59,6 +61,20 @@ public class OrderHistoryService {
                 .updateCurrentFundRaising(orderHistory.calculateTotalProductPrice()));
 
         projectUpdateEventPublisher.publishEvent(orderHistories.get(0).getProject());
+    }
+
+    @Transactional
+    public void updatePendingOrderHistory() {
+        Date limitTime = Date.from(LocalDateTime.now().minusMinutes(5).atZone(ZoneId.systemDefault()).toInstant());
+
+        orderHistoryRepository.findByStatusAndCreatedAtLessThan(OrderHistory.STATUS.PENDING, limitTime)
+                .forEach(orderHistory -> orderHistory.updatePendingOrderIntoFail());
+    }
+
+    @Transactional
+    public void orderFail(UserDTO loginUserDTO, String oid) {
+        orderHistoryRepository.findByMerchantUidAndNormalUser(oid, getNormalUser(loginUserDTO))
+                .orElseThrow(OrderNotFoundException::new).forEach(orderHistory -> orderHistory.updatePendingOrderIntoFail());
     }
 
     private Product getProduct(OrderHistoryDTO orderHistoryDTO) {
