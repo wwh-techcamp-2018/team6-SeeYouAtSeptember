@@ -55,9 +55,7 @@ public class OrderHistory extends BaseTimeEntity {
         return this.status == status ? getProject() : null;
     }
 
-    public NormalUser getNormalUser(STATUS status) {
-        return this.status == status ? normalUser : null;
-    }
+    public NormalUser getNormalUser(STATUS status) { return this.status == status ? normalUser : null; }
 
     public OrderHistoryDTO toDTO(int size, Long totalPurchasePrice) {
         if (size == 1) {

@@ -18,4 +18,8 @@ public abstract class BaseTimeEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdAt;
+
+    public static Long getTodayTime(){
+        return new Date().getTime();
+    }
 }
