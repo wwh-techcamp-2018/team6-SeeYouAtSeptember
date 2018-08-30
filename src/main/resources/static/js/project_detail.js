@@ -76,8 +76,8 @@ class ProductBtns {
         const productPrice = liElement.dataset.productPrice.replace(/[^0-9]/g, '');
 
         const supportForm = {
-            "productDTO":{
-                    "pid": liElement.dataset.productId,
+            "productDTO": {
+                "pid": liElement.dataset.productId,
             },
             "quantity": quantity
         };
@@ -205,7 +205,8 @@ document.addEventListener("DOMContentLoaded", () => {
     fillProgressBar(500);
 
     //websocket 테스트용 api입니다 나중에 삭제해야해요!
-    addEventListenerToTarget($(".project-title"),"click",function (evt) {
-        getData('/api/projects/test/'+document.location.href.split('/')[4],()=>{})
+    addEventListenerToTarget($(".project-title"), "click", function (evt) {
+        getData('/api/projects/test/' + document.location.href.split('/')[4], () => {
+        })
     })
 });
