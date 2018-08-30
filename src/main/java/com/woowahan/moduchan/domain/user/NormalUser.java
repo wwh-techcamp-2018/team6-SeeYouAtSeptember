@@ -1,6 +1,7 @@
 package com.woowahan.moduchan.domain.user;
 
 import com.woowahan.moduchan.dto.user.UserDTO;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

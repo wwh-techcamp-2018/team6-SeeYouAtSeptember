@@ -48,7 +48,6 @@ public class ProjectDTOTest {
         assertThat(constraintViolcations.size()).isEqualTo(0);
     }
 
-
     @Test
     public void prjectValid_실패_목표금액_100만원_이하() {
         ProjectDTO projectDTO = new ProjectDTO(2L, null, "프로젝트", "프로젝트설명"
@@ -75,7 +74,6 @@ public class ProjectDTOTest {
         Set<ConstraintViolation<ProjectDTO>> constraintViolcations = validator.validate(projectDTO);
         assertThat(constraintViolcations.size()).isEqualTo(1);
     }
-
 
     @Test
     public void prjectValid_실패_목표금액미만() {
