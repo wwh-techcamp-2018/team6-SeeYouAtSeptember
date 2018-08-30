@@ -39,6 +39,7 @@ dependencies {
 	compile('mysql:mysql-connector-java:+')
 	compile('com.auth0:java-jwt:+')
 	compile('org.springframework.cloud:spring-cloud-starter-aws')
+	compile('org.flywaydb:flyway-core:5.1.4')
 	runtime('com.h2database:h2')
 	runtime('net.rakugakibox.spring.boot:logback-access-spring-boot-starter:+')
 	compileOnly('org.projectlombok:lombok:+')
