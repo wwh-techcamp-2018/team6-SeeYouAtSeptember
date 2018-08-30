@@ -189,19 +189,15 @@ class ProjectForm {
 
     submitCreateProjectForm(evt) {
         evt.preventDefault();
-        if (!this.setProjectInfoAll()) return;
-        if (this.products.length === 0) {
-            return;
-        }
         const products = [];
-        let validation = true;
+        let validation = this.setProjectInfoAll();
         for (const product of this.products) {
             let productInfo = new Product(product);
             validation &= productInfo.setProductAll();
             products.push(productInfo.product);
         }
 
-        if (!validation) {
+        if (!validation || this.products.length === 0) {
             return;
         }
 
