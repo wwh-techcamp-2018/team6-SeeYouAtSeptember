@@ -108,9 +108,26 @@ function bodyClickHandler(evt) {
         return;
     }
 }
+let myInterval
+
+function changeToGif(evt) {
+    evt.target.src = "/image/dacing.gif";
+}
+
+function setMyInterval(evt) {
+    evt.target.src = "/image/dacing.gif";
+    myInterval = setInterval(()=>{changeToGif(evt)},1400);
+}
+
+function changeToPng(evt) {
+    evt.target.src = "/image/woowa-tech.png";
+    clearInterval(myInterval);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     addEventListenerToTarget($("#my-project-btn"), "click", myProjectClickHandler);
     addEventListenerToTarget($("#logout"), "click", logoutHandler);
     addEventListenerToTarget($("body"), "click", bodyClickHandler);
+    addEventListenerToTarget($("#footer .footer-woowa-tect-img"), "mouseover", setMyInterval);
+    addEventListenerToTarget($("#footer .footer-woowa-tect-img"), "mouseout", changeToPng);
 });
