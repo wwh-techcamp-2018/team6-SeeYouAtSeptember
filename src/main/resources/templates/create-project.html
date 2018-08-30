@@ -1,0 +1,90 @@
+{{#partial "header"}}
+<link rel="stylesheet" href="/css/category.css"/>
+<link rel="stylesheet" href="/css/create-project.css"/>
+<link rel="stylesheet" href="/css/croppie.css"/>
+<link rel="stylesheet" href="/tui-editor/lib/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="/tui-editor/lib/highlightjs/styles/github.css">
+<link rel="stylesheet" href="/tui-editor/dist/tui-editor.css">
+<link rel="stylesheet" href="/tui-editor/dist/tui-editor-contents.css">
+<link rel="stylesheet" href="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.css">
+<link rel="stylesheet" href="/tui-editor/lib/tui-chart/dist/tui-chart.css">
+{{/partial}}
+
+{{#partial "contents"}}
+<div class="project-create-form">
+    <div class="thumbnail">
+        <img id="thumbnailUrl" src="/image/upload-image.png"/>
+        <input type="file" id="file-input" accept="image/*" style="display:none" autocomplete="off">
+    </div>
+    <div>
+        <div class="categories-dropbox">
+            <label for="category">카테고리</label>
+            <select id="category">
+                {{#categories}}
+                <option value="{{id}}">{{title}}</option>
+                {{/categories}}
+            </select>
+        </div>
+
+        <label for="project-title">제목</label>
+        <input type="text" id="project-title" placeholder="제목은 최소 1자, 최대 50자로 입력해 주세요" autocomplete="off"/>
+
+        <label for="project-goalFundRaising">목표 금액</label>
+        <input type="number" min="1000000" step="500000" id="project-goalFundRaising"
+        placeholder="목표 금액은 최소 1백만 원, 최대 1억 원 입니다." autocomplete="off"/>
+
+        <label for="project-endAt">마감 날짜</label>
+        <input type="date" id="project-endAt" placeholder="현재 날짜의 30일 이후, 180일 이전으로 날짜를 등록해 주세요" autocomplete="off"/>
+        <!--<span class="tb-in-txt caution" id="project-end">현재 날짜의 30일 이후, 180일 이전으로 날짜를 등록해 주세요</span>-->
+    </div>
+</div>
+
+<div class="product-grid">
+    <h4>반찬 목록</h4>
+    <div class="trash-bin"></div>
+    <ul class="product-cards">
+        <li class="product-add-button"></li>
+    </ul>
+</div>
+
+<div class="edit-des">
+    <div id="editSection"></div>
+</div>
+
+<button class="create-project-button">프로젝트 시작하기</button>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+            <button class="close">Close</button>
+            <button id="crop-btn">Crop</button>
+        </div>
+    </div>
+</div>
+{{/partial}}
+
+{{#partial "script"}}
+<script src="/tui-editor/lib/jquery/dist/jquery.js"></script>
+<script src="/tui-editor/lib/markdown-it/dist/markdown-it.js"></script>
+<script src="/tui-editor/lib/to-mark/dist/to-mark.js"></script>
+<script src="/tui-editor/lib/tui-code-snippet/dist/tui-code-snippet.js"></script>
+<script src="/tui-editor/lib/tui-color-picker/dist/tui-color-picker.js"></script>
+<script src="/tui-editor/lib/codemirror/lib/codemirror.js"></script>
+<script src="/tui-editor/lib/highlightjs/highlight.pack.js"></script>
+<script src="/tui-editor/lib/squire-rte/build/squire-raw.js"></script>
+<script src="/tui-editor/lib/raphael/raphael.js"></script>
+<script src="/tui-editor/lib/tui-chart/dist/tui-chart.js"></script>
+<script src="/tui-editor/dist/tui-editor-Editor.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/product.js"></script>
+<script src="/js/project.js"></script>
+<script src="/js/croppie.js"></script>
+
+{{/partial}}
+
+{{> base}}

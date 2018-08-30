@@ -2,120 +2,85 @@
     display: none;
 }
 
+input {
+    display: block;
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    padding-left: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px #e4e4e4 solid;
+}
+
 ul {
     -webkit-padding-start: 0px;
     list-style: none;
 }
 
-/* login */
-#login {
-    position: absolute;
-    width: 500px;
-    margin: 50px 230px;
+.form {
+    width: 300px;
+    margin: 50px auto;
+    box-shadow: 0 1px 2px 1px #efefef;
+    padding: 40px 35px;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
 }
 
-#login .login-box {
-    width: 100%;
-}
-
-#login .login-box .h2-tlt {
-    font-size: 25px;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-#login .login-box form li {
-    margin-bottom: 10px;
-}
-
-#login .login-box form .input-label {
-    display: inline-block;
-    width: 75px;
-    font-size: 20px;
-    text-align: center;
-}
-
-#login .login-box form input.input {
-    display: inline-block;
-    width: 395px;
-    height: 40px;
-    font-size: 20px;
-    margin-left: 10px;
-    padding-left: 10px;
-}
-
-#login .login-box form button.btn-login {
-    width: 100%;
-    height: 60px;
-    font-size: 20px;
-    background-color: #2ac1bc;
-    color: white;
+.thumbnail {
+    width: 70%;
+    margin: 0 auto;
     margin-bottom: 20px;
 }
 
-#login .login-box form p.err-msg {
-    display: none;
-    font-size: 25px;
-    color: #F45452;
-    padding-top: 30px;
-    text-align: center;
-}
-
-/* join */
-#join {
-    position: absolute;
-    margin: 50px auto;
-    width: 960px;
-}
-
-#join .join-box {
+.thumbnail img {
     width: 100%;
 }
 
-#join .join-box .h2-tlt {
-    font-size: 40px;
-    padding-bottom: 15px;
-    border-bottom: 3px solid black;
+.form form {
+    margin: 20px 0px 10px 0px;
 }
 
-#join .join-box .tb-join {
-    width: 980px;
-    margin-top: 30px;
+input:focus, input:hover {
+    border: 1px #2ac1bc solid;
 }
 
-#join .join-box .tb-join tr {
-    height: 50px;
+.phone input {
+    width: 30%;
+    display: inline;
 }
 
-#join .join-box .tb-join th {
-    text-align: left;
+.phone span {
+    margin: 0 1px;
 }
 
-#join .join-box input {
-    width: 170px;
-    height: 30px;
-    padding-left: 5px;
-    display: inline-block;
+button {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    background: #2ac1bc;
+    color: white;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-#join .join-box input.small {
-    width: 73px;
+button:hover {
+    background: #17aba6;
 }
 
-#join .join-box input.large {
-    width: 250px;
+.address-search {
+    width: 49%;
+    float: left;
 }
 
-#join .join-box div.selectric-wrapper {
-    display: inline-block;
+.address-search:first-child {
+    margin-right: 2%;
 }
 
-#join .join-box div.selectric-wrapper select {
-    height: 35px;
-}
-
-span.tb-in-txt.caution {
-    color: red;
-    font-weight: bold;
-    display: none;
+.disabled {
+    background: #efefef;
 }

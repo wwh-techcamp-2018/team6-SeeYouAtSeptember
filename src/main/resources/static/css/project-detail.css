@@ -1,4 +1,4 @@
-ul {
+ul, li {
     -webkit-padding-start: 0px;
     list-style: none;
 }
@@ -6,7 +6,7 @@ ul {
 /*project-detail*/
 
 #project-detail {
-    position: absolute;
+    position: relative;
     width: inherit;
 }
 
@@ -40,75 +40,72 @@ ul {
     grid-template-areas: "description product";
 }
 
-#project-detail .separator {
-    border: 2px solid #2bc2bc;
-    margin: 25px 0;
-}
-
 #project-detail .project-detail-grid .thumbnail-img {
-   min-width: 100%;
-   min-height: 100%;
-   max-width: 120%;
-   max-height: 120%;
-   align-self: center;
-   justify-self: center;
-   position: absolute;
-   top: 0;
-   left: 0;
-   height: auto;
-   -webkit-transform: translate(-50%,-50%);
-   -ms-transform: translate(-50%,-50%);
-   transform: translate(-50%,-50%);
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 120%;
+    max-height: 120%;
+    align-self: center;
+    justify-self: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 #project-detail .project-detail-grid#row1 .thumbnail-container {
-   display: grid;
-   grid-area: img;
-   top: 50%;
-   overflow: hidden;
-   position: relative;
+    display: grid;
+    grid-area: img;
+    top: 50%;
+    overflow: hidden;
+    position: relative;
 }
 
 #project-detail .project-detail-grid#row1 .thumbnail-centered {
-   position: absolute;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
-   -webkit-transform: translate(50%,50%);
-   -ms-transform: translate(50%,50%);
-   transform: translate(50%,50%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+    transform: translate(50%, 50%);
 }
 
 #project-detail .project-detail-grid#row1 .summary-container {
     grid-area: summary;
-    width: 80%;
-    padding: 0 10%;
+    width: 90%;
+    margin-left: 10%;
+    position: relative;
 }
 
-#project-detail .project-detail-grid#row1 .summary-container #state-box {
+#state-box {
     width: 100%;
 }
 
-#project-detail .project-detail-grid#row1 .summary-container #state-box .project-title {
+#state-box .project-title {
     font-size: 30px;
     font-weight: bold;
 }
 
-#project-detail .project-detail-grid#row1 .summary-container #state-box .remainning-day {
-    font-size: 30px;
-    font-weight: bold;
+#state-box .remainning-day {
+    font-size: 15px;
 }
 
-#project-detail .project-detail-grid#row1 .summary-container #state-box .progress {
-    margin-bottom: 35px;
+#state-box .progress {
+    margin-top: 50px;
+    margin-bottom: 20px;
     height: 5px;
     background-color: #e6eaed;
     border-radius: 1px;
+    position: relative;
 }
 
-#project-detail .project-detail-grid#row1 .summary-container #state-box #progress-inner-bar {
-    display: block;
+#progress-inner-bar {
+    display: inline-block;
     height: 100%;
     max-width: 100%;
     width: 0%;
@@ -118,126 +115,180 @@ ul {
     transition: all 2s;
 }
 
-#project-detail .project-detail-grid#row1 .summary-container #state-box p {
-    font-size: 15px;
-    margin: 0 0 40px 0;
+#state-box .progress .baedal-img {
+    position: absolute;
+    display: inline-block;
+    width: 50px;
+    top: -40px;
+    float: left;
+    margin-left: 0%;
+    left: -5px;
+    transform: rotate(0deg);
+    transition-property: margin-left, transform;
+    transition-duration: 2s, 1s;
 }
 
-#project-detail .project-detail-grid#row1 .summary-container #state-box p strong {
-    font-size: 30px;
+#state-box p {
+    font-size: 15px;
+    margin: 0 0 15px 0;
+}
+
+#state-box p span {
+    font-size: 35px;
+    margin: 0 5px;
 }
 
 #project-detail .project-detail-grid#row1 .summary-container .support-btn {
-    width: 100%;
-    height: 50px;
-    font-size: 20px;
+    height: 40px;
+    font-size: 18px;
     background-color: #2bc2bc;
     color: white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-btn:hover {
+    background: #17aba6;
+}
+
+.summary-container .support-product-cart {
+    height: 115px;
+    background: #fafafa;
+    border: 1px #efefef solid;
+    border-radius: 5px;
+    overflow: scroll;
+}
+
+.summary-container .support-product-cart ul {
+    margin: 10px 0px;
+}
+
+.summary-container .support-product-cart li {
+    margin: 2px 0;
+    font-size: 15px;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart li div {
+    display: inline-block;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart .title {
+    width: 50%;
+    padding-left: 20px;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart .amount {
+    width: 30%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart .amount input {
+    text-align: left;
+    width: 60px;
+    margin-right: 10px;
+    padding-left: 5px;
+}
+
+#project-detail .project-detail-grid#row1 .summary-container .support-product-cart .close {
+    width: 5%;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cart-total {
+    font-size: 20px;
+    margin-top: 18px;
+}
+
+.cart-total #won {
+    float: right;
+}
+
+.cart-total #money {
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+.product-grid {
+    width: 916px;
+    border-top: 2px #efefef solid;
+    border-bottom: 2px #efefef solid;
+    height: 330px;
+    margin-top: 40px;
+    padding: 20px;
+}
+
+.product-grid h4 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.product-grid ul {
+    display: grid;
+    grid-template-columns: repeat(4, 214px);
+    grid-gap: 20px;
+    margin: 16px 0;
+}
+
+.product-grid .product-card {
+    border: 2px #efefef solid;
+    padding: 0 20px;
+    height: 290px;
+    cursor: pointer;
+}
+
+.product-grid .product-card.soldout {
+    background: #efefef;
+}
+
+.product-grid .product-card:hover {
+    background: #fafafa;
+}
+
+.product-grid .product-card.in {
+    border: 2px #2bc2bc solid;
+    background: #22bbcc0d;;
+}
+
+.product-card .price {
+    font-size: 15px;
+}
+
+.product-card .price span {
+    font-weight: bolder;
+    font-size: 20px;
+    color: #805c34;
+}
+
+.product-card .title {
+    font-size: 17px;
+}
+
+.product-card .description {
+    color: gray;
+    font-size: 15px;
+    height: 135px;
+    overflow: scroll;
+}
+
+.product-card .quantity {
+    font-size: 15px;
+}
+
+.product-card .remainedQuantity {
+    font-size: 20px;
+    font-weight: bolder;
+    color: #805c34;
 }
 
 #project-detail .project-detail-grid#row2 .container {
     width: 100%;
     height: auto;
-}
-
-#project-detail .project-detail-grid#row2 .product-container .product-title p {
-    margin: 0 0 30px 0;
-    font-size: 25px;
-    text-align: center;
-}
-
-#project-detail .project-detail-grid#row2 .product-container .product-btn {
-    width: 50%;
-    margin: 0 15% 30px;
-    padding: 20px 10%;
-    background-color: white;
-    border: 1px solid lightgray;
-    border-radius: 10px;
-    position: relative;
-}
-
-#project-detail .project-detail-grid#row2 .product-container .product-btn.soldout {
-    width: 50%;
-    margin: 0 15% 30px;
-    padding: 20px 10%;
-    background-color: rgba(47, 47, 47, 0.51);
-    border: 1px solid lightgray;
-    border-radius: 10px;
-}
-
-#project-detail .project-detail-grid#row2 .product-btn .product-info-container div {
-    margin: 15px 0;
-    width: 100%;
-    text-align: left;
-    font-size: 12px;
-    color: #565656;
-}
-
-#project-detail .project-detail-grid#row2 .product-btn .product-info-container div strong {
-    font-size: 15px;
-    color: black;
-}
-
-#project-detail .project-detail-grid#row2 .product-btn .product-info-title {
-    font-size: 18px;
-    color: black;
-    font-weight: bold;
-}
-
-#project-detail .project-detail-grid#row2 .product-btn .product-support {
-    display: none;
-}
-
-#project-detail .project-detail-grid#row2 .product-btn .product-support input {
-    width: 60px;
-}
-
-#project-detail .project-detail-grid#row2 .product-btn .product-support button {
-    width: 60px;
-}
-
-#project-detail .project-detail-grid#row2 .product-btn .product-caution {
-    display: none;
-    color: red;
-    background-color: rgba(100, 255, 255, 0.31);
-    font-size: 18px;
-}
-
-#project-detail .project-detail-grid#row2 .product-container .product-list {
-    position: relative;
-}
-
-#project-detail .project-detail-grid#row2 .product-container .not-engough-quantity-caution{
-    position: absolute;
-    background-color: rgba(255, 0, 0, 0.51);
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    margin: -20px -38px;
-    border-radius: 10px;
-    display: none;
-}
-
-#project-detail .not-engough-quantity-caution .caution-str {
-    text-align: center;
-    margin-top: 35%;
-    font-size: 30px;
-    color: black;
-    background-color: red;
-}
-
-#project-detail .project-detail-grid#row2 .product-container .need-login-cover {
-    position: absolute;
-    margin: 0 10%;
-    height: 100%;
-    width: 80%;
-    background-color: rgba(0, 0, 0, 0.51);
-    color: white;
-    border-radius: 10px;
-}
-
-#project-detail .project-detail-grid#row2 .product-container .need-login-cover p {
-    text-align: center;
-    font-size: 25px;
-    font-weight: bold;
 }

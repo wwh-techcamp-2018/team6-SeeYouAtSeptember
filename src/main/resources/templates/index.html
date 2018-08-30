@@ -1,9 +1,132 @@
+{{#partial "header"}}
+<link rel="stylesheet" href="/css/index.css"/>
+<link rel="stylesheet" href="/css/category.css"/>
+{{/partial}}
+
 {{#partial "contents"}}
-<div class="promotion">
+<div class="promotion"></div>
+<div class="index-projects">
+    <div class="index-projects-row">
+        <div class="index-projects-row odd">
+            <div class="project-order-text">
+                <p>MD 추천 반찬</p>
+                <h4>먹어보면 후회하지 않아요 TOP3</h4>
+            </div>
+            <ul class="projects">
+                {{#projectsRecommendation}}
+                <a href="/projects/{{pid}}">
+                    <li data-project-id="{{pid}}">
+                        <div class="project-img">
+                            <img src="{{thumbnailUrl}}"/>
+                        </div>
+                        <div class="project-div">
+                            <div class="title">
+                                <h4>
+                                    {{title}}
+                                </h4>
+                                <span class="name">
+                                {{owner}}
+                            </span><br>
+                                <span class="current-fund-raising">
+                                {{currentFundRaising}}원
+                            </span><br>
+                            </div>
+                            <div class="progress">
+                                <span style="width:{{progress}}%"></span>
+                            </div>
+                            <span>
+                                {{progress}}%
+                            </span>
+                            <span class="day-remaining">
+                                {{dayRemainingUntilDeadline}}일 남음
+                            </span>
+                        </div>
+                    </li>
+                </a>
+                {{/projectsRecommendation}}
+            </ul>
+        </div>
+        <div class="project-order-text">
+            <p>가장 인기있는 반찬</p>
+            <h4>당신빼고 거의 다샀어요 TOP 3</h4>
+        </div>
+        <ul class="projects">
+            {{#projectsOrderByCurrentFund}}
+            <a href="/projects/{{pid}}">
+                <li data-project-id="{{pid}}">
+                    <div class="project-img">
+                        <img src="{{thumbnailUrl}}"/>
+                    </div>
+                    <div class="project-div">
+                        <div class="title">
+                            <h4>
+                                {{title}}
+                            </h4>
+                            <span class="name">
+                                {{owner}}
+                            </span><br>
+                            <span class="current-fund-raising">
+                                {{currentFundRaising}}원
+                            </span><br>
+                        </div>
+                        <div class="progress">
+                            <span style="width: {{progress}}%"></span>
+                        </div>
+                        <span>
+                                {{progress}}%
+                            </span>
+                        <span class="day-remaining">
+                                {{dayRemainingUntilDeadline}}일 남음
+                            </span>
+                    </div>
+                </li>
+            </a>
+            {{/projectsOrderByCurrentFund}}
+        </ul>
+    </div>
+    <div class="index-projects-row last">
+        <div class="project-order-text">
+            <p>마감시간 임박 반찬</p>
+            <h4>지금아니면 못사요 TOP 3</h4>
+        </div>
+        <ul class="projects">
+            {{#projectsOrderByEndAt}}
+            <a href="/projects/{{pid}}">
+                <li data-project-id="{{pid}}">
+                    <div class="project-img">
+                        <img src="{{thumbnailUrl}}"/>
+                    </div>
+                    <div class="project-div">
+                        <div class="title">
+                            <h4>
+                                {{title}}
+                            </h4>
+                            <span class="name">
+                                {{owner}}
+                            </span><br>
+                            <span class="current-fund-raising">
+                                {{currentFundRaising}}원
+                            </span><br>
+                        </div>
+                        <div class="progress">
+                            <span style="width: {{progress}}%"></span>
+                        </div>
+                        <span>
+                                {{progress}}%
+                            </span>
+                        <span class="day-remaining">
+                                {{dayRemainingUntilDeadline}}일 남음
+                            </span>
+                    </div>
+                </li>
+            </a>
+            {{/projectsOrderByEndAt}}
+        </ul>
+    </div>
 </div>
 {{/partial}}
 
-{{#partial "footer"}}
+{{#partial "script"}}
 <script src="/js/promotion.js"></script>
 {{/partial}}
 

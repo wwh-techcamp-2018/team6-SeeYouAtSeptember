@@ -3,13 +3,13 @@ package com.woowahan.moduchan.service;
 import com.woowahan.moduchan.domain.project.Project;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
+import com.woowahan.moduchan.event.ProjectUpdateEventPublisher;
 import com.woowahan.moduchan.exception.CategoryNotFoundException;
 import com.woowahan.moduchan.exception.ProjectNotFoundException;
 import com.woowahan.moduchan.exception.UnAuthorizedException;
 import com.woowahan.moduchan.exception.UserNotFoundException;
 import com.woowahan.moduchan.repository.CategoryRepository;
 import com.woowahan.moduchan.repository.NormalUserRepository;
-import com.woowahan.moduchan.repository.ProductUserMapRepository;
 import com.woowahan.moduchan.repository.ProjectRepository;
 import com.woowahan.moduchan.support.S3Util;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,15 +29,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ProjectService {
+    private final List<Long> recommendationProjectIds = new ArrayList<>(Arrays.asList(1L, 2L, 3L));
     private final S3Util s3Util;
+    //websocket 테스트용 api입니다 나중에 삭제해야해요!
+    @Autowired
+    ProjectUpdateEventPublisher projectUpdateEventPublisher;
     @Autowired
     private ProjectRepository projectRepository;
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
     private NormalUserRepository normalUserRepository;
-    @Autowired
-    private ProductUserMapRepository productUserMapRepository;
 
     public List<ProjectDTO> getProjects() {
         return projectRepository.findAll().stream()
@@ -45,7 +49,7 @@ public class ProjectService {
 
     public ProjectDTO getProject(Long pid) {
         return projectRepository.findById(pid)
-                .orElseThrow(() -> new ProjectNotFoundException("pid " + pid))
+                .orElseThrow(() -> new ProjectNotFoundException())
                 .toDTO();
     }
 
@@ -54,9 +58,9 @@ public class ProjectService {
         Project newProject = Project.from(
                 projectDTO,
                 categoryRepository.findById(projectDTO.getCid())
-                        .orElseThrow(() -> new CategoryNotFoundException("cid: " + projectDTO.getCid())),
+                        .orElseThrow(() -> new CategoryNotFoundException()),
                 normalUserRepository.findById(writer.getUid())
-                        .orElseThrow(() -> new UserNotFoundException("uid: " + writer.getUid())));
+                        .orElseThrow(() -> new UserNotFoundException()));
         projectDTO.getProducts().stream().forEach(productDTO -> newProject.addProduct(productDTO));
         projectRepository.save(newProject);
     }
@@ -64,10 +68,9 @@ public class ProjectService {
     @Transactional
     public void deleteProject(Long pid, UserDTO userDTO) {
         Project project = projectRepository.findById(pid)
-                .orElseThrow(() -> new ProjectNotFoundException("pid: " + pid));
+                .orElseThrow(() -> new ProjectNotFoundException());
         if (!project.isOwner(userDTO)) {
-            throw new UnAuthorizedException(String.format("pid: {} tried :{} ",
-                    pid, userDTO.getUid()));
+            throw new UnAuthorizedException();
         }
         project.delete();
     }
@@ -75,13 +78,12 @@ public class ProjectService {
     @Transactional
     public ProjectDTO updateProject(ProjectDTO projectDTO, UserDTO userDTO) {
         Project project = projectRepository.findById(projectDTO.getPid())
-                .orElseThrow(() -> new ProjectNotFoundException("pid: " + projectDTO.getPid()));
+                .orElseThrow(() -> new ProjectNotFoundException());
         if (!project.isOwner(userDTO)) {
-            throw new UnAuthorizedException(String.format("project owner: {} tried :{} ",
-                    project.toDTO().getPid(), userDTO.getUid()));
+            throw new UnAuthorizedException();
         }
         return project.updateProject(projectDTO, categoryRepository.findById(projectDTO.getCid())
-                .orElseThrow(() -> new CategoryNotFoundException("cid: " + projectDTO.getCid())))
+                .orElseThrow(() -> new CategoryNotFoundException()))
                 .toDTO();
     }
 
@@ -96,9 +98,22 @@ public class ProjectService {
         return projectRepository.findAllByOwnerId(loginUserDTO.getUid()).stream().map(project -> project.toDTO()).collect(Collectors.toList());
     }
 
-    public List<ProjectDTO> getSupportingProjects(UserDTO loginUserDTO) {
-        return productUserMapRepository.findAllByNormalUserId(loginUserDTO.getUid())
-                .stream().map(productUserMap -> productUserMap.getProduct().getProject()).collect(Collectors.toSet())
-                .stream().map(project -> project.toDTO()).collect(Collectors.toList());
+    public List<ProjectDTO> getTop3ByOrderByCurrentFundRaising() {
+        return projectRepository.findTop3ByOrderByCurrentFundRaisingDesc().stream()
+                .map(project -> project.toDTO()).collect(Collectors.toList());
+    }
+
+    public List<ProjectDTO> getRecommendationProjects() {
+        return projectRepository.findByIdIn(recommendationProjectIds).stream()
+                .map(project -> project.toDTO()).collect(Collectors.toList());
+    }
+
+    public List<ProjectDTO> getTop3ByEndAt() {
+        return projectRepository.findTop3ByOrderByEndAtAsc().stream()
+                .map(project -> project.toDTO()).collect(Collectors.toList());
+    }
+
+    public void testUpdate(Long pid) {
+        projectUpdateEventPublisher.publishEvent(projectRepository.findById(pid).get());
     }
 }

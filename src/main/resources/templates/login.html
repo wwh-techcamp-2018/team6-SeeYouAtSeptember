@@ -3,41 +3,21 @@
 <link rel="stylesheet" type="text/css" href="/css/user.css">
 {{/partial}}
 {{#partial "contents"}}
-<div id="login">
-    <div class="login-box">
-        <h2 class="h2-tlt"> 로그인</h2>
-        <form>
-            <ul>
-                <li>
-                    <label class="input-label" for="email">아이디</label>
-                    <input type="text" name="email" value="" id="email" class="input"
-                           placeholder="아이디(이메일)" style="ime-mode:inactive">
-                </li>
-                <li>
-                    <label class="input-label" for="pwd">비밀번호</label>
-                    <input type="password" name="pwd" id="pwd" class="input"
-                           placeholder="비밀번호" maxlength="25">
-                </li>
-            </ul>
-            <button class="btn btn-mint btn-login">
-                <span>로그인</span>
-            </button>
-
-            <!-- checkbox -->
-            <span class="custom_checkbox">
-                <i class="chk_box"></i>
-                <input id="id_save" type="checkbox" name="id_save" value="Y" class="bf hidden_chk">
-                <label for="id_save">아이디 저장</label>
-            </span>
-
-            <p class="err-msg">로그인 정보를 확인해 주세요.</p>
-        </form>
+<input id="redir-url" style="display:none;" value="{{redirectUrl}}"/>
+<div class="form">
+    <div class="thumbnail">
+        <img src="/image/hajeongwoo-baejjangee.png" alt="">
     </div>
+    <form>
+        <input type="text" id="email" placeholder="이메일" autocomplete="off">
+        <input type="password" id="password" placeholder="비밀번호" maxlength="25" autocomplete="off">
+        <button id="login-btn">로그인</button>
+    </form>
 </div>
 {{/partial}}
-{{#partial "footer"}}
+{{#partial "script"}}
 <script src="/js/common.js"></script>
-<script src="/js/user.js"></script>
+<script src="/js/login.js"></script>
 {{/partial}}
 
 {{> base}}

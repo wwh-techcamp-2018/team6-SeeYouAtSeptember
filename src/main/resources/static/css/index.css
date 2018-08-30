@@ -1,0 +1,15 @@
+.project-order-text {
+    text-align: center;
+
+
+.project-order-text p {
+    color: #999;
+}
+
+.index-projects .index-projects-row {
+    margin-bottom: 100px;
+}
+
+.index-projects .index-projects-row.last {
+    margin-bottom: 0px;
+}

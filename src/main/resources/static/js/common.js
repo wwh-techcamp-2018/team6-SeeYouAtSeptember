@@ -2,6 +2,10 @@ function $(selector) {
     return document.querySelector(selector);
 }
 
+function $at(target, selector) {
+    return target.querySelector(selector);
+}
+
 function $all(selector) {
     return document.querySelectorAll(selector);
 }
@@ -10,8 +14,8 @@ function isEmpty(value) {
     return value.length == 0
 }
 
-function fetchManager({ url, method, body, headers, callback }) {
-    fetch(url, { method, body, headers, credentials: "same-origin" })
+function fetchManager({url, method, body, headers, callback}) {
+    fetch(url, {method, body, headers, credentials: "same-origin"})
         .then((response) => {
             callback(response)
         })
@@ -21,7 +25,7 @@ function getData(url, callback) {
     fetchManager({
         url: url,
         method: "GET",
-        headers: { "content-type": "application/json" },
+        headers: {"content-type": "application/json"},
         callback: callback
     });
 }
@@ -48,14 +52,14 @@ function addClassName(classname, target) {
 }
 
 function fetchFormData(formData, url, callback) {
-    fetch(url, { method: "POST", body: formData })
+    fetch(url, {method: "POST", body: formData})
         .then((response) => {
             response.text().then(img => {
                 callback(img);
             })
         }).catch(() => {
-            alert("잘못된 형식의 이미지입니다.")
-        })
+        alert("잘못된 형식의 이미지입니다.")
+    })
 }
 
 function insertEditorImg(blob, callback) {
@@ -72,4 +76,28 @@ function insertEditorImg(blob, callback) {
         return;
     }
     alert("잘못된 형식의 이미지입니다.")
+}
+
+function successCallback(response) {
+    if (response.status === 200 || response.status === 201) {
+        window.location.reload();
+        return;
+    }
+}
+
+function moveScroll(scrollLeft, scrollTop) {
+    document.documentElement.scrollLeft = document.body.scrollLeft = scrollLeft;
+    document.documentElement.scrollTop = document.body.scrollTop = scrollTop;
+}
+
+function highlightBorderValid(target) {
+    target.style.border = "1px solid #2ac1bc";
+}
+
+function highlightBorderInvalid(target) {
+    target.style.border = "1px solid #E24141";
+}
+
+function highlightBackgroundInvalid(target) {
+    target.style.background = "#E24141";
 }

@@ -1,125 +1,172 @@
 class ProjectForm {
     constructor() {
-        this.productList = [];
-        addEventListenerToTarget($("#create-project-btn"), "click", this.createProjectBtnHandler.bind(this));
-        addEventListenerToTarget($(".projects-form.img input"), "change", this.insertImgFile.bind(this));
-        addEventListenerToTarget($("#addProduct"), "click", this.addProductCreateFormHandler.bind(this));
-        addEventListenerToTarget($(".products-addList"), "click", this.removeProductCreateFormHandler.bind(this));
+        this.products = [];
+        this.cropper = null;
+        this.fileInput = $("#file-input");
+        this.modal = $("#myModal");
+        this.thumbnailUploaded = false;
 
-        this.focusOutProjectsInfoTargetList = [
-            $("#projects-title-input"),
-            $("#projects-goalFundRaising-input"),
-            $("#projects-endAt-input")
-        ];
+        /* thumbnail image upload */
+        addEventListenerToTarget($("#thumbnailUrl"), "click", this.uploadFileHandler.bind(this));
+        addEventListenerToTarget($("#crop-btn"), "click", this.cropButtonHandler.bind(this));
+        $all(".close").forEach(closeObject => closeObject.addEventListener("click", this.closeButtonHandler.bind(this)));
+        addEventListenerToTarget(this.fileInput, "click", this.fileClickHandler.bind(this));
+        addEventListenerToTarget(this.fileInput, "change", this.fileChangeHandler.bind(this));
 
-        this.focusOutProjectsInfoTargetList.forEach(target => {
-            addEventListenerToTarget(target, "focusout", this.focusOutProjectInputHandler.bind(this));
+        /* products */
+        addEventListenerToTarget($(".product-cards"), "click", this.highlightCard);
+        addEventListenerToTarget($(".trash-bin"), "click", this.removeProductCard.bind(this));
+        addEventListenerToTarget($(".product-add-button"), "click", this.addProductCard.bind(this));
+
+        /* validation */
+        this.addEventListenerToProjectInputs();
+
+        /* create project */
+        addEventListenerToTarget($(".create-project-button"), "click", this.submitCreateProjectForm.bind(this));
+    }
+
+    addEventListenerToProjectInputs() {
+        addEventListenerToTarget($("#project-title"), "focusout", this.setTitle);
+        addEventListenerToTarget($("#project-goalFundRaising"), "focusout", this.setGoalFundRaising);
+        addEventListenerToTarget($("#project-endAt"), "focusout", this.setEndAt);
+    }
+
+    uploadFileHandler() {
+        this.fileInput.click();
+    }
+
+    fileClickHandler(evt) {
+        evt.target.value = null;
+    }
+
+    fileChangeHandler(input) {
+        this.modal.style.display = "block";
+        var el = $(".modal-body");
+        if (el.classList.contains("croppie-container")) {
+            this.cropper.bind({url: window.URL.createObjectURL(input.target.files[0])});
+            return;
+        }
+        this.cropper = new Croppie(el, {
+            viewport: {width: 500, height: 500},
+            boundary: {width: 600, height: 600},
+            showZoomer: true,
+            enableOrientation: true
         });
+        this.cropper.bind({url: window.URL.createObjectURL(input.target.files[0])});
     }
 
-    addProductCreateFormHandler() {
-        if (this.productList.length > 4) return;
-        const productTag = $('.products-addList');
-        const html = ` <div class="product-addInfo">
-                            <span>물품 이름:</span><input type="text" id="product-title-input"><br>
-                            <span>물품 설명:</span><input type="text" id="product-description-input"><br>
-                            <span>물품 가격:</span><input type="number" value="0" min="0" step="100" id="product-price-input"><br>
-                            <span>물품 수량:</span><input type="number" value="10" min="10" step="1" id="product-supplyQuantity-input"><br>
-                            <button id="removeProduct">물품 빼기</button>
-                        </div> `
-        productTag.insertAdjacentHTML('beforeend', html);
-        this.productList.push(new Product(productTag.lastElementChild));
-    }
-
-    removeProductCreateFormHandler(evt) {
-        const maybeRemoveProductBtn = evt.target;
-        if (maybeRemoveProductBtn.id === "removeProduct") {
-            for (let [i, product] of this.productList.entries()) {
-                if (product.productTag === maybeRemoveProductBtn.parentElement) {
-                    this.productList.splice(i, 1)
-                    maybeRemoveProductBtn.parentElement.remove();
-                    break;
-                }
-            }
+    closeButtonHandler(evt) {
+        this.fileInput.value = "";
+        const result = confirm("사진 크기를 조정해야 사용할 수 있습니다.\n창을 닫겠습니까?");
+        if (result) {
+            this.modal.style.display = "none";
+        } else {
+            evt.target.blur();
         }
     }
 
-    setProjectInfoAll() {
-        this.projectInfoSettingFuncList = [
-            this.setTitle.bind(this),
-            this.setEndAt.bind(this),
-            this.setGoalFundRaising.bind(this),
-            this.setThumbnailUrl.bind(this)
-        ];
-
-        this.cnt = this.projectInfoSettingFuncList.length;
-        this.projectInfoSettingFuncList.forEach((settingFunc, i) => {
-            if (settingFunc()) {
-                this.cnt--;
-            }
-        });
-        return this.cnt === 0;
+    cropButtonHandler() {
+        this.cropper.result('blob').then(this.insertImgFile.bind(this));
     }
 
-    setTitle() {
-        const minTitleLength = 5;
-        this.title = $("#projects-title-input").value;
-        if (this.title.length >= minTitleLength) {
-            $("#project-title").style.visibility = "hidden";
+    addProductCard(event) {
+        const html = `<li class="product-card">
+            <input type="number" class="price" min="1000" value="5000" placeholder="가격 (1000원 이상)"></input>
+            <input type="text" class="title" maxlength="30" placeholder="반찬 이름 (최대 30자)"></input>
+            <textarea class="description" maxlength="100" placeholder="설명 (최대 100자)"></textarea>
+            <input type="number" class="quantity" min="1" value="1" placeholder="공급량"></input>
+        </li>`
+        event.target.insertAdjacentHTML('beforeBegin', html);
+        this.products.push(event.target.previousElementSibling);
+        if (this.products.length == 4) {
+            event.target.style.display = "none";
+        }
+    }
+
+    highlightCard(event) {
+        if (!event.target.classList.contains("product-card")) {
+            return;
+        }
+        event.target.classList.toggle("selected");
+    }
+
+    removeProductCard(evt) {
+        [...$all(".selected")].forEach(card => {
+            this.products.splice(this.products.indexOf(card), 1);
+            card.remove();
+        });
+        $(".product-add-button").removeAttribute("style");
+    }
+
+    validateThumbnailUrl() {
+        if (this.thumbnailUploaded) {
+            highlightBorderValid($(".thumbnail"));
             return true;
         }
-        $("#project-title").style.visibility = "visible";
+        highlightBorderInvalid($(".thumbnail"));
         return false;
     }
 
-    setEndAt() {
-        this.endAt = new Date($("#projects-endAt-input").value).getTime();
-        let currentDate = new Date();
-        currentDate.setDate(currentDate.getDate() + 30);
-        if (this.endAt > currentDate.getTime()) {
-            $("#project-end").style.visibility = "hidden";
+    setTitle() {
+        const minTitleLength = 1;
+        const maxTitleLength = 50;
+        this.title = $("#project-title").value;
+        if (this.title.length >= minTitleLength && this.title.length <= maxTitleLength) {
+            highlightBorderValid($("#project-title"));
             return true;
         }
-        $("#project-end").style.visibility = "visible";
+        highlightBorderInvalid($("#project-title"));
         return false;
     }
 
     setGoalFundRaising() {
         const minGoalFundRaising = 1000000;
-        this.goalFundRaising = $("#projects-goalFundRaising-input").value;
+        const maxGoalFundRaising = 1000000000;
+        this.goalFundRaising = $("#project-goalFundRaising").value;
 
-        if (this.goalFundRaising >= minGoalFundRaising) {
-            $("#project-goalFundRaising").style.visibility = "hidden";
+        if (this.goalFundRaising >= minGoalFundRaising && this.goalFundRaising <= maxGoalFundRaising) {
+            highlightBorderValid($("#project-goalFundRaising"));
             return true;
         }
-        $("#project-goalFundRaising").style.visibility = "visible";
+        highlightBorderInvalid($("#project-goalFundRaising"));
         return false;
     }
 
-    setThumbnailUrl() {
-        this.thumbnailUrl = $("#thumbnailUrl").src;
-        if (this.thumbnailUrl !== "") {
-            $("#project-img").style.visibility = "hidden";
+    setEndAt() {
+        this.endAt = new Date($("#project-endAt").value).getTime();
+        let minCurrentDate = new Date();
+        minCurrentDate.setDate(minCurrentDate.getDate() + 30);
+        let maxCurrentDate = new Date();
+        maxCurrentDate.setDate(maxCurrentDate.getDate() + 180);
+        if (this.endAt >= minCurrentDate.getTime() && this.endAt <= maxCurrentDate.getTime()) {
+            highlightBorderValid($("#project-endAt"));
             return true;
         }
-        $("#project-img").style.visibility = "visible";
+        highlightBorderInvalid($("#project-endAt"));
         return false;
     }
 
-    focusOutProjectInputHandler(evt) {
-        if (evt.target.id === "projects-title-input") this.setTitle();
-        if (evt.target.id === "projects-goalFundRaising-input") this.setGoalFundRaising();
-        if (evt.target.id === "projects-endAt-input") this.setEndAt();
+    setProjectInfoAll() {
+        let ret = true;
+        ret &= this.validateThumbnailUrl();
+        ret &= this.setTitle();
+        ret &= this.setGoalFundRaising();
+        ret &= this.setEndAt();
+        return ret;
     }
 
-    insertImgFile(evt) {
-        const maybeImg = evt.target.files[0];
+    insertImgFile(blob) {
+        if (blob === undefined) return;
 
-        if (maybeImg === undefined) return;
-
-        if (maybeImg["type"].split("/")[0] === "image") {
-            fetchFormData(this.setFormData(maybeImg), "/api/projects/upload", this.imageUploadCallback.bind(this));
+        if (blob["type"].split("/")[0] === "image") {
+            var file = new File([blob], window.URL.createObjectURL(blob), {
+                type: blob["type"],
+                lastModified: Date.now()
+            });
+            fetchFormData(this.setFormData(file), "/api/projects/upload", this.imageUploadCallback.bind(this));
+            /* todo: fetchFormData에서 에러시 */
         }
+        this.modal.style.display = "none";
     }
 
     setFormData(maybeImg) {
@@ -135,18 +182,23 @@ class ProjectForm {
 
     imageUploadCallback(img) {
         $("#thumbnailUrl").src = img;
+        this.thumbnailUrl = $("#thumbnailUrl").src;
+        this.thumbnailUploaded = true;
+        highlightBorderValid($(".thumbnail"));
     }
 
-    createProjectBtnHandler(evt) {
+    submitCreateProjectForm(evt) {
         evt.preventDefault();
-
-        if (!this.setProjectInfoAll()) return;
-
         const products = [];
-        for (const product of this.productList) {
-            let productInfo = product.setProductAll();
-            if (productInfo === null) { return; }
-            products.push(productInfo);
+        let validation = this.setProjectInfoAll();
+        for (const product of this.products) {
+            let productInfo = new Product(product);
+            validation &= productInfo.setProductAll();
+            products.push(productInfo.product);
+        }
+
+        if (!validation || this.products.length === 0) {
+            return;
         }
 
         const project = {
@@ -159,15 +211,10 @@ class ProjectForm {
             "products": products
         };
 
-        if (!this.checkMinProductsPrice(project["products"])) {
-            alert("상품 총 합의 가격이 목표금액보다 작습니다.");
-            return;
-        }
-
         fetchManager({
             url: '/api/projects',
             method: 'POST',
-            headers: { 'content-type': 'application/json' },
+            headers: {'content-type': 'application/json'},
             body: JSON.stringify(project),
             callback: this.createProjectCallback.bind(this)
         });
@@ -178,22 +225,13 @@ class ProjectForm {
             location.href = "/categories"
         }
     }
-
-    checkMinProductsPrice(products) {
-        let minPrice = 0;
-        products.forEach(product => {
-            minPrice += product["price"] * product["quantitySupplied"]
-        })
-        return minPrice >= this.goalFundRaising
-    }
-
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     new ProjectForm();
     editor = new tui.Editor({
         el: document.querySelector("#editSection"),
-        initialEditType: "markdown",
+        initialEditType: "wysiwyg",
         hooks: {
             'addImageBlobHook': insertEditorImg
         },

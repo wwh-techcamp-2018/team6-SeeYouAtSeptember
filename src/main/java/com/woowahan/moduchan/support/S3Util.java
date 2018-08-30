@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 public class S3Util {
-    public final static String DIR_NAME = "static";
+    public final static String DIR_NAME = "media";
 
     private final AmazonS3Client amazonS3Client;
 
@@ -60,7 +60,7 @@ public class S3Util {
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File(file.getOriginalFilename());
+        File convertFile = new File(getFileName(file));
         if (convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
@@ -68,6 +68,14 @@ public class S3Util {
             return Optional.of(convertFile);
         }
         return Optional.empty();
+    }
+
+    private String getFileName(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        return new StringBuilder(fileName.substring(fileName.lastIndexOf("/") + 1))
+                .append(".")
+                .append(file.getContentType().substring(file.getContentType().indexOf("/") + 1))
+                .toString();
     }
 
     private String getExtension(String fileName) {

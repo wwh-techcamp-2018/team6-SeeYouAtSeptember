@@ -3,126 +3,52 @@
 <link rel="stylesheet" type="text/css" href="/css/user.css">
 {{/partial}}
 {{#partial "contents"}}
-<div id="join">
-    <div class="join-box">
-        <h2 class="h2-tlt">회원가입</h2>
-        <form name="join-form" id="join-form" class="join-form-box">
-            <legend class="hidden">회원가입 정보입력폼</legend>
-            <table class="tb-join">
-                <colgroup>
-                    <col width="180px">
-                    <col width="*">
-                </colgroup>
-                <tbody>
-                <tr>
-                    <th>
-                        <label>아이디 (이메일)</label>
-                    </th>
-                    <td>
-                        <input type="text" name="email-id" value="" id="email-id" class="join-input"
-                               autofocus="">
-                        <span class="block"> @ </span>
-                        <input type="text" name="email-domain" value="" id="email-domain"
-                               class="join-input">
-                        <div class="selectric-wrapper join w100">
-                            <div class="selectric-wrapper selectric-selectric">
-                                <div class="selectric-hide-select">
-                                    <select class="selectric" id="email-domain-select" tabindex="0">
-                                        <option value="0">직접입력</option>
-                                        <option value="naver.com">naver.com</option>
-                                        <option value="gmail.com">gmail.com</option>
-                                        <option value="hanmail.net">hanmail.net</option>
-                                        <option value="daum.net">daum.net</option>
-                                        <option value="nate.com">nate.com</option>
-                                        <option value="hotmail.com">hotmail.com</option>
-                                        <option value="yahoo.co.kr">yahoo.co.kr</option>
-                                        <option value="paran.com">paran.com</option>
-                                        <option value="empal.com">empal.com</option>
-                                        <option value="chollian.net">chollian.net</option>
-                                        <option value="hanafos.com">hanafos.com</option>
-                                        <option value="dreamwiz.com">dreamwiz.com</option>
-                                        <option value="kornet.net">kornet.net</option>
-                                        <option value="korea.com">korea.com</option>
-                                        <option value="lycos.co.kr">lycos.co.kr</option>
-                                        <option value="orgio.net">orgio.net</option>
-                                        <option value="passmail.to">passmail.to</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="tb-in-txt caution" id="email-caution">이메일 형식을 확인해 주세요.</span>
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <th>
-                        <label for="pw1">비밀번호</label>
-                    </th>
-                    <td>
-                        <input type="password" name="pwd[]" id="pw1" class="join-input" placeholder="8-16자리 영문,숫자 조합">
-                        <span class="tb-in-txt caution" id="password-caution">비밀번호 형식을 확인해 주세요.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="pw2">비밀번호 확인</label>
-                    </th>
-                    <td>
-                        <input type="password" name="pwd[]" id="pw2" class="join-input" placeholder="비밀번호 확인">
-                        <span class="tb-in-txt caution" id="password-confirm-caution">비밀번호와 비밀번호 확인이 다릅니다.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="name">이름</label>
-                    </th>
-                    <td>
-                        <input type="text" name="name" value="" id="name" class="join-input">
-                        <span class="tb-in-txt caution" id="name-caution">이름을 입력해 주세요.</span>
-                    </td>
-                </tr>
-                <tr class="phone">
-                    <th>
-                        <label for="cell1">휴대 전화 번호</label>
-                    </th>
-                    <td>
-                        <input type="text" maxlength="3" name="cell[]" id="cell1" value=""
-                               title="휴대 전화 번호 앞자리" class="join-input small">
-                        <span class="block"> - </span>
-                        <input type="text" maxlength="4" name="cell[]" id="cell2" value=""
-                               title="휴대 전화 번호 중간자리" class="join-input small">
-                        <span class="block"> - </span>
-                        <input type="text" maxlength="4" name="cell[]" id="cell3" value=""
-                               title="휴대 전화 번호 뒷자리" class="join-input small">
-                        <span class="tb-in-txt caution" id="phone-caution">휴대전화 형식을 확인해주세요.</span>
-                    </td>
-                </tr>
-                <tr class="address">
-                    <th>
-                        <label for="address">주소</label>
-                    </th>
-                    <td>
-                        <input type="text" name="address" id="address" value="" title="주소" class="join-input large">
-                        <span class="tb-in-txt caution" id="address-caution">주소를 확인해주세요.</span>
-                    </td>
-                </tr>
-
-                </tbody>
-            </table>
-
-            <div class="btn-area center mt40">
-                <button class="btn btn-mint btn-big">
-                    <span>가입 완료</span>
-                </button>
-            </div>
-        </form>
+<form id="join-form" class="form">
+    <div class="thumbnail">
+        <img src="/image/join-baedal.png" alt="">
     </div>
+    <label for="email">이메일</label>
+    <input type="text" id="email" placeholder="이메일" autocomplete="off">
+
+    <label for="pw1">비밀번호</label>
+    <input type="password" id="pw1" placeholder="8-16 자리 영문, 숫자 조합" autocomplete="off">
+    <input type="password" id="pw2" placeholder="비밀번호 확인" autocomplete="off">
+
+    <label for="name">이름</label>
+    <input type="text" id="name" placeholder="이름" autocomplete="off">
+
+    <label for="phone-first">휴대 전화</label>
+    <div class="phone">
+        <input type="text" maxlength="3" id="phone-first" title="휴대 전화 번호 앞자리" autocomplete="off">
+        <span>  -  </span>
+        <input type="text" maxlength="4" id="phone-middle" title="휴대 전화 번호 중간자리" autocomplete="off">
+        <span>  -  </span>
+        <input type="text" maxlength="4" id="phone-last" title="휴대 전화 번호 뒷자리" autocomplete="off">
+    </div>
+
+    <label for="address">주소</label>
+    <div>
+        <input type="text" name="address" id="postcode" title="주소" class="address-search disabled" disabled>
+        <button class="address-search">주소 찾기</button>
+    </div>
+    <input type="text" name="address" id="address" title="주소" class="disabled" disabled>
+    <input type="text" name="address" id="address-detail" title="주소" placeholder="상세주소" autocomplete="off">
+
+    <div id="layer"
+         style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+        <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer"
+             style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1"
+             onclick="addressAPI.closeDaumPostcode()" alt="닫기 버튼">
+    </div>
+
+    <button class="btn"> 가입 완료</button>
+</form>
 </div>
 {{/partial}}
-{{#partial "footer"}}
+{{#partial "script"}}
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/js/common.js"></script>
-<script src="/js/user.js"></script>
+<script src="/js/join.js"></script>
 {{/partial}}
 
 {{> base}}

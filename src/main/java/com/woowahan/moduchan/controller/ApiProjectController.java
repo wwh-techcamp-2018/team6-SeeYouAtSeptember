@@ -4,7 +4,7 @@ package com.woowahan.moduchan.controller;
 import com.woowahan.moduchan.dto.project.ProjectDTO;
 import com.woowahan.moduchan.dto.user.UserDTO;
 import com.woowahan.moduchan.security.LoginUser;
-import com.woowahan.moduchan.service.ProductUserMapService;
+import com.woowahan.moduchan.service.OrderHistoryService;
 import com.woowahan.moduchan.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ApiProjectController {
     private ProjectService projectService;
 
     @Autowired
-    private ProductUserMapService productUserMapService;
+    private OrderHistoryService orderHistoryService;
 
     @ApiOperation(value = "프로젝트 전체 조회", notes = "모든 프로젝트의 정보를 조회합니다.")
     @ApiResponses(value = {
@@ -56,11 +57,12 @@ public class ApiProjectController {
     @ApiOperation(value = "프로젝트 생성", notes = "프로젝트를 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "생성 성공"),
+            @ApiResponse(code = 400, message = "유효성 검사 실패"),
             @ApiResponse(code = 401, message = "로그인 되지 않은 사용자 접근")
             // TODO: 2018. 8. 21.  error에 대한 설명 추가
     })
     @PostMapping(value = "")
-    public ResponseEntity<Void> createProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @RequestBody ProjectDTO projectDTO) {
+    public ResponseEntity<Void> createProject(@ApiIgnore @LoginUser UserDTO loginUserDTO, @Valid @RequestBody ProjectDTO projectDTO) {
         projectService.createProject(projectDTO, loginUserDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -106,7 +108,14 @@ public class ApiProjectController {
     public ResponseEntity<List<List<ProjectDTO>>> getDropdownProjects(@ApiIgnore @LoginUser UserDTO loginUserDTO) {
         List<List<ProjectDTO>> returnLists = new ArrayList<>();
         returnLists.add(projectService.getOwnedProjects(loginUserDTO));
-        returnLists.add(projectService.getSupportingProjects(loginUserDTO));
+        returnLists.add(orderHistoryService.getSupportingProjects(loginUserDTO));
         return new ResponseEntity<>(returnLists, HttpStatus.OK);
+    }
+
+    //websocket 테스트용 api입니다 나중에 삭제해야해요!
+    @GetMapping("/test/{pid}")
+    public ResponseEntity<Void> test(@PathVariable Long pid) {
+        projectService.testUpdate(pid);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

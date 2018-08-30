@@ -11,8 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -22,21 +20,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<UserDTO> getNomalUsers() {
-        return normalUserRepository.findAll().stream()
-                .map(normalUser -> normalUser.toDTO())
-                .collect(Collectors.toList());
-    }
-
-    public UserDTO getNormalUser(Long uid) {
-        return normalUserRepository.findById(uid)
-                .orElseThrow(() -> new UserNotFoundException("uid: " + uid))
-                .toDTO();
-    }
-
     public UserDTO createNormalUser(UserDTO userDTO) {
         if (normalUserRepository.existsByEmail(userDTO.getEmail()))
-            throw new EmailAlreadyExistsException(userDTO.erasePassword().toString());
+            throw new EmailAlreadyExistsException();
         return normalUserRepository
                 .save(NormalUser.from(userDTO).encryptPassword(passwordEncoder))
                 .toDTO().erasePassword();
@@ -45,7 +31,7 @@ public class UserService {
     public UserDTO updateNormalUser(UserDTO userDTO) {
         return normalUserRepository.save(
                 normalUserRepository.findById(userDTO.getUid())
-                        .orElseThrow(() -> new UserNotFoundException(userDTO.toString()))
+                        .orElseThrow(() -> new UserNotFoundException())
                         .update(userDTO))
                 .toDTO().erasePassword();
     }
@@ -53,17 +39,17 @@ public class UserService {
     @Transactional
     public void deleteNormalUserById(Long uid) {
         normalUserRepository.findById(uid)
-                .orElseThrow(() -> new UserNotFoundException("uid: " + uid))
+                .orElseThrow(() -> new UserNotFoundException())
                 .delete();
     }
 
     public UserDTO login(UserDTO userDTO) {
         NormalUser loginUser = normalUserRepository
                 .findByEmail(userDTO.getEmail())
-                .orElseThrow(() -> new UserNotFoundException(userDTO.erasePassword().toString()));
+                .orElseThrow(() -> new UserNotFoundException());
 
         if (!loginUser.matchPassword(userDTO.getPassword(), passwordEncoder)) {
-            throw new PasswordNotMatchedException(userDTO.erasePassword().toString());
+            throw new PasswordNotMatchedException();
         }
 
         return loginUser.toDTO().erasePassword();

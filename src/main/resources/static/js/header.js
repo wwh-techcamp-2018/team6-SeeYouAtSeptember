@@ -1,8 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-    addEventListenerToTarget($("#my-project-btn"), "click", myProjectClickHandler);
-    addEventListenerToTarget($("#logout"), "click", logoutHandler);
-});
-
 function myProjectClickHandler(evt) {
     evt.preventDefault();
     const dropdownDiv = $("div.dropdown-div");
@@ -93,7 +88,30 @@ function logoutHandler() {
     fetchManager({
         url: "/api/users/logout",
         method: "POST",
-        headers: { "content-type": "application/json" },
-        callback: response => { if (response.status === 200) window.location.reload(); }
+        headers: {"content-type": "application/json"},
+        callback: response => {
+            if (response.status === 200) window.location.reload();
+        }
     });
 }
+
+function bodyClickHandler(evt) {
+    if (evt.target.closest("div.dropdown-div"))
+        return;
+    const dropdownDiv = $("div.dropdown-div");
+    if (dropdownDiv.classList.contains("on")) {
+        dropdownDiv.style.opacity = "0";
+        dropdownDiv.style.height = "0px";
+        [...dropdownDiv.children].forEach(child => {
+            closeDropdown(child);
+        });
+        dropdownDiv.classList.remove("on");
+        return;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    addEventListenerToTarget($("#my-project-btn"), "click", myProjectClickHandler);
+    addEventListenerToTarget($("#logout"), "click", logoutHandler);
+    addEventListenerToTarget($("body"), "click", bodyClickHandler);
+});
