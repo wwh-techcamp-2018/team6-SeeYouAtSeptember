@@ -1,11 +1,21 @@
 class Join {
     constructor() {
         addEventListenerToTarget($(".btn"), "click", this.joinBtnClickHandler.bind(this));
+        addEventListenerToTarget($("#phone-first"), "input", this.phoneInputMaxLength);
+        addEventListenerToTarget($("#phone-middle"), "input", this.phoneInputMaxLength);
+        addEventListenerToTarget($("#phone-last"), "input", this.phoneInputMaxLength);
         this.focusOutTargetList = [$("#email"), $("#pw1"), $("#pw2"), $("#name"), $("#phone-last")];
         this.focusOutTargetList.forEach(target => {
             addEventListenerToTarget(target, "focusout", this.focusOutHandler.bind(this));
         })
         this.addEventListenerToInputs();
+    }
+
+    phoneInputMaxLength(evt) {
+        const target = evt.target;
+        if (target.value.length > target.maxLength){
+            target.value = target.value.slice(0, target.maxLength);
+        }
     }
 
     focusOutHandler(evt) {

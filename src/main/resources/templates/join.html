@@ -8,7 +8,7 @@
         <img src="/image/join-baedal.png" alt="">
     </div>
     <label for="email">이메일</label>
-    <input type="text" id="email" placeholder="이메일" autocomplete="off">
+    <input type="email" id="email" placeholder="이메일" autocomplete="off">
 
     <label for="pw1">비밀번호</label>
     <input type="password" id="pw1" placeholder="8-16 자리 영문, 숫자 조합" autocomplete="off">
@@ -19,11 +19,13 @@
 
     <label for="phone-first">휴대 전화</label>
     <div class="phone">
-        <input type="text" maxlength="3" id="phone-first" title="휴대 전화 번호 앞자리" autocomplete="off">
+        <input type="number" min="000" max="999" maxlength="3" id="phone-first" title="휴대 전화 번호 앞자리" autocomplete="off">
         <span>  -  </span>
-        <input type="text" maxlength="4" id="phone-middle" title="휴대 전화 번호 중간자리" autocomplete="off">
+        <input type="number" min="000" max="9999" maxlength="4" id="phone-middle" title="휴대 전화 번호 중간자리"
+               autocomplete="off">
         <span>  -  </span>
-        <input type="text" maxlength="4" id="phone-last" title="휴대 전화 번호 뒷자리" autocomplete="off">
+        <input type="number" min="0000" max="9999" maxlength="4" id="phone-last" title="휴대 전화 번호 뒷자리"
+               autocomplete="off">
     </div>
 
     <label for="address">주소</label>
