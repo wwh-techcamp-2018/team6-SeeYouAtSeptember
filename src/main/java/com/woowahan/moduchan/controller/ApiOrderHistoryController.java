@@ -33,7 +33,7 @@ public class ApiOrderHistoryController {
             @ApiResponse(code = 400, message = "잘못된 요청으로 주문 생성 실패")
     })
     @PostMapping("")
-    public ResponseEntity<OrderHistoryDTO> createOrder(@LoginUser UserDTO loginUser,@Valid @RequestBody List<OrderHistoryDTO> orderHistoryDTOList) {
+    public ResponseEntity<OrderHistoryDTO> createOrder(@LoginUser UserDTO loginUser, @Valid @RequestBody List<OrderHistoryDTO> orderHistoryDTOList) {
         return new ResponseEntity<>(orderHistoryService.createOrder(orderHistoryDTOList, loginUser), HttpStatus.CREATED);
     }
 
