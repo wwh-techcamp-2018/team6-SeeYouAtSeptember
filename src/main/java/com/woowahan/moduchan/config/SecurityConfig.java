@@ -31,7 +31,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     }
 
     @Configuration
-    @Profile({"dev", "local"})
+    @Profile({"dev", "local", "test"})
     static class TestWebConfig extends SecurityConfig {
         @Bean
         public BasicAuthInterceptor basicAuthInterceptor() {

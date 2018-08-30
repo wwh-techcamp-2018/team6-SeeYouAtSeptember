@@ -79,7 +79,7 @@ function insertEditorImg(blob, callback) {
 }
 
 function successCallback(response) {
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
         window.location.reload();
         return;
     }

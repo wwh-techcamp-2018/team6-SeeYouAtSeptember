@@ -28,4 +28,7 @@ public class OrderHistoryDTO {
     private String name;
     private Long totalPurchasePrice;
 
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
 }

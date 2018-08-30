@@ -2,6 +2,17 @@
     display: none;
 }
 
+input {
+    display: block;
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    padding-left: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px #e4e4e4 solid;
+}
+
 ul {
     -webkit-padding-start: 0px;
     list-style: none;
@@ -28,24 +39,6 @@ ul {
 
 .form form {
     margin: 20px 0px 10px 0px;
-}
-
-label {
-    margin-left: 5px;
-    display: inline-block;
-    margin-top: 7px;
-    font-weight: 600;
-}
-
-input {
-    display: block;
-    width: 100%;
-    height: 40px;
-    font-size: 16px;
-    padding-left: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px #e4e4e4 solid;
 }
 
 input:focus, input:hover {

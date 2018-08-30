@@ -1,7 +1,7 @@
 package com.woowahan.moduchan.AcceptanceTest;
 
 import com.woowahan.moduchan.dto.user.UserDTO;
-import com.woowahan.moduchan.support.ApiAcceptanceTest;
+import util.ApiAcceptanceTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
@@ -16,8 +16,7 @@ public class ApiUserAcceptanceTest extends ApiAcceptanceTest {
     @Before
     public void setUp() throws Exception {
         loginUserDTO = new UserDTO(null, "a", "a", null, null, null);
-        joinUserDTO = new UserDTO(null, "test@naver.com", "qwe123!!",
-                "테스트", "010-1234-1234", "올림픽로 295");
+        joinUserDTO = getDefaultUserDTO();
     }
 
     @Test
@@ -50,7 +49,7 @@ public class ApiUserAcceptanceTest extends ApiAcceptanceTest {
 
     @Test
     public void 회원가입_실패_이미_존재하는_이메일() {
-        joinUserDTO.setEmail("a");
+        joinUserDTO.setEmail("bgrigoriant@bandcamp.com");
         ResponseEntity<String> response = template().postForEntity("/api/users", joinUserDTO, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().contains("email already exists")).isTrue();
