@@ -54,6 +54,7 @@ todo: 표로 작성하면 좋을 것 같음. 아이콘이랑 같이
 9. DNS
 10. WebSocket
 11. tui editer
+12. Croppie
 
 ## 참조
 ### 웹사이트 레이아웃
