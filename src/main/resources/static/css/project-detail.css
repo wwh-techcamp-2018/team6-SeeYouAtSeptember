@@ -109,7 +109,7 @@ ul, li {
     height: 100%;
     max-width: 100%;
     width: 0%;
-    background-color: #00bf99;
+    background: #2bc2bc;
     border-radius: 1px;
     overflow: hidden;
     transition: all 2s;

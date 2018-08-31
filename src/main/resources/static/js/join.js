@@ -159,6 +159,7 @@ class Join {
     join(response) {
         if (response.status === 201) {
             location.href = "/";
+            return;
         }
         highlightBorderInvalid($("#email"));
         //todo: e-mail을 제외한 validation 에러처리

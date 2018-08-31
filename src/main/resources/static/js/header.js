@@ -52,7 +52,9 @@ function getDropdownProjectHTML(project) {
             <div class="progress" style="width:${project.progress}%;"></div>
             <div class="content">
                 <span class="project-title">{title}</span>
-                <span class="project-info"><span>${project.dayRemainingUntilDeadline}일 남음</span><span style="float:right">${project.progress}%</span></span>
+                <span class="project-info">
+                    <span style="float:right"><i class="far fa-calendar-alt"></i>D-${project.dayRemainingUntilDeadline}</span>
+                    <span>${project.progress}%</span></span>
             </div>
             </a>
         </li>`;
