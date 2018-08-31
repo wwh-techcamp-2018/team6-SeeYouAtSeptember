@@ -31,7 +31,7 @@ class Product {
     setPrice() {
         const priceTag = $at(this.productTag, ".price")
         this.price = priceTag.value;
-        if (this.price < 1000) {
+        if (this.price < 1000 || this.price > 100000) {
             highlightBorderInvalid(priceTag);
             return false;
         }
@@ -43,7 +43,7 @@ class Product {
     setSupplyQuantity() {
         const quantityTag = $at(this.productTag, ".quantity")
         this.quantitySupplied = quantityTag.value;
-        if (this.quantitySupplied < 1) {
+        if (this.quantitySupplied < 1 || this.quantitySupplied > 10000) {
             highlightBorderInvalid(quantityTag);
             return false;
         }

@@ -71,10 +71,10 @@ class ProjectForm {
 
     addProductCard(event) {
         const html = `<li class="product-card">
-            <input type="number" class="price" min="1000" value="5000" placeholder="가격 (1000원 이상)"></input>
+            <input type="number" class="price" min="1000" value="5000" step="1000" placeholder="1,000원 ~ 100,000원"></input>
             <input type="text" class="title" maxlength="30" placeholder="반찬 이름 (최대 30자)"></input>
             <textarea class="description" maxlength="100" placeholder="설명 (최대 100자)"></textarea>
-            <input type="number" class="quantity" min="1" value="1" placeholder="공급량"></input>
+            <input type="number" class="quantity" min="1" step="100" value="1" placeholder="10,000개 이하"></input>
         </li>`
         event.target.insertAdjacentHTML('beforeBegin', html);
         this.products.push(event.target.previousElementSibling);
@@ -132,6 +132,18 @@ class ProjectForm {
         return false;
     }
 
+    setDescription() {
+            const minDescription = "";
+            this.description = editor.getHtml();
+
+            if (minDescription !== this.description.trim()) {
+                highlightBorderValid($(".edit-des"));
+                return true;
+            }
+            highlightBorderInvalid($(".edit-des"));
+            return false;
+        }
+
     setEndAt() {
         this.endAt = new Date($("#project-endAt").value).getTime();
         let minCurrentDate = new Date();
@@ -152,6 +164,7 @@ class ProjectForm {
         ret &= this.setTitle();
         ret &= this.setGoalFundRaising();
         ret &= this.setEndAt();
+        ret &= this.setDescription();
         return ret;
     }
 
@@ -190,11 +203,19 @@ class ProjectForm {
     submitCreateProjectForm(evt) {
         evt.preventDefault();
         const products = [];
+        let totalProductPrice = 0;
         let validation = this.setProjectInfoAll();
         for (const product of this.products) {
             let productInfo = new Product(product);
             validation &= productInfo.setProductAll();
+            totalProductPrice += parseInt(productInfo.product.price)*parseInt(productInfo.product.quantitySupplied);
             products.push(productInfo.product);
+        }
+
+        if(this.goalFundRaising > totalProductPrice){
+            console.log(totalProductPrice)
+            alert("상품가격 총합이 목표금액보다 적습니다.");
+            return;
         }
 
         if (!validation || this.products.length === 0) {
@@ -203,7 +224,7 @@ class ProjectForm {
 
         const project = {
             "title": this.title,
-            "description": editor.getHtml(),
+            "description": this.description,
             "goalFundRaising": this.goalFundRaising,
             "endAt": this.endAt,
             "thumbnailUrl": this.thumbnailUrl,
@@ -237,5 +258,11 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         height: "700px"
     })
+
+    Date.prototype.addDays = function(days) {
+        let date = new Date();
+        date.setDate(date.getDate() + days);
+        return date;
+    }
 });
 

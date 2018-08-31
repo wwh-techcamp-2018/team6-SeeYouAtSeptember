@@ -47,17 +47,18 @@ function addMyProjects(projectsList, targets) {
 }
 
 function getDropdownProjectHTML(project) {
-    return `
-        <li class="dropdown-item card">
+    let html = `<li class="dropdown-item card">
         <a href="/projects/${project.pid}">
             <div class="progress" style="width:${project.progress}%;"></div>
             <div class="content">
-                <span class="project-title">${project.title}</span>
-                <span class="project-info"><span>${project.dayRemainingUntilDeadline}일 남음</span><span style="float:right">${project.progress}%</span></span>
+                <span class="project-title">{title}</span>
+                <span class="project-info">
+                    <span style="float:right"><i class="far fa-calendar-alt"></i>D-${project.dayRemainingUntilDeadline}</span>
+                    <span>${project.progress}%</span></span>
             </div>
             </a>
-        </li>
-    `
+        </li>`;
+    return html.replace(/{title}/g, project.title.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
 }
 
 function openDropdown(target) {
@@ -109,9 +110,26 @@ function bodyClickHandler(evt) {
         return;
     }
 }
+let myInterval
+
+function changeToGif(evt) {
+    evt.target.src = "/image/dacing.gif";
+}
+
+function setMyInterval(evt) {
+    evt.target.src = "/image/dacing.gif";
+    myInterval = setInterval(()=>{changeToGif(evt)},1400);
+}
+
+function changeToPng(evt) {
+    evt.target.src = "/image/woowa-tech.png";
+    clearInterval(myInterval);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     addEventListenerToTarget($("#my-project-btn"), "click", myProjectClickHandler);
     addEventListenerToTarget($("#logout"), "click", logoutHandler);
     addEventListenerToTarget($("body"), "click", bodyClickHandler);
+    addEventListenerToTarget($("#footer .footer-woowa-tect-img"), "mouseover", setMyInterval);
+    addEventListenerToTarget($("#footer .footer-woowa-tect-img"), "mouseout", changeToPng);
 });
